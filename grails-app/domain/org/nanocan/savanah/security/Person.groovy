@@ -1,0 +1,50 @@
+package org.nanocan.savanah.security
+
+class Person {
+
+    transient springSecurityService
+    transient hasBeforeInsert = false
+    transient hasBeforeUpdate = false
+
+    String username
+    String password
+    boolean enabled
+    boolean accountExpired
+    boolean accountLocked
+    boolean passwordExpired
+
+    static constraints = {
+        username blank: false, unique: true
+        password blank: false
+    }
+
+    static mapping = {
+        password column: '`password`'
+    }
+
+    Set<Role> getAuthorities() {
+        PersonRole.findAllByPerson(this).collect { it.role } as Set
+    }
+
+    def beforeInsert() {
+        if(!hasBeforeInsert)
+        {
+            hasBeforeInsert = true
+            encodePassword()
+        }
+    }
+
+    def beforeUpdate() {
+        if(!hasBeforeUpdate)
+        {
+            hasBeforeUpdate = true
+            if (isDirty('password')) {
+                encodePassword()
+            }
+        }
+    }
+
+    protected void encodePassword() {
+        password = springSecurityService.encodePassword(password)
+    }
+}
