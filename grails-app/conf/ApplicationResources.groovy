@@ -12,6 +12,12 @@ modules = {
         resource url: 'js/themes/default/throbber.gif'
     }
 
+    colorPicker {
+        dependsOn 'jquery'
+        resource url: 'js/colorpicker.js'
+        resource url: 'css/colorpicker.css'
+    }
+
     rainbowVis {
         resource url: 'js/rainbowvis.js'  , disposition: 'head'
     }

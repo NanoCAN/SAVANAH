@@ -15,7 +15,6 @@ class PlateController {
     def platesAsJSON() {
 
         def parentPlates
-        println params
 
         def prefixLength = params.id.size()
 

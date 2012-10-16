@@ -14,11 +14,11 @@ class Library {
     Person lastUpdatedBy
 
     static constraints = {
-        name [:]
+        name unique: true
         type inList: ["microRNA inhibitor", "microRNA mimics", "genome-wide", "druggable genome"]
     }
 
     String toString(){
-        name unique: true
+        name
     }
 }

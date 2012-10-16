@@ -98,3 +98,6 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.nanocan.s
 grails.plugins.springsecurity.authority.className = 'org.nanocan.savanah.security.Role'
 
 grails.views.javascript.library="jquery"
+
+savanah.jdbc.batchSize = 150
+savanah.jdbc.groovySql = true
