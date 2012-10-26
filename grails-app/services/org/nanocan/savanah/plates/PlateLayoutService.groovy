@@ -29,7 +29,7 @@ class PlateLayoutService {
                     if (useGroovySql) stmt.addBatch(0, col, plateLayout.id, row)
                     else new WellLayout(col: col, row: row, layout: plateLayout).save()
                 }
-                }
+            }
         }
 
         if(useGroovySql){
