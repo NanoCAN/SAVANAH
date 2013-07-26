@@ -1,8 +1,5 @@
 package org.nanocan.savanah.plates
 
-
-
-import org.junit.*
 import grails.test.mixin.*
 
 @TestFor(PlateLayoutController)

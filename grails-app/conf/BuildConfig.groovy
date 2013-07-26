@@ -6,6 +6,9 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+grails.plugin.location.Rconnect = "../Rconnect/"
+grails.plugin.location.HTSbackend = "../HTSbackend"
+
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
@@ -32,7 +35,7 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
+        runtime 'net.sourceforge.jtds:jtds:1.3.1'
         // runtime 'mysql:mysql-connector-java:5.1.16'
     }
 
@@ -47,5 +50,6 @@ grails.project.dependency.resolution = {
         //runtime ":yui-minify-resources:0.1.4"
 
         build ":tomcat:$grailsVersion"
+        compile ":webxml:1.4.1"
     }
 }

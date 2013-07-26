@@ -1,7 +1,7 @@
 import grails.util.GrailsUtil
-import org.nanocan.savanah.security.Role
-import org.nanocan.savanah.security.Person
-import org.nanocan.savanah.security.PersonRole
+import org.nanocan.security.Role
+import org.nanocan.security.Person
+import org.nanocan.security.PersonRole
 
 class BootStrap {
 
@@ -9,8 +9,8 @@ class BootStrap {
 
         switch (GrailsUtil.environment) {
             case "development":
-                initUserbase()
-                initSampleData()
+                //initUserbase()
+                //initSampleData()
                 break
 
             case "test":

@@ -9,6 +9,22 @@
 // if (System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+/* Search for external config files */
+def ENV_NAME = "SAVANAH_CONFIG"
+if (!grails.config.locations || !(grails.config.locations instanceof List)) {
+    grails.config.locations = []
+}
+if (System.getenv(ENV_NAME)) {
+    println "Including configuration file specified in environment: " + System.getenv(ENV_NAME);
+    grails.config.locations << "file:" + System.getenv(ENV_NAME).replace('\\', '/')
+}
+else if (System.getProperty(ENV_NAME)) {
+    println "Including configuration file specified on command line: " + System.getProperty(ENV_NAME);
+    grails.config.locations << "file:" + System.getProperty(ENV_NAME)
+}
+else{
+    println "No config file found. Using defaults config."
+}
 
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
@@ -93,9 +109,9 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.nanocan.savanah.security.Person'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.nanocan.savanah.security.PersonRole'
-grails.plugins.springsecurity.authority.className = 'org.nanocan.savanah.security.Role'
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.nanocan.security.Person'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.nanocan.security.PersonRole'
+grails.plugins.springsecurity.authority.className = 'org.nanocan.security.Role'
 
 grails.views.javascript.library="jquery"
 

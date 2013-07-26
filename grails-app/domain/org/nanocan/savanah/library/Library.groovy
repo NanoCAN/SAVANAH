@@ -1,6 +1,6 @@
 package org.nanocan.savanah.library
 
-import org.nanocan.savanah.security.Person
+import org.nanocan.security.Person
 
 class Library {
 

@@ -1,10 +1,11 @@
 package org.nanocan.savanah.plates
 
 import org.nanocan.savanah.library.Library
+import org.nanocan.layout.PlateLayout
 
 class Plate {
 
-    PlateType plateType
+    String plateType
     String format
     String family
     Plate parentPlate
