@@ -9,6 +9,11 @@
 // if (System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+
+/* default config */
+grails.serverURL = "http://localhost:8080/SAVANAH"
+grails.plugins.springsecurity.cas.active = false
+
 /* Search for external config files */
 def ENV_NAME = "SAVANAH_CONFIG"
 if (!grails.config.locations || !(grails.config.locations instanceof List)) {
@@ -94,20 +99,37 @@ log4j = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
-
+    //debug  'org.hibernate.SQL'
+    /*'org.hibernate.transaction',
+   'org.hibernate.jdbc' */
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
-           'org.codehaus.groovy.grails.web.pages', //  GSP
-           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-           'org.codehaus.groovy.grails.web.mapping', // URL mapping
-           'org.codehaus.groovy.grails.commons', // core / classloading
-           'org.codehaus.groovy.grails.plugins', // plugins
-           'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
-}
+            'org.codehaus.groovy.grails.web.pages', //  GSP
+            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails.web.mapping', // URL mapping
+            'org.codehaus.groovy.grails.commons', // core / classloading
+            'org.codehaus.groovy.grails.plugins', // plugins
+            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+            'org.springframework',
+            'org.hibernate',
+            'net.sf.ehcache.hibernate',
+            'org.nanocan'
+    warn   'org.nanocan'
+    info   'org.nanocan'
+    /*debug   'grails.plugins.springsecurity'
+    debug   'org.codehaus.groovy.grails.plugins.springsecurity'
+    debug   'org.springframework.security'
+    debug   'org.jasig.cas.client'*/
+    debug   'org.nanocan'
 
+    appenders {
+        rollingFile  name:'infoLog', file: 'log/info.log', threshold: org.apache.log4j.Level.INFO, maxFileSize:1024
+        rollingFile  name:'warnLog', file:'log/warn.log', threshold: org.apache.log4j.Level.WARN, maxFileSize:1024
+        rollingFile  name:'errorLog', file:'log/error.log', threshold: org.apache.log4j.Level.ERROR, maxFileSize:1024
+        rollingFile  name:'debugLog', file:'log/debug.log', threshold: org.apache.log4j.Level.DEBUG, maxFileSize:1024
+        console      name:'stdout', threshold: org.apache.log4j.Level.DEBUG
+    }
+}
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.nanocan.security.Person'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.nanocan.security.PersonRole'
@@ -115,5 +137,6 @@ grails.plugins.springsecurity.authority.className = 'org.nanocan.security.Role'
 
 grails.views.javascript.library="jquery"
 
-savanah.jdbc.batchSize = 150
-savanah.jdbc.groovySql = true
+jdbc.batchSize = 150
+jdbc.groovySql = true
+upload.directory = "c:\\temp\\upload\\"

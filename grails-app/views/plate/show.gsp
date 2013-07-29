@@ -49,7 +49,7 @@
 				<li class="fieldcontain">
 					<span id="plateType-label" class="property-label"><g:message code="plate.plateType.label" default="Plate Type" /></span>
 					
-						<span class="property-value" aria-labelledby="plateType-label"><g:link controller="plateType" action="show" id="${plateInstance?.plateType?.id}">${plateInstance?.plateType?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="plateType-label"><g:fieldValue bean="${plateInstance}" field="plateType"/></span>
 					
 				</li>
 				</g:if>
@@ -67,7 +67,7 @@
 				<li class="fieldcontain">
 					<span id="libraryPlate-label" class="property-label"><g:message code="plate.libraryPlate.label" default="Library Plate" /></span>
 					
-						<span class="property-value" aria-labelledby="libraryPlate-label"><g:link controller="plate" action="show" id="${plateInstance?.libraryPlate?.id}">${plateInstance?.libraryPlate?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="libraryPlate-label"><g:link controller="plateLayout" action="show" id="${plateInstance?.libraryPlate?.id}">${plateInstance?.libraryPlate?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
@@ -113,6 +113,17 @@
 					<span id="layout-label" class="property-label"><g:message code="plate.layout.label" default="Layout" /></span>
 					
 						<span class="property-value" aria-labelledby="layout-label"><g:link controller="plateLayout" action="show" id="${plateInstance?.layout?.id}">${plateInstance?.layout?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${plateInstance?.readouts}">
+				<li class="fieldcontain">
+					<span id="readouts-label" class="property-label"><g:message code="plate.readouts.label" default="Readouts" /></span>
+					
+						<g:each in="${plateInstance.readouts}" var="r">
+						<span class="property-value" aria-labelledby="readouts-label"><g:link controller="readout" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></span>
+						</g:each>
 					
 				</li>
 				</g:if>

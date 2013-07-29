@@ -12,6 +12,10 @@ class PlateController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def importReadoutData(){
+
+    }
+
     def platesAsJSON() {
 
         def parentPlates

@@ -26,29 +26,23 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../HTSbackend">
-      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/src/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/grails-app/utils" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/grails-app/i18n" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/grails-app/controllers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/grails-app/domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/grails-app/taglib" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/test/unit" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/test/integration" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HTSbackend/src/groovy" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="SAVANAH-grailsPlugins" />
-    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.2" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-2.1.1" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
     <orderEntry type="module-library">
       <library name="Grails User Library (HTSbackend-inplacePlugin)">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../HTSbackend/lib" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar!/" />
-          <root url="jar:///media/sf_D/Projects/Java/SAVANAH/lib/jtds-1.2.5.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.7.2.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.jasig.cas.client/cas-client-core/jars/cas-client-core-3.1.12.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-cas-client/jars/spring-security-cas-client-3.0.7.RELEASE.jar!/" />
@@ -56,7 +50,6 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../HTSbackend/lib" recursive="false" />
       </library>
     </orderEntry>
   </component>

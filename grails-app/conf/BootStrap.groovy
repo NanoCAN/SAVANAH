@@ -9,7 +9,7 @@ class BootStrap {
 
         switch (GrailsUtil.environment) {
             case "development":
-                //initUserbase()
+                initUserbase()
                 //initSampleData()
                 break
 

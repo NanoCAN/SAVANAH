@@ -32,7 +32,7 @@
 					
 						<g:sortableColumn property="name" title="${message(code: 'plate.name.label', default: 'Name')}" />
 					
-						<th><g:message code="plate.plateType.label" default="Plate Type" /></th>
+						<g:sortableColumn property="plateType" title="${message(code: 'plate.plateType.label', default: 'Plate Type')}" />
 					
 						<th><g:message code="plate.parentPlate.label" default="Parent Plate" /></th>
 					

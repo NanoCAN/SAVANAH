@@ -10,7 +10,7 @@ class Plate {
     String family
     Plate parentPlate
     Library library
-    Plate libraryPlate
+    PlateLayout libraryPlate
     String barcode
     String name
     PlateLayout layout
@@ -21,6 +21,8 @@ class Plate {
     static mapping = {
 
     }
+
+    static hasMany = [readouts: Readout]
 
     static constraints = {
         barcode unique:  true

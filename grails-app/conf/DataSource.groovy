@@ -16,9 +16,9 @@ environments {
             //dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
             //url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             driverClassName = 'net.sourceforge.jtds.jdbc.Driver'
-            url = 'jdbc:jtds:sqlserver://10.149.64.14:1433;databaseName=SAVANAH_dev;sendStringParametersAsUnicode=false'
-            username = 'savanah'
-            password = 'blub999999999'
+            url = 'jdbc:jtds:sqlserver://10.149.64.14:1433;databaseName=MIRACLE_DEV;sendStringParametersAsUnicode=false'
+            username = 'rppa'
+            password = 'password55555'
             dbCreate = 'update'
             pooled = true
             properties {
