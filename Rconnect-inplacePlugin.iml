@@ -29,6 +29,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../Rconnect/grails-app/domain" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../Rconnect/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../Rconnect/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../Rconnect/grails-app/i18n" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../Rconnect/target/classes" />
     </content>
     <orderEntry type="inheritedJdk" />

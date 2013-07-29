@@ -2,6 +2,7 @@ package org.nanocan.savanah.plates
 
 import org.nanocan.savanah.library.Library
 import org.nanocan.layout.PlateLayout
+import org.nanocan.savanah.library.LibraryPlate
 
 class Plate {
 
@@ -9,8 +10,7 @@ class Plate {
     String format
     String family
     Plate parentPlate
-    Library library
-    PlateLayout libraryPlate
+    LibraryPlate libraryPlate
     String barcode
     String name
     PlateLayout layout
@@ -30,7 +30,6 @@ class Plate {
         plateType nullable: true
         parentPlate nullable: true
         libraryPlate nullable: true
-        library nullable: true
         family inList: ["library", "supermaster", "master", "mother", "daughter"]
         format inList: ["96-well", "384-well"], blank: false, editable: false
     }

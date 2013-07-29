@@ -1,6 +1,7 @@
 package org.nanocan.io
 
 import groovy.sql.Sql
+import org.nanocan.savanah.plates.WellReadout
 
 class ReadoutImportService {
 
@@ -29,10 +30,10 @@ class ReadoutImportService {
 
             try
             {
-                def newWellReadout = [:]
+                def newWellReadout = new WellReadout()
 
-                newWellReadout.col = Integer.valueOf(currentLine[columnMap.col])
-                newWellReadout.row = Integer.valueOf(currentLine[columnMap.row])
+                if(columnMap.col) newWellReadout.col = Integer.valueOf(currentLine[columnMap.col])
+                if(columnMap.row) newWellReadout.row = Integer.valueOf(currentLine[columnMap.row])
 
                 newWellReadout.measuredValue = Double.valueOf(currentLine[columnMap.measuredValue])
 
@@ -40,10 +41,11 @@ class ReadoutImportService {
                 if(newWellReadout.col == null && newWellReadout.row == null && currentLine[columnMap.wellPosition])
                 {
                     def wellPosition = currentLine[columnMap.wellPosition]
-                    newWellReadout.row = Character.getNumericValue(wellPosition.toString().charAt(0))-9
-                    newWellReadout.col = Integer.valueOf(wellPosition.toString().substring(1))
+                    newWellReadout.row = Character.getNumericValue(wellPosition.toString().charAt(1))-9
+                    newWellReadout.col = Integer.valueOf(wellPosition.toString().substring(2, wellPosition.toString().length()-1))
                 }
 
+                objectInstance.addToWells(newWellReadout)
                 wellReadouts << newWellReadout
 
             }catch(ArrayIndexOutOfBoundsException e)
@@ -57,7 +59,7 @@ class ReadoutImportService {
 
         nextStep = fileImportService.initializeProgressBar(wellReadouts, progressId)
 
-        objectInstance.addAllToWells(wellReadouts).save(flush:true)
+        objectInstance.save(flush:true)
 
         return objectInstance
     }
@@ -70,20 +72,17 @@ class ReadoutImportService {
             for (String colName : header) {
                 def trimmedColName = colName
 
-                //remote leading and tailing quote
+                //remove leading and tailing quote
                 if (colName.startsWith("\"") && colName.endsWith("\""))
                     trimmedColName = colName.substring(1, colName.length() - 1);
 
 
                 switch (trimmedColName) {
-                    case resultFileCfg.blockCol:
+                    case resultFileCfg.rowCol:
                         matchingMap.put(colName, "row")
                         break
-                    case resultFileCfg.rowCol:
-                        matchingMap.put(colName, "col")
-                        break
                     case resultFileCfg.columnCol:
-                        matchingMap.put(colName, "wellPosition")
+                        matchingMap.put(colName, "col")
                         break
                     case resultFileCfg.fgCol:
                         matchingMap.put(colName, "measuredValue")

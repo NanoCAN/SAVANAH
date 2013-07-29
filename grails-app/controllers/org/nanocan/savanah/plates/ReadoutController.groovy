@@ -3,6 +3,7 @@ package org.nanocan.savanah.plates
 import org.springframework.dao.DataIntegrityViolationException
 import org.apache.commons.io.FilenameUtils
 import org.springframework.security.access.annotation.Secured
+import org.nanocan.file.ResultFileConfig
 
 @Secured(['ROLE_USER'])
 class ReadoutController {
@@ -190,6 +191,8 @@ class ReadoutController {
         params.keySet().each{
             if(it.toString().startsWith("column") && it.toString() != "columnSeparator") columnMap.put(params.get(it), Integer.parseInt(it.toString().split('_')[1]))
         }
+
+        println columnMap
 
         def readoutInstance = Readout.get(params.id)
 

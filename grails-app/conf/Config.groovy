@@ -139,4 +139,4 @@ grails.views.javascript.library="jquery"
 
 jdbc.batchSize = 150
 jdbc.groovySql = true
-upload.directory = "c:\\temp\\upload\\"
+upload.directory = "/upload/"

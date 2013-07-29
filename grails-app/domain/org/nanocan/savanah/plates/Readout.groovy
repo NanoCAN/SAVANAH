@@ -1,6 +1,7 @@
 package org.nanocan.savanah.plates
 
 import org.nanocan.file.ResultFile
+import org.nanocan.file.ResultFileConfig
 
 class Readout {
 
