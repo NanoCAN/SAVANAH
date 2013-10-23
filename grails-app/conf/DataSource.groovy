@@ -13,24 +13,8 @@ hibernate {
 environments {
     development {
         dataSource {
-            //dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            //url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-            driverClassName = 'net.sourceforge.jtds.jdbc.Driver'
-            url = 'jdbc:jtds:sqlserver://10.149.64.14:1433;databaseName=MIRACLE_DEV;sendStringParametersAsUnicode=false'
-            username = 'rppa'
-            password = 'password55555'
-            dbCreate = 'update'
-            pooled = true
-            properties {
-                maxActive = -1
-                minEvictableIdleTimeMillis=1800000
-                timeBetweenEvictionRunsMillis=1800000
-                numTestsPerEvictionRun=3
-                testOnBorrow=true
-                testWhileIdle=true
-                testOnReturn=true
-                validationQuery="SELECT 1"
-            }
+            dbCreate = "create-drop"
+            url = "jdbc:h2:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
 
         dataSource_DART {

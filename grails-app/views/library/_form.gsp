@@ -18,3 +18,11 @@
 	<g:select name="type" from="${libraryInstance.constraints.type.inList}" value="${libraryInstance?.type}" valueMessagePrefix="library.type" noSelection="['': '']"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: libraryInstance, field: 'plates', 'error')} ">
+	<label for="plates">
+		<g:message code="library.plates.label" default="Plates" />
+		
+	</label>
+	<g:select name="plates" from="${org.nanocan.savanah.library.LibraryPlate.list()}" multiple="multiple" optionKey="id" size="5" value="${libraryInstance?.plates*.id}" class="many-to-many"/>
+</div>
+

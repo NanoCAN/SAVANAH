@@ -2,6 +2,8 @@ import grails.util.GrailsUtil
 import org.nanocan.security.Role
 import org.nanocan.security.Person
 import org.nanocan.security.PersonRole
+import org.nanocan.layout.PlateLayout
+import org.nanocan.layout.WellLayout
 
 class BootStrap {
 
@@ -10,7 +12,7 @@ class BootStrap {
         switch (GrailsUtil.environment) {
             case "development":
                 initUserbase()
-                //initSampleData()
+                initSampleData()
                 break
 
             case "test":
@@ -45,6 +47,13 @@ class BootStrap {
 
         if(!Person.findByUsername("mlist")){
             def adminUser = new Person(username: 'mlist', enabled: true, password: 'password')
+            adminUser.save(flush: true, failOnError: true)
+            PersonRole.create adminUser, adminRole, true
+            PersonRole.create adminUser, userRole, true
+        }
+
+        if(!Person.findByUsername("mdissing")){
+            def adminUser = new Person(username: 'mdissing', enabled: true, password: 'password')
             adminUser.save(flush: true, failOnError: true)
             PersonRole.create adminUser, adminRole, true
             PersonRole.create adminUser, userRole, true

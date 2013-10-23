@@ -13,6 +13,8 @@ class Library {
     Person createdBy
     Person lastUpdatedBy
 
+    static hasMany = [plates : LibraryPlate]
+
     static constraints = {
         name unique: true
         type inList: ["microRNA inhibitor", "microRNA mimics", "genome-wide", "druggable genome"]

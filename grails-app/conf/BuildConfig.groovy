@@ -7,7 +7,7 @@ grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.plugin.location.Rconnect = "../Rconnect/"
-grails.plugin.location.HTSbackend = "../HTSbackend"
+grails.plugin.location.HtsBackend = "../HtsBackend"
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies

@@ -45,6 +45,53 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${libraryInstance?.createdBy}">
+				<li class="fieldcontain">
+					<span id="createdBy-label" class="property-label"><g:message code="library.createdBy.label" default="Created By" /></span>
+					
+						<span class="property-value" aria-labelledby="createdBy-label"><g:link controller="person" action="show" id="${libraryInstance?.createdBy?.id}">${libraryInstance?.createdBy?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${libraryInstance?.dateCreated}">
+				<li class="fieldcontain">
+					<span id="dateCreated-label" class="property-label"><g:message code="library.dateCreated.label" default="Date Created" /></span>
+					
+						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${libraryInstance?.dateCreated}" /></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${libraryInstance?.lastUpdated}">
+				<li class="fieldcontain">
+					<span id="lastUpdated-label" class="property-label"><g:message code="library.lastUpdated.label" default="Last Updated" /></span>
+					
+						<span class="property-value" aria-labelledby="lastUpdated-label"><g:formatDate date="${libraryInstance?.lastUpdated}" /></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${libraryInstance?.lastUpdatedBy}">
+				<li class="fieldcontain">
+					<span id="lastUpdatedBy-label" class="property-label"><g:message code="library.lastUpdatedBy.label" default="Last Updated By" /></span>
+					
+						<span class="property-value" aria-labelledby="lastUpdatedBy-label"><g:link controller="person" action="show" id="${libraryInstance?.lastUpdatedBy?.id}">${libraryInstance?.lastUpdatedBy?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${libraryInstance?.plates}">
+				<li class="fieldcontain">
+					<span id="plates-label" class="property-label"><g:message code="library.plates.label" default="Plates" /></span>
+					
+						<g:each in="${libraryInstance.plates}" var="p">
+						<span class="property-value" aria-labelledby="plates-label"><g:link controller="libraryPlate" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

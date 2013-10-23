@@ -14,10 +14,8 @@ class Readout {
     ResultFile resultFile
     ResultFile resultImage
     ResultFile protocol
-    ResultFileConfig lastConfig
 
     static constraints = {
-        lastConfig nullable: true
         resultImage nullable: true
         protocol nullable: true
         typeOfReadout inList: ['Fluorescence']

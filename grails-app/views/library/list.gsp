@@ -32,6 +32,14 @@
 					
 						<g:sortableColumn property="type" title="${message(code: 'library.type.label', default: 'Type')}" />
 					
+						<th><g:message code="library.createdBy.label" default="Created By" /></th>
+					
+						<g:sortableColumn property="dateCreated" title="${message(code: 'library.dateCreated.label', default: 'Date Created')}" />
+					
+						<g:sortableColumn property="lastUpdated" title="${message(code: 'library.lastUpdated.label', default: 'Last Updated')}" />
+					
+						<th><g:message code="library.lastUpdatedBy.label" default="Last Updated By" /></th>
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -41,6 +49,14 @@
 						<td><g:link action="show" id="${libraryInstance.id}">${fieldValue(bean: libraryInstance, field: "name")}</g:link></td>
 					
 						<td>${fieldValue(bean: libraryInstance, field: "type")}</td>
+					
+						<td>${fieldValue(bean: libraryInstance, field: "createdBy")}</td>
+					
+						<td><g:formatDate date="${libraryInstance.dateCreated}" /></td>
+					
+						<td><g:formatDate date="${libraryInstance.lastUpdated}" /></td>
+					
+						<td>${fieldValue(bean: libraryInstance, field: "lastUpdatedBy")}</td>
 					
 					</tr>
 				</g:each>

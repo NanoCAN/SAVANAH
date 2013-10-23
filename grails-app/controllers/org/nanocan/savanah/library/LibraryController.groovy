@@ -1,13 +1,14 @@
 package org.nanocan.savanah.library
 
 import org.springframework.dao.DataIntegrityViolationException
-import org.nanocan.savanah.plates.Plate
+
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_USER'])
 class LibraryController {
 
+    def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def browser(){
@@ -61,6 +62,9 @@ class LibraryController {
 
     @Secured(['ROLE_ADMIN'])
     def save() {
+        params.createdBy = springSecurityService.currentUser
+        params.lastUpdatedBy = springSecurityService.currentUser
+
         def libraryInstance = new Library(params)
         if (!libraryInstance.save(flush: true)) {
             render(view: "create", model: [libraryInstance: libraryInstance])
@@ -114,6 +118,7 @@ class LibraryController {
             }
         }
 
+        params.lastUpdatedBy = springSecurityService.currentUser
         libraryInstance.properties = params
 
         if (!libraryInstance.save(flush: true)) {

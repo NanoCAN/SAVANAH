@@ -1,37 +1,30 @@
 package org.nanocan.savanah.library
 
-import org.nanocan.savanah.plates.Plate
+import org.nanocan.layout.Identifier
+import org.nanocan.layout.Sample
 
 class Entry implements Serializable {
 
-    Library library
-    Plate libraryPlate
-    int wellNum
-    int columnNum
-    int rowNum
+    static belongsTo = LibraryPlate
+    String wellPosition //e.g. A01, H12
+    int col
+    int row
+    String productNumber
+    String probeId
 
-    String accession
-    String accessionType
-
-    String sample
+    Sample sample
+    String comment
+    boolean controlWell
 
     static mapping = {
-        id composite: ["library", "libraryPlate", "wellNum"]
-        sample column: "sample_id"
-        accessionType column: "accession_type"
-        wellNum column:  "well_id"
-        columnNum column:  "well_column"
-        rowNum column:  "well_row"
     }
 
     static constraints = {
-        accession nullable: true
-        accessionType inList: ["miRBase"], nullable: true
-        sample nullable: true
+
     }
 
     String toString(){
-        sample
+        sample?sample.toString():("empty well")
     }
 }
 

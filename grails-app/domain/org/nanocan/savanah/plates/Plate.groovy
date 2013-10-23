@@ -3,17 +3,21 @@ package org.nanocan.savanah.plates
 import org.nanocan.savanah.library.Library
 import org.nanocan.layout.PlateLayout
 import org.nanocan.savanah.library.LibraryPlate
+import org.nanocan.project.Experiment
 
 class Plate {
 
-    String plateType
+    PlateType plateType
+    static embedded = ['plateType']
     String format
-    String family
-    Plate parentPlate
-    LibraryPlate libraryPlate
     String barcode
     String name
     PlateLayout layout
+    LibraryPlate libraryPlate
+
+    static belongsTo = [experiment: Experiment]
+
+    int replicate
 
     int cols
     int rows
@@ -25,17 +29,18 @@ class Plate {
     static hasMany = [readouts: Readout]
 
     static constraints = {
+        //barcodes need to be unique across the database
         barcode unique:  true
         name nullable: true, blank: false, unique: true
         plateType nullable: true
-        parentPlate nullable: true
         libraryPlate nullable: true
-        family inList: ["library", "supermaster", "master", "mother", "daughter"]
         format inList: ["96-well", "384-well"], blank: false, editable: false
+        //we can only have one replicate x for each library plate y in experiment z
+        replicate(unique: ['experiment', 'libraryPlate'])
     }
 
     String toString(){
-        name?:(id + "(" + family + ")")
+      ("Plate" + barcode?:"no barcode" + name?:"")
     }
 
     def beforeInsert = {
