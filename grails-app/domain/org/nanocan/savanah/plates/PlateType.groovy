@@ -8,6 +8,10 @@ class PlateType {
     String vendor
 
     static constraints = {
-        wellShape inList: ["round-bottom", "v-bottom"]
+        wellShape inList: ["round-bottom", "v-bottom", "u-bottom"]
+    }
+
+    String toString(){
+        return name
     }
 }

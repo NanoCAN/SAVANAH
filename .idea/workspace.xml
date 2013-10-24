@@ -2,30 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5366941-5f9d-4c46-88cc-e23971297248" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SAVANAH-grailsPlugins.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/library/_form.gsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/library/create.gsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/library/edit.gsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/library/list.gsp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/library/show.gsp" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/plate/_form.gsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/plate/create.gsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/plate/edit.gsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/plate/list.gsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grails-app/views/plate/show.gsp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HTSbackend-inplacePlugin.iml" afterPath="$PROJECT_DIR$/HTSbackend-inplacePlugin.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Rconnect-inplacePlugin.iml" afterPath="$PROJECT_DIR$/Rconnect-inplacePlugin.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SAVANAH.iml" afterPath="$PROJECT_DIR$/SAVANAH.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" afterPath="$PROJECT_DIR$/grails-app/conf/DataSource.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/library/EntryController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/library/EntryController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/library/LibraryController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/library/LibraryController.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/library/Entry.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/library/Entry.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/library/Library.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/library/Library.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/library/LibraryPlate.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/library/LibraryPlate.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application.properties" afterPath="$PROJECT_DIR$/application.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/plates/PlateController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/plates/PlateController.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/Plate.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/Plate.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/Readout.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/Readout.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovy/ExiqonMiRCURYImporter.groovy" afterPath="$PROJECT_DIR$/src/groovy/ExiqonMiRCURYImporter.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/PlateType.groovy" afterPath="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/PlateType.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/views/templates/_navmenu.gsp" afterPath="$PROJECT_DIR$/grails-app/views/templates/_navmenu.gsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/stacktrace.log" afterPath="$PROJECT_DIR$/target/stacktrace.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/unit/org/nanocan/savanah/plates/PlateTypeControllerTests.groovy" afterPath="$PROJECT_DIR$/test/unit/org/nanocan/savanah/plates/PlateTypeControllerTests.groovy" />
     </list>
     <ignored path="SAVANAH.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,108 +73,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PlateLayoutService.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/services/org/nanocan/layout/PlateLayoutService.groovy">
+      <file leaf-file-name="IndexController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/IndexController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="132" selection-start="660" selection-end="660" vertical-scroll-proportion="0.0">
+            <state line="6" column="6" selection-start="120" selection-end="120" vertical-scroll-proportion="-3.9130435">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/LoginController.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="-1.173913">
               <folding>
-                <element signature="e#28#49#0" expanded="true" />
+                <element signature="e#30#59#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlateLayout.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/PlateLayout.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
+      <file leaf-file-name="LogoutController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/LogoutController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="23" selection-start="257" selection-end="257" vertical-scroll-proportion="-5.4545455">
+            <state line="4" column="6" selection-start="114" selection-end="114" vertical-scroll-proportion="-2.6086957">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlateLayoutController.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/layout/PlateLayoutController.groovy">
+      <file leaf-file-name="PersonController.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/PersonController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="37" selection-start="3155" selection-end="3155" vertical-scroll-proportion="-7.5">
+            <state line="6" column="6" selection-start="170" selection-end="170" vertical-scroll-proportion="22.173914">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExperimentController.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/project/ExperimentController.groovy">
+      <file leaf-file-name="auth.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/login/auth.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="0" selection-start="669" selection-end="794" vertical-scroll-proportion="-16.956522">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="3.8297873">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Experiment.groovy" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/project/Experiment.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
+      <file leaf-file-name="list.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/list.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="6" selection-start="147" selection-end="147" vertical-scroll-proportion="0.06586169">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LayoutSpot.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/LayoutSpot.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
+      <file leaf-file-name="show.gsp" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/show.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="92" selection-start="1021" selection-end="1021" vertical-scroll-proportion="-14.318182">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WellLayout.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/WellLayout.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
+      <file leaf-file-name="edit.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/edit.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="25" selection-start="248" selection-end="248" vertical-scroll-proportion="-4.431818">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sample.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/Sample.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
+      <file leaf-file-name="_form.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/_form.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="106" selection-start="98" selection-end="98" vertical-scroll-proportion="-1.7045455">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/Config.groovy">
+      <file leaf-file-name="create.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/create.gsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="28" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BootStrap.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/BootStrap.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="99" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
@@ -204,22 +178,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/treatment/create.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/treatment/edit.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/treatment/list.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/treatment/show.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/sample/create.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/sample/edit.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/sample/_form.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/sample/show.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/sample/list.gsp" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/layout/SampleController.groovy" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/LayoutSpot.groovy" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/WellLayout.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/conf/BootStrap.groovy" />
-        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/PlateLayout.groovy" />
         <option value="$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/layout/PlateLayoutController.groovy" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/WellLayout.groovy" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/PlateLayout.groovy" />
         <option value="$PROJECT_DIR$/../HTSbackend/grails-app/services/org/nanocan/layout/PlateLayoutService.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/plate/show.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/views/plate/_form.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/plates/PlateController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/Plate.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/templates/_navmenu.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/plates/PlateTypeController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/PlateType.groovy" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/person/list.gsp" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/person/_form.gsp" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/person/create.gsp" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/person/edit.gsp" />
+        <option value="$PROJECT_DIR$/../HTSbackend/grails-app/views/person/show.gsp" />
       </list>
     </option>
   </component>
@@ -243,7 +217,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -254,97 +228,7 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SAVANAH" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SAVANAH" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SAVANAH" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HtsBackend-inplacePlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SAVANAH" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HtsBackend-inplacePlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HTSbackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SAVANAH" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HtsBackend-inplacePlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HTSbackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SAVANAH" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HtsBackend-inplacePlugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HTSbackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grails-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="taglib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanocan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
@@ -363,9 +247,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -392,13 +276,10 @@
     </key>
   </component>
   <component name="RunManager" selected="Grails.Grails:SAVANAH">
-    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
-      <setting name="path" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$" />
-      <setting name="debug" value="false" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -421,10 +302,13 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -441,24 +325,6 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -488,6 +354,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -598,7 +482,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="23" width="1922" height="1153" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -611,7 +495,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283433" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Grails View" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15368196" sideWeight="0.67165667" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15368196" sideWeight="0.67165667" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -683,131 +567,122 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/treatment/list.gsp">
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/plates/PlateTypeController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="36" selection-start="530" selection-end="530" vertical-scroll-proportion="-4.1489363">
+        <state line="9" column="23" selection-start="161" selection-end="161" vertical-scroll-proportion="-5.869565">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/cellLine/show.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="32" selection-start="1207" selection-end="1207" vertical-scroll-proportion="-5.744681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/sample/list.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="103" selection-start="1154" selection-end="1154" vertical-scroll-proportion="-7.0212765">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/layout/SampleController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="24" selection-start="696" selection-end="696" vertical-scroll-proportion="-17.608696">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/ApplicationResources.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="46" selection-start="1948" selection-end="1948" vertical-scroll-proportion="0.73770493">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/Config.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="28" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/BootStrap.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="99" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/LayoutSpot.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/PlateType.groovy">
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="92" selection-start="1021" selection-end="1021" vertical-scroll-proportion="-14.318182">
+        <state line="14" column="19" selection-start="283" selection-end="283" vertical-scroll-proportion="-4.7727275">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/PlateLayout.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/domain/org/nanocan/savanah/plates/Plate.groovy">
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="23" selection-start="257" selection-end="257" vertical-scroll-proportion="-5.4545455">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/project/ExperimentController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="669" selection-end="794" vertical-scroll-proportion="-16.956522">
+        <state line="46" column="43" selection-start="1172" selection-end="1172" vertical-scroll-proportion="-13.977273">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/layout/PlateLayoutController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="37" selection-start="3155" selection-end="3155" vertical-scroll-proportion="-7.5">
+        <state line="117" column="38" selection-start="4244" selection-end="4244" vertical-scroll-proportion="-15.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/services/org/nanocan/layout/PlateLayoutService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/library/LibraryController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="132" selection-start="660" selection-end="660" vertical-scroll-proportion="0.0">
+        <state line="26" column="74" selection-start="636" selection-end="636" vertical-scroll-proportion="-15.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/nanocan/savanah/plates/PlateController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="29" selection-start="869" selection-end="869" vertical-scroll-proportion="-16.304348">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/IndexController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="6" selection-start="120" selection-end="120" vertical-scroll-proportion="-3.9130435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/LoginController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="-1.173913">
           <folding>
-            <element signature="e#28#49#0" expanded="true" />
+            <element signature="e#30#59#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/WellLayout.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/LogoutController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="25" selection-start="248" selection-end="248" vertical-scroll-proportion="-4.431818">
+        <state line="4" column="6" selection-start="114" selection-end="114" vertical-scroll-proportion="-2.6086957">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/layout/Sample.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/controllers/org/nanocan/security/PersonController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="106" selection-start="98" selection-end="98" vertical-scroll-proportion="-1.7045455">
+        <state line="6" column="6" selection-start="170" selection-end="170" vertical-scroll-proportion="22.173914">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/domain/org/nanocan/project/Experiment.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/login/auth.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="6" selection-start="147" selection-end="147" vertical-scroll-proportion="0.06586169">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="3.8297873">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/_form.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/create.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/edit.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/list.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HTSbackend/grails-app/views/person/show.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
