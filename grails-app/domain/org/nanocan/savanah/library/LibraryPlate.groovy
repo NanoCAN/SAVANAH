@@ -11,4 +11,8 @@ class LibraryPlate {
     static constraints = {
         format inList: ["96-well", "384-well"], blank: false, editable: false
     }
+
+    String toString(){
+        String.format("plateIndex: %d (%s)", plateIndex, format)
+    }
 }

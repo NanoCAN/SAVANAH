@@ -8,6 +8,12 @@
         <li>
             <a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
         </li>
+        <li>
+            <g:link class="create" controller="LibraryFileUpload">Upload new library</g:link>
+        </li>
+        <li>
+            <g:link class="create" controller="Experiment" action="experimentFromLibrary">Create experiment from library</g:link>
+        </li>
     </ul>
 </li>
 <li class="dropdown" id="browse.menu">
@@ -30,6 +36,9 @@
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
+        <li>
+            <g:link class="list" controller="library" action="list">Libraries</g:link>
+        </li>
         <li>
             <g:link class="list" controller="project" action="list">Projects</g:link>
         </li>

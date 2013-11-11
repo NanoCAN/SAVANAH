@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HtsBackend-inplacePlugin.iml" filepath="$PROJECT_DIR$/HtsBackend-inplacePlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HTSbackend-inplacePlugin.iml" filepath="$PROJECT_DIR$/HTSbackend-inplacePlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/PlateManager-inplacePlugin.iml" filepath="$PROJECT_DIR$/PlateManager-inplacePlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/Rconnect-inplacePlugin.iml" filepath="$PROJECT_DIR$/Rconnect-inplacePlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/SAVANAH.iml" filepath="$PROJECT_DIR$/SAVANAH.iml" />
