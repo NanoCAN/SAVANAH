@@ -6,14 +6,15 @@
         <fileset id="Grails" name="Grails" removed="false">
           <file>file://$MODULE_DIR$/../HTSbackend/web-app/WEB-INF/applicationContext.xml</file>
           <file>file://$MODULE_DIR$/../HtsBackend/web-app/WEB-INF/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/../htsbackend/web-app/WEB-INF/applicationContext.xml</file>
         </fileset>
       </configuration>
     </facet>
     <facet type="web" name="GrailsWeb">
       <configuration>
         <webroots>
-          <root url="file://$MODULE_DIR$/../HTSbackend/web-app" relative="/" />
-          <root url="file://$MODULE_DIR$/../HTSbackend/grails-app/views" relative="/" />
+          <root url="file://$MODULE_DIR$/../htsbackend/web-app" relative="/" />
+          <root url="file://$MODULE_DIR$/../htsbackend/grails-app/views" relative="/" />
           <root url="file://$MODULE_DIR$/../HtsBackend/web-app" relative="/" />
           <root url="file://$MODULE_DIR$/../HtsBackend/grails-app/views" relative="/" />
         </webroots>
@@ -28,6 +29,18 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../HtsBackend">
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/grails-app/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/grails-app/domain" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/grails-app/taglib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../HtsBackend/test/integration" isTestSource="true" />
+    </content>
     <content url="file://$MODULE_DIR$/../htsbackend">
       <sourceFolder url="file://$MODULE_DIR$/../htsbackend/grails-app/i18n" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../htsbackend/grails-app/controllers" isTestSource="false" />
@@ -35,17 +48,23 @@
       <sourceFolder url="file://$MODULE_DIR$/../htsbackend/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../htsbackend/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../htsbackend/grails-app/taglib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../htsbackend/grails-app/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../htsbackend/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../htsbackend/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../htsbackend/test/integration" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/../HTSbackend/target/classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="grails-2.1.1" level="application" />
+    <orderEntry type="module" module-name="SAVANAH-grailsPlugins" />
     <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="grails-2.2.3" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="grails-2.2.4" level="application" />
     <orderEntry type="module-library">
       <library name="Grails User Library (HTSbackend-inplacePlugin)">
         <CLASSES>
+          <root url="file://$MODULE_DIR$/../HtsBackend/lib" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-core/jars/spring-security-core-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.springframework.security/spring-security-web/jars/spring-security-web-3.0.7.RELEASE.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.eclipse.jdt.core.compiler/ecj/jars/ecj-3.7.2.jar!/" />
@@ -57,17 +76,13 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.poi/poi-ooxml-schemas/jars/poi-ooxml-schemas-3.9.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.poi/poi-ooxml/jars/poi-ooxml-3.9.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.poi/poi/jars/poi-3.9.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-jasper/jars/tomcat-embed-jasper-7.0.42.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-juli/jars/tomcat-embed-logging-juli-7.0.42.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.tomcat/tomcat-catalina-ant/jars/tomcat-catalina-ant-7.0.42.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.42.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.tomcat.embed/tomcat-embed-core/jars/tomcat-embed-core-7.0.42.jar!/" />
+          <root url="jar:///media/sf_D/Projects/Java/SAVANAH/lib/jtds-1.2.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../HtsBackend/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="SAVANAH-grailsPlugins" />
   </component>
 </module>
 

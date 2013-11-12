@@ -7,22 +7,20 @@ import org.nanocan.savanah.library.Library
 import org.nanocan.security.Person
 
 @Secured(['ROLE_USER'])
-class ExperimentController {
+class LibraryToExperimentController {
     def springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def scaffold = Experiment
-
-
-    def index() {}
+    def index() {
+        redirect(action: "experimentFromLibrary")
+    }
 
     def experimentFromLibrary(){
         if(request.getMethod() == 'POST'){
             println("Yay!")
         }
 
-        // TODO: Make scaffolding work with Project (gives error on dates/persons)
         if(Project.all.size() == 0){
             def me = Person.findByUsername("mdissing")
 
