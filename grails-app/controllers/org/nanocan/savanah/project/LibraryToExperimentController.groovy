@@ -1,9 +1,9 @@
 package org.nanocan.savanah.project
 
 import grails.plugins.springsecurity.Secured
-import org.nanocan.project.Experiment
+import org.nanocan.errors.LibraryToExperimentException
+import org.nanocan.io.LibraryToExperimentService
 import org.nanocan.project.Project
-import org.nanocan.savanah.library.Library
 import org.nanocan.security.Person
 
 @Secured(['ROLE_USER'])
@@ -13,12 +13,28 @@ class LibraryToExperimentController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
-        redirect(action: "experimentFromLibrary")
-    }
 
-    def experimentFromLibrary(){
+        // Checking for POST
         if(request.getMethod() == 'POST'){
-            println("Yay!")
+
+            // Preparing input for experiment creation service
+            def title = params.get('title') as String
+            def projectTitle = params.get('selectedProject')  as String
+            def libraryName = params.get('selectedLibrary')  as String
+            def nrReplicates = params.int('nrReplicates')
+            def lowReplicateNr = params.int('lowReplicateNr')
+            def defaultCellLine = params.get('defaultCellLine') as String
+            def barcodePattern = params.get('barcodePattern') as String
+
+            // Try to create the experiment, if input is wrong, LibraryToExperimentException will be cast.
+            try{
+                def ltes = new LibraryToExperimentService()
+                ltes.create(title, projectTitle, libraryName, nrReplicates, lowReplicateNr, defaultCellLine, barcodePattern, (Person) springSecurityService.getCurrentUser())
+                flash.message = String.format("The experiment \"%s\" was created successfully.", title)
+            }catch(LibraryToExperimentException e){
+                 flash.error = e.message
+            }
+            return
         }
 
         if(Project.all.size() == 0){
@@ -44,7 +60,6 @@ class LibraryToExperimentController {
             )
             p2.save(failOnError: true)
         }
-        [projectList:Project.all, libraryList:Library.all]
     }
 
 

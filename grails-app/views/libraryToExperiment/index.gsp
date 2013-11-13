@@ -1,4 +1,4 @@
-<%@ page import="org.nanocan.layout.CellLine; org.nanocan.project.Experiment" %>
+<%@ page import="org.nanocan.savanah.library.Library; org.nanocan.project.Project; org.nanocan.layout.CellLine; org.nanocan.project.Experiment" %>
 <!doctype html>
 <html>
 <head>
@@ -20,19 +20,26 @@
 <div style="padding-left:10px;">
     <h3>Experiment from library</h3>
     <br/>
-    <g:form action="experimentFromLibrary" method="POST">
+    <g:if test="${flash.error}">
+        <div class="errors" role="alert">&nbsp; - ${flash.error}</div>
+    </g:if>
+    <g:if test="${flash.message}">
+        <div class="message" role="status">${flash.message}</div>
+    </g:if>
+    <br/>
+    <g:form method="POST">
         <table style="width:500px;">
             <tr>
-                <td>Experiment name:</td>
+                <td>Experiment title:</td>
                 <td><g:textField name="title" id="title"/></td>
             </tr>
         <tr>
             <td>Project:</td>
-            <td><g:select name="selectedProject" from="${projectList}" value="" noSelection="['':'Please select...']"/></td>
+            <td><g:select name="selectedProject" from="${Project.list()}" value="" noSelection="['':'Please select...']"/></td>
         </tr>
         <tr>
             <td>From library:</td>
-            <td><g:select name="selectedLibrary" from="${libraryList}" value="" noSelection="['':'Please select...']"/></td>
+            <td><g:select name="selectedLibrary" from="${Library.list()}" value="" noSelection="['':'Please select...']"/></td>
         </tr>
             <tr>
                 <td>Number of replicates:</td>
@@ -57,11 +64,7 @@
                     \\P = two digit plate number
                 </div>
             </td>
-            <td><g:textField name="defaultCellLine" id="defaultCellLine"/></td>
-        </tr>
-        <tr>
-            <td>Default cell-line:</td>
-            <td><g:textField name="defaultCellLine" id="defaultCellLine"/></td>
+            <td><g:textField name="barcodePattern" id="barcodePattern"/></td>
         </tr>
 
         <tr>

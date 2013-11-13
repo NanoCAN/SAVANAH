@@ -1,4 +1,6 @@
 import grails.util.GrailsUtil
+import org.nanocan.io.ColorService
+import org.nanocan.layout.CellLine
 import org.nanocan.security.Role
 import org.nanocan.security.Person
 import org.nanocan.security.PersonRole
@@ -57,6 +59,20 @@ class BootStrap {
             adminUser.save(flush: true, failOnError: true)
             PersonRole.create adminUser, adminRole, true
             PersonRole.create adminUser, userRole, true
+        }
+
+        if(!CellLine.findByName("MCF7")){
+            def mcf7 = new CellLine()
+            mcf7.name = "MCF7"
+            mcf7.color = ColorService.randomColor()
+            mcf7.save(failOnError: true)
+        }
+
+        if(!CellLine.findByName("MCF12A")){
+            def mcf12a = new CellLine()
+            mcf12a.name = "MCF12A"
+            mcf12a.color = ColorService.randomColor()
+            mcf12a.save(failOnError: true)
         }
     }
 

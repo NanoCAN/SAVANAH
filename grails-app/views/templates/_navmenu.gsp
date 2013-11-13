@@ -12,7 +12,7 @@
             <g:link class="create" controller="LibraryFileUpload">Upload new library</g:link>
         </li>
         <li>
-            <g:link class="create" controller="Experiment" action="experimentFromLibrary">Create experiment from library</g:link>
+            <g:link class="create" controller="LibraryToExperiment">Create experiment from library</g:link>
         </li>
     </ul>
 </li>
