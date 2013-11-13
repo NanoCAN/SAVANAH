@@ -110,7 +110,7 @@ class LibraryUploadService {
                         sample = new Sample()
                         sample.type = sampleType
                         sample.target = ""
-                        sample.color = randomColor()
+                        sample.color = ColorService.randomColor()
                         sample.name = sampleName
                         sample.identifiers = new HashSet<Identifier>()
                         sample.save(failOnError: true)
@@ -171,14 +171,5 @@ class LibraryUploadService {
         lib.save(failOnError: true)
     }
 
-    def private randomColor(){
-        Random random = new Random();
-        final float hue = random.nextFloat();
-        // Saturation between 0.1 and 0.3
-        final float saturation = (random.nextInt(2000) + 1000) / 10000f;
-        final float luminance = 0.9f;
-        final Color color = getHSBColor(hue, saturation, luminance);
-        String rgb = Integer.toHexString(color.getRGB());
-        return "#" + rgb.substring(2, rgb.length());
-    }
+
 }
