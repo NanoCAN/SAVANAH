@@ -18,12 +18,8 @@ environments {
         }
 
         dataSource_DART {
-            //dialect = org.hibernate.dialect.SQLServer2008Dialect
-            driverClassName = 'net.sourceforge.jtds.jdbc.Driver'
-            username = 'AppConnectUser'
-            password = 'password333'
-            url = 'jdbc:jtds:sqlserver://10.149.64.14;databaseName=DART;sendStringParametersAsUnicode=false'
-            readOnly = tue
+            dbCreate = "create-drop"
+            url = "jdbc:h2:dartDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
     test {
@@ -47,6 +43,15 @@ environments {
                testOnReturn=true
                validationQuery="SELECT 1"
             }
+        }
+
+        dataSource_DART {
+            //dialect = org.hibernate.dialect.SQLServer2008Dialect
+            driverClassName = 'net.sourceforge.jtds.jdbc.Driver'
+            username = 'AppConnectUser'
+            password = 'password333'
+            url = 'jdbc:jtds:sqlserver://10.149.64.14;databaseName=DART;sendStringParametersAsUnicode=false'
+            readOnly = true
         }
     }
 }
