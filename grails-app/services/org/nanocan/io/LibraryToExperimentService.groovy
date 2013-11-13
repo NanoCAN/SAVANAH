@@ -10,6 +10,8 @@ import org.nanocan.savanah.library.Library
 import org.nanocan.security.Person
 
 class LibraryToExperimentService {
+
+    def plateLayoutService
     static transactional = true
 
     def public create(
@@ -93,7 +95,7 @@ class LibraryToExperimentService {
             newExperiment.project = project
             newExperiment.description = "Test experiment."
 
-            // TODO: What should this value be?
+            // TODO: You need to get this from the user via the gsp (via the params object in the controller).
             newExperiment.firstDayOfTheExperiment = new Date()
 
             library.plates.each {plate ->
@@ -116,16 +118,20 @@ class LibraryToExperimentService {
                     newExperiment.addToPlateLayouts(plateLayout)
                     newExperiment.save(failOnError: true)
 
+                    // TODO: I think we have a misunderstanding here. You need to be aware of the fact that you need 96
+                    // or even 384 or even 1586 for each plateLayout. Luckily there is already a service class doing this.
+                    // Have a look at PlateLayoutService in hstbackend. Modify the service to provide two methods
+                    // One where you specify the cell-line and one where this is null.
+                    // The code for adding the wells looks overly complicated. This is because there are two strategies
+                    // either normal grails / hibernate by creating WellLayout with plateLayout set.
+                    // or direct groovySQL which is lightning fast since there is no hibernate overhead
+                    // hibernate can be really slow when you want to batch create stuff, look at
+                    // http://naleid.com/blog/2009/10/01/batch-import-performance-with-grails-and-mysql/
+                    // if you want to know more
 
-                    WellLayout wellLayout = new WellLayout()
-                    wellLayout.plateLayout = plateLayout
-                    wellLayout.cellLine = cellLine
-                    wellLayout.save(failOnError: true)
+                    plateLayoutService.createWellLayouts(plateLayout) //plateLayoutService throws a nullpointer exception here. I didn't  have enough time to figure out why, sorry!
 
-                    // TODO: I'm unable to see the wells on the Project, why?
-                    plateLayout.addToWells(wellLayout)
                     plateLayout.save(failOnError: true)
-
                 }
             }
 
