@@ -2,13 +2,13 @@ package org.nanocan.savanah.project
 
 import grails.plugins.springsecurity.Secured
 import org.nanocan.errors.LibraryToExperimentException
-import org.nanocan.io.LibraryToExperimentService
 import org.nanocan.project.Project
 import org.nanocan.security.Person
 
 @Secured(['ROLE_USER'])
 class LibraryToExperimentController {
     def springSecurityService
+    def libraryToExperimentService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -25,11 +25,17 @@ class LibraryToExperimentController {
             def lowReplicateNr = params.int('lowReplicateNr')
             def defaultCellLine = params.get('defaultCellLine') as String
             def barcodePattern = params.get('barcodePattern') as String
+            def startDateText = params.get('startDate') as String
 
+            if(startDateText == null || startDateText.isEmpty()){
+                flash.error = "Experiment start date must be chosen."
+                return
+            }
+
+            def startDate = new Date(startDateText)
             // Try to create the experiment, if input is wrong, LibraryToExperimentException will be cast.
             try{
-                def ltes = new LibraryToExperimentService()
-                ltes.create(title, projectTitle, libraryName, nrReplicates, lowReplicateNr, defaultCellLine, barcodePattern, (Person) springSecurityService.getCurrentUser())
+                libraryToExperimentService.create(title, projectTitle, libraryName, nrReplicates, lowReplicateNr, defaultCellLine, barcodePattern, (Person) springSecurityService.getCurrentUser(), startDate)
                 flash.message = String.format("The experiment \"%s\" was created successfully.", title)
             }catch(LibraryToExperimentException e){
                  flash.error = e.message
@@ -61,6 +67,5 @@ class LibraryToExperimentController {
             p2.save(failOnError: true)
         }
     }
-
 
 }

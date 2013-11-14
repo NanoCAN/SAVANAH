@@ -3,7 +3,6 @@ package org.nanocan.io
 import org.nanocan.errors.LibraryToExperimentException
 import org.nanocan.layout.CellLine
 import org.nanocan.layout.PlateLayout
-import org.nanocan.layout.WellLayout
 import org.nanocan.project.Experiment
 import org.nanocan.project.Project
 import org.nanocan.savanah.library.Library
@@ -22,7 +21,8 @@ class LibraryToExperimentService {
             int lowReplicateNr,
             String defaultCellLine,
             String barcodePattern,
-            Person createdBy
+            Person createdBy,
+            Date startDate
     )  throws LibraryToExperimentException
     {
         println("Starting creation.")
@@ -84,7 +84,7 @@ class LibraryToExperimentService {
         // ---- END OF VALIDATION
 
         // Use transaction for ensuring only correct experiments are saved
-        Experiment.withNewTransaction {
+        //Experiment.withNewTransaction {
 
             Experiment newExperiment = new Experiment()
             newExperiment.dateCreated = new Date()
@@ -94,9 +94,7 @@ class LibraryToExperimentService {
             newExperiment.title = title
             newExperiment.project = project
             newExperiment.description = "Test experiment."
-
-            // TODO: You need to get this from the user via the gsp (via the params object in the controller).
-            newExperiment.firstDayOfTheExperiment = new Date()
+            newExperiment.firstDayOfTheExperiment = startDate
 
             library.plates.each {plate ->
 
@@ -114,7 +112,6 @@ class LibraryToExperimentService {
                             .replace("\\\\P", String.format("%02d", plate.plateIndex))
                             .replace("\\\\R", String.format("%02d", replicateNr))
                     plateLayout.save(failOnError: true)
-
                     newExperiment.addToPlateLayouts(plateLayout)
                     newExperiment.save(failOnError: true)
 
@@ -128,8 +125,7 @@ class LibraryToExperimentService {
                     // hibernate can be really slow when you want to batch create stuff, look at
                     // http://naleid.com/blog/2009/10/01/batch-import-performance-with-grails-and-mysql/
                     // if you want to know more
-
-                    plateLayoutService.createWellLayouts(plateLayout) //plateLayoutService throws a nullpointer exception here. I didn't  have enough time to figure out why, sorry!
+                    plateLayoutService.createWellLayouts(plateLayout)
 
                     plateLayout.save(failOnError: true)
                 }
@@ -139,7 +135,7 @@ class LibraryToExperimentService {
 
             project.addToExperiments(newExperiment)
             project.save(failOnError: true)
-        }
+        //}
         println("Ended creation.")
     }
 }

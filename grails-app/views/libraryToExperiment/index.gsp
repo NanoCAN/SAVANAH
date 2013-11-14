@@ -34,6 +34,10 @@
                 <td><g:textField name="title" id="title"/></td>
             </tr>
         <tr>
+            <td>Experiment start date:</td>
+            <td><g:jqDatePicker name="startDate" id="startDate"/></td>
+        </tr>
+        <tr>
             <td>Project:</td>
             <td><g:select name="selectedProject" from="${Project.list()}" value="" noSelection="['':'Please select...']"/></td>
         </tr>

@@ -12,12 +12,13 @@ import static java.awt.Color.*
 
 class LibraryUploadService {
 
-    def uploadLibraryFile(def currentUser, String textFile, String libraryType, String plateFormat, String sampleType ) {
+
+    def uploadLibraryFile(def currentUser, String libraryName, String textFile, String libraryType, String plateFormat, String sampleType ) {
         String text = textFile
         // Initialize new library
         Library lib = new Library()
 
-        lib.name = String.format("Library created at %s", (new Date()).getDateTimeString())
+        lib.name = libraryName
         lib.type = libraryType
         lib.plates = new HashSet<LibraryPlate>()
 

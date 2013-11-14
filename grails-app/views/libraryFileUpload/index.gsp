@@ -24,12 +24,31 @@
 <div style="padding-left:10px;">
 <h3>Library File Upload</h3>
     <br/>
+
+
+    <g:if test="${flash.error}">
+        <div class="errors" role="alert">&nbsp; - ${flash.error}</div>
+    </g:if>
+    <g:if test="${flash.okay}">
+        <div class="message" role="status">${flash.okay}</div>
+    </g:if>
+
+    <br/>
     <g:uploadForm action="upload">
-        <input type="file" name="dataFile" style="width:400px;" />   <br/><br/>
-        <input type="submit" />
-        <br/>
-        <i style="color:red;"><g:message code="${flash.message}" /></i>
-        <i style="color:green;"><g:message code="${flash.okay}" /></i>
+        <table>
+            <tr>
+                <td>Title:</td>
+                <td><g:textField name="libraryName" value=""/></td>
+            </tr>
+            <tr>
+                <td>Library file:</td>
+                <td><input type="file" name="dataFile" style="width:400px;" /> </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" /></td>
+            </tr>
+
+        </table>
     </g:uploadForm>
 </div>
 </body>
