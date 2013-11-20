@@ -4,6 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.apache.commons.io.FilenameUtils
 import org.springframework.security.access.annotation.Secured
 import org.nanocan.file.ResultFileConfig
+import org.springframework.web.multipart.MultipartHttpServletRequest
 
 @Secured(['ROLE_USER'])
 class ReadoutController {
@@ -12,6 +13,8 @@ class ReadoutController {
     def fileImportService
     def readoutImportService
     def progressService
+    def unzipService
+    def xlsxToReadoutService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -215,4 +218,27 @@ class ReadoutController {
         else render "${readoutInstance.wells.size()} readout values have been added to the database and linked to this readout."
     }
 
+
+    def createFromZippedFile(){
+        if(request.getMethod() == 'POST'){
+            // Have to convert request into file request
+            MultipartHttpServletRequest r = (MultipartHttpServletRequest) request
+
+            // Grab file and check it exists
+            def dataFile = r.getFile("zippedFile")
+            if (dataFile.empty) {
+                flash.error = 'A file has to be chosen.'
+                render(view: 'index')
+                return
+            }
+
+            def unpacked = unzipService.Unpack(dataFile.getInputStream())
+            unpacked.keySet().each {key ->
+                println("-\nParsing " + key)
+                xlsxToReadoutService.parseToReadout(unpacked.get(key))
+            }
+
+            flash.okay = 'The readout was parsed successfully.'
+        }
+    }
 }

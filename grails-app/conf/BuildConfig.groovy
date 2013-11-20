@@ -36,6 +36,12 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         runtime 'net.sourceforge.jtds:jtds:1.3.1'
+
+        //xls file support
+        compile (group:'org.apache.poi', name:'poi', version:'3.9')
+        //xlxs file support
+        compile (group:'org.apache.poi', name:'poi-ooxml', version:'3.9')
+
         // runtime 'mysql:mysql-connector-java:5.1.16'
     }
 
@@ -50,6 +56,11 @@ grails.project.dependency.resolution = {
         //runtime ":yui-minify-resources:0.1.4"
 
         build ":tomcat:$grailsVersion"
+
+        compile ':joda-time:1.4'
+
         compile ":webxml:1.4.1"
+
+        compile ':excel-import:1.0.0'
     }
 }

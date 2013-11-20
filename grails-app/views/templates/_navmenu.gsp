@@ -14,6 +14,9 @@
         <li>
             <g:link class="create" controller="LibraryToExperiment">Create experiment from library</g:link>
         </li>
+        <li>
+            <g:link class="create" controller="Readout" action="createFromZippedFile">WellReadouts from zipped file</g:link>
+        </li>
     </ul>
 </li>
 <li class="dropdown" id="browse.menu">
