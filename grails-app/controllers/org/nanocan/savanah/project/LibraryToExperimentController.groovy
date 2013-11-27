@@ -3,6 +3,7 @@ package org.nanocan.savanah.project
 import grails.plugins.springsecurity.Secured
 import org.nanocan.errors.LibraryToExperimentException
 import org.nanocan.project.Project
+import org.nanocan.savanah.plates.PlateType
 import org.nanocan.security.Person
 
 @Secured(['ROLE_USER'])
@@ -13,6 +14,9 @@ class LibraryToExperimentController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
+
+
+
 
         // Checking for POST
         if(request.getMethod() == 'POST'){
@@ -26,7 +30,17 @@ class LibraryToExperimentController {
             def defaultCellLine = params.get('defaultCellLine') as String
             def barcodePattern = params.get('barcodePattern') as String
             def startDateText = params.get('startDate') as String
+            def plateTypeName = params.get('plateType') as String
 
+            def plateType = PlateType.findByName(plateTypeName)
+            def test = PlateType.findByName("bkababd")
+            if(plateTypeName.isEmpty() || plateType == null){
+                flash.error = "A valid plate type must be chosen."
+                return
+            }
+
+            println("PlateType:")
+            println(plateType)
             if(startDateText == null || startDateText.isEmpty()){
                 flash.error = "Experiment start date must be chosen."
                 return
@@ -35,12 +49,32 @@ class LibraryToExperimentController {
             def startDate = new Date(startDateText)
             // Try to create the experiment, if input is wrong, LibraryToExperimentException will be cast.
             try{
-                libraryToExperimentService.create(title, projectTitle, libraryName, nrReplicates, lowReplicateNr, defaultCellLine, barcodePattern, (Person) springSecurityService.getCurrentUser(), startDate)
+                libraryToExperimentService.create(
+                        title,
+                        projectTitle,
+                        libraryName,
+                        nrReplicates,
+                        lowReplicateNr,
+                        defaultCellLine,
+                        barcodePattern,
+                        (Person) springSecurityService.getCurrentUser(),
+                        startDate,
+                        plateType
+                )
                 flash.message = String.format("The experiment \"%s\" was created successfully.", title)
             }catch(LibraryToExperimentException e){
                  flash.error = e.message
             }
             return
+        }
+
+        if(PlateType.findAll().size() == 0){
+            def newPlateType = new PlateType()
+            newPlateType.name = "testplatetype1"
+            newPlateType.ultraLowAdhesion = true
+            newPlateType.vendor = "Martin shop"
+            newPlateType.wellShape = "round-bottom"
+            newPlateType.save(failOnError: true)
         }
 
         if(Project.all.size() == 0){

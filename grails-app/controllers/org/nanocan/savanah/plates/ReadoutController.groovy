@@ -228,17 +228,30 @@ class ReadoutController {
             def dataFile = r.getFile("zippedFile")
             if (dataFile.empty) {
                 flash.error = 'A file has to be chosen.'
-                render(view: 'index')
+                render(view: 'createFromZippedFile')
                 return
             }
 
-            def unpacked = unzipService.Unpack(dataFile.getInputStream())
-            unpacked.keySet().each {key ->
-                println("-\nParsing " + key)
-                xlsxToReadoutService.parseToReadout(unpacked.get(key))
-            }
 
-            flash.okay = 'The readout was parsed successfully.'
+             // Add transactional property
+             Readout.withTransaction {status  ->
+                try{
+                    def unpacked = unzipService.Unpack(dataFile.getInputStream())
+                    unpacked.keySet().each {key ->
+                        println("-\nParsing " + key)
+                        xlsxToReadoutService.parseToReadout(unpacked.get(key))
+                    }
+                }catch(Exception e){
+                    //If an error occurs, rollback all changes
+                    status.setRollbackOnly()
+                    flash.error = 'An error occured:<br/>'+e.message
+                }
+
+             }
+
+            if(flash.error == ''){
+                flash.okay = 'The readout was parsed successfully.'
+            }
         }
     }
 }

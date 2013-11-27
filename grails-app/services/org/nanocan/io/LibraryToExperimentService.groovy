@@ -6,6 +6,8 @@ import org.nanocan.layout.PlateLayout
 import org.nanocan.project.Experiment
 import org.nanocan.project.Project
 import org.nanocan.savanah.library.Library
+import org.nanocan.savanah.plates.Plate
+import org.nanocan.savanah.plates.PlateType
 import org.nanocan.security.Person
 
 class LibraryToExperimentService {
@@ -22,7 +24,8 @@ class LibraryToExperimentService {
             String defaultCellLine,
             String barcodePattern,
             Person createdBy,
-            Date startDate
+            Date startDate,
+            PlateType plateType
     )  throws LibraryToExperimentException
     {
         println("Starting creation.")
@@ -96,24 +99,37 @@ class LibraryToExperimentService {
             newExperiment.description = "Test experiment."
             newExperiment.firstDayOfTheExperiment = startDate
 
-            library.plates.each {plate ->
+            library.plates.each { libraryPlate ->
+
+                PlateLayout plateLayout = new PlateLayout()
+                plateLayout.dateCreated = new Date()
+                plateLayout.lastUpdated = new Date()
+                plateLayout.createdBy = createdBy
+                plateLayout.lastUpdatedBy = createdBy
+                plateLayout.format = libraryPlate.format
+                plateLayout.name = barcodePattern
+                        .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
+                        .replace("\\\\R", "X")
+
+
+                plateLayout.save(failOnError: true)
+                newExperiment.addToPlateLayouts(plateLayout)
+                newExperiment.save(failOnError: true)
+
 
                 for(int replicateNr = lowReplicateNr; replicateNr < lowReplicateNr+nrReplicates; replicateNr++){
 
-                    PlateLayout plateLayout = new PlateLayout()
-                    plateLayout.dateCreated = new Date()
-                    plateLayout.lastUpdated = new Date()
-                    plateLayout.createdBy = createdBy
-                    plateLayout.lastUpdatedBy = createdBy
 
-
-                    plateLayout.format = plate.format
-                    plateLayout.name = barcodePattern
-                            .replace("\\\\P", String.format("%02d", plate.plateIndex))
+                    Plate plate = new Plate()
+                    plate.plateLayout = plateLayout
+                    plate.barcode = barcodePattern
+                            .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
                             .replace("\\\\R", String.format("%02d", replicateNr))
-                    plateLayout.save(failOnError: true)
-                    newExperiment.addToPlateLayouts(plateLayout)
-                    newExperiment.save(failOnError: true)
+                    plate.replicate = replicateNr
+                    plate.name = plate.barcode
+                    plate.format = libraryPlate.format
+                    plate.experiment = newExperiment
+                    plate.plateType = plateType
 
                     // TODO: I think we have a misunderstanding here. You need to be aware of the fact that you need 96
                     // or even 384 or even 1586 for each plateLayout. Luckily there is already a service class doing this.
@@ -125,9 +141,11 @@ class LibraryToExperimentService {
                     // hibernate can be really slow when you want to batch create stuff, look at
                     // http://naleid.com/blog/2009/10/01/batch-import-performance-with-grails-and-mysql/
                     // if you want to know more
-                    plateLayoutService.createWellLayouts(plateLayout)
 
-                    plateLayout.save(failOnError: true)
+                    //TODO: Try to make it a nonblocking call - look at the progressbar example
+                    //plateLayoutService.createWellLayouts(plateLayout)
+
+                    plate.save(failOnError: true)
                 }
             }
 
