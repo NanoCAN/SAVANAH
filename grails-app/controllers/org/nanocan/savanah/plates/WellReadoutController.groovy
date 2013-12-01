@@ -3,9 +3,9 @@ package org.nanocan.savanah.plates
 import org.springframework.dao.DataIntegrityViolationException
 
 class WellReadoutController {
-
+    def scaffold = true
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-
+   /*
     def index() {
         redirect(action: "list", params: params)
     }
@@ -99,5 +99,5 @@ class WellReadoutController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'wellReadout.label', default: 'WellReadout'), params.id])
             redirect(action: "show", id: params.id)
         }
-    }
+    }     */
 }

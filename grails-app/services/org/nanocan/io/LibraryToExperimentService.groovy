@@ -111,6 +111,8 @@ class LibraryToExperimentService {
                         .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
                         .replace("\\\\R", "X")
 
+                //TODO: Try to make it a nonblocking call - look at the progressbar example
+                plateLayoutService.createWellLayouts(plateLayout)
 
                 plateLayout.save(failOnError: true)
                 newExperiment.addToPlateLayouts(plateLayout)
@@ -130,21 +132,6 @@ class LibraryToExperimentService {
                     plate.format = libraryPlate.format
                     plate.experiment = newExperiment
                     plate.plateType = plateType
-
-                    // TODO: I think we have a misunderstanding here. You need to be aware of the fact that you need 96
-                    // or even 384 or even 1586 for each plateLayout. Luckily there is already a service class doing this.
-                    // Have a look at PlateLayoutService in hstbackend. Modify the service to provide two methods
-                    // One where you specify the cell-line and one where this is null.
-                    // The code for adding the wells looks overly complicated. This is because there are two strategies
-                    // either normal grails / hibernate by creating WellLayout with plateLayout set.
-                    // or direct groovySQL which is lightning fast since there is no hibernate overhead
-                    // hibernate can be really slow when you want to batch create stuff, look at
-                    // http://naleid.com/blog/2009/10/01/batch-import-performance-with-grails-and-mysql/
-                    // if you want to know more
-
-                    //TODO: Try to make it a nonblocking call - look at the progressbar example
-                    //plateLayoutService.createWellLayouts(plateLayout)
-
                     plate.save(failOnError: true)
                 }
             }

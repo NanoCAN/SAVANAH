@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile
 class XlsxToReadoutService {
     def unzipService
 
-    def parseToReadout(MultipartFile file){
+    def parseToReadout(MultipartFile file, String fileName){
 
         String suffixWithDot = file.originalFilename.substring(file.originalFilename.lastIndexOf("."))
         if(suffixWithDot != ".xls" && suffixWithDot != ".xlsx"){
@@ -21,10 +21,10 @@ class XlsxToReadoutService {
 
         File excelFile = unzipService.getFileFromStream(file.getInputStream(), suffixWithDot)
 
-        parseToReadout(excelFile)
+        parseToReadout(excelFile, fileName)
     }
 
-    def parseToReadout(File excelFile) {
+    def parseToReadout(File excelFile, String fileName) {
 
         String suffixWithDot = excelFile.name.substring(excelFile.name.lastIndexOf("."))
         if(suffixWithDot != ".xls" && suffixWithDot != ".xlsx"){
@@ -32,8 +32,8 @@ class XlsxToReadoutService {
         }
 
         //The plate barcode is the filename without suffix
-        String plateBarcode = excelFile.name.replace(suffixWithDot, "")
-
+        String plateBarcode = fileName.replace(suffixWithDot, "")
+          println(plateBarcode)
         Workbook workbook
 
         try{
@@ -104,7 +104,8 @@ class XlsxToReadoutService {
 
             //Convert fx "A02" to row and column numbers
             newWellReadout.row = LetterToRow(wellPosition.charAt(0))
-            newWellReadout.col = Integer.valueOf(wellPosition.substring(1, wellPosition.length()-1))
+            newWellReadout.col = Integer.valueOf(wellPosition.substring(1, wellPosition.length()))
+            newWellReadout.readout = readout
             newWellReadout.save(failOnError: true)
             readout.addToWells(newWellReadout)
         }

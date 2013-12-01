@@ -239,7 +239,7 @@ class ReadoutController {
                     def unpacked = unzipService.Unpack(dataFile.getInputStream())
                     unpacked.keySet().each {key ->
                         println("-\nParsing " + key)
-                        xlsxToReadoutService.parseToReadout(unpacked.get(key))
+                        xlsxToReadoutService.parseToReadout(unpacked.get(key), key)
                     }
                 }catch(Exception e){
                     //If an error occurs, rollback all changes
@@ -253,5 +253,7 @@ class ReadoutController {
                 flash.okay = 'The readout was parsed successfully.'
             }
         }
+
+
     }
 }
