@@ -72,8 +72,12 @@ class XlsxToReadoutService {
         // Create the Readout
         Readout readout = new Readout()
 
-        //TODO: How do we ensure the plate exists?
-        readout.plate = Plate.findByBarcode(plateBarcode)
+        def ownerplate = Plate.findByBarcode(plateBarcode)
+        if(!ownerplate || ownerplate == null){
+            throw new XlsxToReadoutException(String.format("No plate with barcode \"%s\" was found (from file \"%s\").",plateBarcode, excelFile.name))
+        }
+
+        readout.plate = ownerplate
         readout.assayType = "Cell Titer Blue"
         readout.typeOfReadout = "Fluorescence"
         readout.resultFile = newResultFile
@@ -90,7 +94,6 @@ class XlsxToReadoutService {
                 return
             }
 
-            //TODO: What about these values?
             def plateNr = row.getCell(0).getNumericCellValue()
             def repeat = row.getCell(1).getNumericCellValue()
             def type = row.getCell(3).getStringCellValue()

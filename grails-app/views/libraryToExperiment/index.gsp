@@ -26,8 +26,7 @@
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
-    <br/>
-    <g:form method="POST">
+    <g:formRemote name="libToExperimentForm" update="updateDiv" url="${[controller:'libraryToExperiment', action:'createExperiment']}">
         <table style="width:500px;">
             <tr>
                 <td>Experiment title:</td>
@@ -74,12 +73,27 @@
             </td>
             <td><g:textField name="barcodePattern" id="barcodePattern"/></td>
         </tr>
+        <tr>
+            <td>
+                Plate layout name:
+                <br/>
+                <div style="color:#333333;font-size:10px;">
+                    \\P = two digit plate number
+                </div>
+            </td>
+            <td><g:textField name="plateLayoutName" id="plateLayoutName"/></td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td><label><g:checkBox name="errorOnExistingPlateLayout" id="errorOnExistingPlateLayout"/> Throw error if plate layout exists</label></td>
+        </tr>
 
         <tr>
             <td colspan="2"><g:submitButton name="Create experiment"/></td>
         </tr>
         </table>
-    </g:form>
+    </g:formRemote>
 </div>
 </body>
 </html>

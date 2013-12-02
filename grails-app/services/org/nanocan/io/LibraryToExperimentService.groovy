@@ -10,6 +10,7 @@ import org.nanocan.savanah.plates.Plate
 import org.nanocan.savanah.plates.PlateType
 import org.nanocan.security.Person
 
+
 class LibraryToExperimentService {
 
     def plateLayoutService
@@ -25,11 +26,11 @@ class LibraryToExperimentService {
             String barcodePattern,
             Person createdBy,
             Date startDate,
-            PlateType plateType
+            PlateType plateType,
+            String plateLayoutName,
+            boolean throwErrorIfLayoutExists
     )  throws LibraryToExperimentException
     {
-        println("Starting creation.")
-
         // ---- START OF VALIDATION
         if(title.isEmpty()){
             throw new LibraryToExperimentException("The title cannot be empty.")
@@ -84,10 +85,17 @@ class LibraryToExperimentService {
         {
             throw new LibraryToExperimentException(String.format("Cell-line \"%s\" was not found", defaultCellLine))
         }
-        // ---- END OF VALIDATION
 
-        // Use transaction for ensuring only correct experiments are saved
-        //Experiment.withNewTransaction {
+        if(!plateLayoutName.contains("\\P")){
+            throw new LibraryToExperimentException("The plate layout must contain the sequence \"\\\\P\".")
+        }
+
+        if(Experiment.findByTitle(title)){
+            throw new LibraryToExperimentException("Experiment \"${title}\" already exists.")
+        }
+
+        def layouts = new ArrayList<PlateLayout>()
+        // ---- END OF VALIDATION
 
             Experiment newExperiment = new Experiment()
             newExperiment.dateCreated = new Date()
@@ -101,32 +109,41 @@ class LibraryToExperimentService {
 
             library.plates.each { libraryPlate ->
 
-                PlateLayout plateLayout = new PlateLayout()
-                plateLayout.dateCreated = new Date()
-                plateLayout.lastUpdated = new Date()
-                plateLayout.createdBy = createdBy
-                plateLayout.lastUpdatedBy = createdBy
-                plateLayout.format = libraryPlate.format
-                plateLayout.name = barcodePattern
-                        .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
-                        .replace("\\\\R", "X")
+                //TODO: add checkbox determining, in case the platelayout exists, whether to use it or error
+                def fullLayoutName = plateLayoutName.replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
 
-                //TODO: Try to make it a nonblocking call - look at the progressbar example
-                plateLayoutService.createWellLayouts(plateLayout)
+                PlateLayout plateLayout = PlateLayout.findByName(fullLayoutName)
 
-                plateLayout.save(failOnError: true)
+                if(!plateLayout || plateLayout == null){
+                    plateLayout = new PlateLayout()
+                    plateLayout.dateCreated = new Date()
+                    plateLayout.lastUpdated = new Date()
+                    plateLayout.createdBy = createdBy
+                    plateLayout.lastUpdatedBy = createdBy
+                    plateLayout.format = libraryPlate.format
+                    plateLayout.name = fullLayoutName
+                    plateLayout.save(failOnError: true)
+
+                }else if(throwErrorIfLayoutExists){
+                    throw new LibraryToExperimentException("Plate layout \"${fullLayoutName}\" already exists.")
+                }
+                layouts.add(plateLayout)
+
                 newExperiment.addToPlateLayouts(plateLayout)
                 newExperiment.save(failOnError: true)
 
 
                 for(int replicateNr = lowReplicateNr; replicateNr < lowReplicateNr+nrReplicates; replicateNr++){
-
+                    def barcode = barcodePattern
+                            .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
+                            .replace("\\\\R", String.format("%02d", replicateNr))
+                    if(Plate.findByBarcode(barcode)){
+                        throw new LibraryToExperimentException("Plate \"${barcode}\" already exists.")
+                    }
 
                     Plate plate = new Plate()
                     plate.plateLayout = plateLayout
-                    plate.barcode = barcodePattern
-                            .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
-                            .replace("\\\\R", String.format("%02d", replicateNr))
+                    plate.barcode = barcode
                     plate.replicate = replicateNr
                     plate.name = plate.barcode
                     plate.format = libraryPlate.format
@@ -140,7 +157,10 @@ class LibraryToExperimentService {
 
             project.addToExperiments(newExperiment)
             project.save(failOnError: true)
-        //}
-        println("Ended creation.")
+
+
+        for(def layout in layouts){
+            plateLayoutService.createWellLayouts(layout)
+        }
     }
 }

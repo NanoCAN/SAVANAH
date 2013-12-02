@@ -2,6 +2,7 @@ package org.nanocan.savanah.project
 
 import grails.plugins.springsecurity.Secured
 import org.nanocan.errors.LibraryToExperimentException
+import org.nanocan.project.Experiment
 import org.nanocan.project.Project
 import org.nanocan.savanah.plates.PlateType
 import org.nanocan.security.Person
@@ -14,59 +15,6 @@ class LibraryToExperimentController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
-
-
-
-
-        // Checking for POST
-        if(request.getMethod() == 'POST'){
-
-            // Preparing input for experiment creation service
-            def title = params.get('title') as String
-            def projectTitle = params.get('selectedProject')  as String
-            def libraryName = params.get('selectedLibrary')  as String
-            def nrReplicates = params.int('nrReplicates')
-            def lowReplicateNr = params.int('lowReplicateNr')
-            def defaultCellLine = params.get('defaultCellLine') as String
-            def barcodePattern = params.get('barcodePattern') as String
-            def startDateText = params.get('startDate') as String
-            def plateTypeName = params.get('plateType') as String
-
-            def plateType = PlateType.findByName(plateTypeName)
-            def test = PlateType.findByName("bkababd")
-            if(plateTypeName.isEmpty() || plateType == null){
-                flash.error = "A valid plate type must be chosen."
-                return
-            }
-
-            println("PlateType:")
-            println(plateType)
-            if(startDateText == null || startDateText.isEmpty()){
-                flash.error = "Experiment start date must be chosen."
-                return
-            }
-
-            def startDate = new Date(startDateText)
-            // Try to create the experiment, if input is wrong, LibraryToExperimentException will be cast.
-            try{
-                libraryToExperimentService.create(
-                        title,
-                        projectTitle,
-                        libraryName,
-                        nrReplicates,
-                        lowReplicateNr,
-                        defaultCellLine,
-                        barcodePattern,
-                        (Person) springSecurityService.getCurrentUser(),
-                        startDate,
-                        plateType
-                )
-                flash.message = String.format("The experiment \"%s\" was created successfully.", title)
-            }catch(LibraryToExperimentException e){
-                 flash.error = e.message
-            }
-            return
-        }
 
         if(PlateType.findAll().size() == 0){
             def newPlateType = new PlateType()
@@ -100,6 +48,66 @@ class LibraryToExperimentController {
             )
             p2.save(failOnError: true)
         }
+    }
+
+    def createExperiment(){
+
+        def okayString = "<div class=\"message\" role=\"status\">%STR%</div>"
+        def errorString = "<div class=\"errors\" role=\"error\">%STR%</div>"
+
+            // Preparing input for experiment creation service
+            def title = params.get('title') as String
+            def projectTitle = params.get('selectedProject')  as String
+            def libraryName = params.get('selectedLibrary')  as String
+            def nrReplicates = params.int('nrReplicates')
+            def lowReplicateNr = params.int('lowReplicateNr')
+            def defaultCellLine = params.get('defaultCellLine') as String
+            def barcodePattern = params.get('barcodePattern') as String
+            def startDateText = params.get('startDate') as String
+            def plateTypeName = params.get('plateType') as String
+            def plateLayoutName = params.get('plateLayoutName') as String
+            def throwErrorIfLayoutExists = (params.get('plateLayoutName') as String) != ''
+
+            def plateType = PlateType.findByName(plateTypeName)
+            if(plateTypeName.isEmpty() || plateType == null){
+                render errorString.replace("%STR%", "A valid plate type must be chosen.")
+                return
+            }
+
+            if(startDateText == null || startDateText.isEmpty()){
+                render errorString.replace("%STR%", "Experiment start date must be chosen.")
+                return
+            }
+
+            def startDate = new Date(startDateText)
+            // Try to create the experiment, if input is wrong, LibraryToExperimentException will be cast.
+
+            Experiment.withTransaction {   status  ->
+                try{
+                    libraryToExperimentService.create(
+                            title,
+                            projectTitle,
+                            libraryName,
+                            nrReplicates,
+                            lowReplicateNr,
+                            defaultCellLine,
+                            barcodePattern,
+                            (Person) springSecurityService.getCurrentUser(),
+                            startDate,
+                            plateType,
+                            plateLayoutName,
+                            throwErrorIfLayoutExists
+                    )
+                    render okayString.replace("%STR%", String.format("The experiment \"%s\" was created successfully.", title))
+                    return
+                }catch(Exception e){
+                    //If an error occurs, rollback all changes
+                    status.setRollbackOnly()
+                    render errorString.replace("%STR%", e.message)
+                    return
+                }
+            }
+
     }
 
 }
