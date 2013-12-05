@@ -6,7 +6,10 @@ import org.nanocan.layout.PlateLayout
 import org.nanocan.project.Experiment
 import org.nanocan.project.Project
 import org.nanocan.savanah.library.Library
+import org.nanocan.savanah.plates.Plate
+import org.nanocan.savanah.plates.PlateType
 import org.nanocan.security.Person
+
 
 class LibraryToExperimentService {
 
@@ -22,11 +25,12 @@ class LibraryToExperimentService {
             String defaultCellLine,
             String barcodePattern,
             Person createdBy,
-            Date startDate
+            Date startDate,
+            PlateType plateType,
+            String plateLayoutName,
+            boolean throwErrorIfLayoutExists
     )  throws LibraryToExperimentException
     {
-        println("Starting creation.")
-
         // ---- START OF VALIDATION
         if(title.isEmpty()){
             throw new LibraryToExperimentException("The title cannot be empty.")
@@ -81,10 +85,17 @@ class LibraryToExperimentService {
         {
             throw new LibraryToExperimentException(String.format("Cell-line \"%s\" was not found", defaultCellLine))
         }
-        // ---- END OF VALIDATION
 
-        // Use transaction for ensuring only correct experiments are saved
-        //Experiment.withNewTransaction {
+        if(!plateLayoutName.contains("\\P")){
+            throw new LibraryToExperimentException("The plate layout must contain the sequence \"\\\\P\".")
+        }
+
+        if(Experiment.findByTitle(title)){
+            throw new LibraryToExperimentException("Experiment \"${title}\" already exists.")
+        }
+
+        def layouts = new ArrayList<PlateLayout>()
+        // ---- END OF VALIDATION
 
             Experiment newExperiment = new Experiment()
             newExperiment.dateCreated = new Date()
@@ -96,38 +107,49 @@ class LibraryToExperimentService {
             newExperiment.description = "Test experiment."
             newExperiment.firstDayOfTheExperiment = startDate
 
-            library.plates.each {plate ->
+            library.plates.each { libraryPlate ->
 
-                for(int replicateNr = lowReplicateNr; replicateNr < lowReplicateNr+nrReplicates; replicateNr++){
+                //TODO: add checkbox determining, in case the platelayout exists, whether to use it or error
+                def fullLayoutName = plateLayoutName.replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
 
-                    PlateLayout plateLayout = new PlateLayout()
+                PlateLayout plateLayout = PlateLayout.findByName(fullLayoutName)
+
+                if(!plateLayout || plateLayout == null){
+                    plateLayout = new PlateLayout()
                     plateLayout.dateCreated = new Date()
                     plateLayout.lastUpdated = new Date()
                     plateLayout.createdBy = createdBy
                     plateLayout.lastUpdatedBy = createdBy
+                    plateLayout.format = libraryPlate.format
+                    plateLayout.name = fullLayoutName
+                    plateLayout.save(failOnError: true)
+
+                }else if(throwErrorIfLayoutExists){
+                    throw new LibraryToExperimentException("Plate layout \"${fullLayoutName}\" already exists.")
+                }
+                layouts.add(plateLayout)
+
+                newExperiment.addToPlateLayouts(plateLayout)
+                newExperiment.save(failOnError: true)
 
 
-                    plateLayout.format = plate.format
-                    plateLayout.name = barcodePattern
-                            .replace("\\\\P", String.format("%02d", plate.plateIndex))
+                for(int replicateNr = lowReplicateNr; replicateNr < lowReplicateNr+nrReplicates; replicateNr++){
+                    def barcode = barcodePattern
+                            .replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
                             .replace("\\\\R", String.format("%02d", replicateNr))
-                    plateLayout.save(failOnError: true)
-                    newExperiment.addToPlateLayouts(plateLayout)
-                    newExperiment.save(failOnError: true)
+                    if(Plate.findByBarcode(barcode)){
+                        throw new LibraryToExperimentException("Plate \"${barcode}\" already exists.")
+                    }
 
-                    // TODO: I think we have a misunderstanding here. You need to be aware of the fact that you need 96
-                    // or even 384 or even 1586 for each plateLayout. Luckily there is already a service class doing this.
-                    // Have a look at PlateLayoutService in hstbackend. Modify the service to provide two methods
-                    // One where you specify the cell-line and one where this is null.
-                    // The code for adding the wells looks overly complicated. This is because there are two strategies
-                    // either normal grails / hibernate by creating WellLayout with plateLayout set.
-                    // or direct groovySQL which is lightning fast since there is no hibernate overhead
-                    // hibernate can be really slow when you want to batch create stuff, look at
-                    // http://naleid.com/blog/2009/10/01/batch-import-performance-with-grails-and-mysql/
-                    // if you want to know more
-                    plateLayoutService.createWellLayouts(plateLayout)
-
-                    plateLayout.save(failOnError: true)
+                    Plate plate = new Plate()
+                    plate.plateLayout = plateLayout
+                    plate.barcode = barcode
+                    plate.replicate = replicateNr
+                    plate.name = plate.barcode
+                    plate.format = libraryPlate.format
+                    plate.experiment = newExperiment
+                    plate.plateType = plateType
+                    plate.save(failOnError: true)
                 }
             }
 
@@ -135,7 +157,10 @@ class LibraryToExperimentService {
 
             project.addToExperiments(newExperiment)
             project.save(failOnError: true)
-        //}
-        println("Ended creation.")
+
+
+        for(def layout in layouts){
+            plateLayoutService.createWellLayouts(layout)
+        }
     }
 }

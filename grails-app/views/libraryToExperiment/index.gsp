@@ -1,4 +1,4 @@
-<%@ page import="org.nanocan.savanah.library.Library; org.nanocan.project.Project; org.nanocan.layout.CellLine; org.nanocan.project.Experiment" %>
+<%@ page import="org.nanocan.savanah.plates.PlateType; org.nanocan.savanah.library.Library; org.nanocan.project.Project; org.nanocan.layout.CellLine; org.nanocan.project.Experiment" %>
 <!doctype html>
 <html>
 <head>
@@ -26,8 +26,7 @@
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
-    <br/>
-    <g:form method="POST">
+    <g:formRemote name="libToExperimentForm" update="updateDiv" url="${[controller:'libraryToExperiment', action:'createExperiment']}">
         <table style="width:500px;">
             <tr>
                 <td>Experiment title:</td>
@@ -59,6 +58,10 @@
             <td><g:select from="${CellLine.list()}" name="defaultCellLine" id="defaultCellLine"/></td>
         </tr>
         <tr>
+            <td>Plate type:</td>
+            <td><g:select from="${PlateType.list()}" name="plateType" id="plateType"/></td>
+        </tr>
+        <tr>
             <td>
                 Barcode pattern:
                 <br/>
@@ -70,12 +73,27 @@
             </td>
             <td><g:textField name="barcodePattern" id="barcodePattern"/></td>
         </tr>
+        <tr>
+            <td>
+                Plate layout name:
+                <br/>
+                <div style="color:#333333;font-size:10px;">
+                    \\P = two digit plate number
+                </div>
+            </td>
+            <td><g:textField name="plateLayoutName" id="plateLayoutName"/></td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td><label><g:checkBox name="errorOnExistingPlateLayout" id="errorOnExistingPlateLayout"/> Throw error if plate layout exists</label></td>
+        </tr>
 
         <tr>
             <td colspan="2"><g:submitButton name="Create experiment"/></td>
         </tr>
         </table>
-    </g:form>
+    </g:formRemote>
 </div>
 </body>
 </html>
