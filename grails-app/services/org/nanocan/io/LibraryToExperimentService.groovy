@@ -109,7 +109,6 @@ class LibraryToExperimentService {
 
             library.plates.each { libraryPlate ->
 
-                //TODO: add checkbox determining, in case the platelayout exists, whether to use it or error
                 def fullLayoutName = plateLayoutName.replace("\\\\P", String.format("%02d", libraryPlate.plateIndex))
 
                 PlateLayout plateLayout = PlateLayout.findByName(fullLayoutName)
