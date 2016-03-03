@@ -12,6 +12,8 @@ class Library implements Serializable{
     String accessionType
     String plateFormat
 
+    static searchable = true
+
     Date dateCreated
     Date lastUpdated
 

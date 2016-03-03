@@ -26,7 +26,7 @@
 	</head>
 	<body>
 		<div id="savanahBanner" role="banner">
-            <img id="savanahLogo" src="${resource(dir: 'images', file: 'savanah_banner.png')}" alt="SAVANAH"/>
+            <a href="${createLink(uri: '/')}"><img id="savanahLogo" src="${resource(dir: 'images', file: 'savanah_banner.png')}" alt="SAVANAH"/></a>
             <sec:ifLoggedIn>
                 <div id="logout" style="float:right; padding-right:10px; padding-top:10px;">
                     You are logged in as<br/><b><sec:username/></b><br/><br/>
@@ -38,7 +38,6 @@
         <g:layoutBody/>
 
     <div id="updateDiv" name="updateDiv"></div>
-
 
     <div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

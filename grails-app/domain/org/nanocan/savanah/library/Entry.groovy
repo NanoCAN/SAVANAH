@@ -12,6 +12,8 @@ class Entry implements Serializable, Comparable {
     String productNumber
     String probeId
 
+    static searchable = true
+
     Sample sample
     String comment
     boolean controlWell
