@@ -85,13 +85,21 @@
 </head>
 
 <body>
+
 <div id='login'>
+	<h1><a href="http://nanocan.github.io/SAVANAH/" target="_blank">Click here to get to the user guide</a></h1> <br/><br/>
+
+	<h3>Note:</h3>
+	<div style="width: 400px; margin: 0 auto;">Data uploaded to this demo server is accessible to all users. To test features we therefore recommend to use the demo data set or to blind sample information.
+	For long term use, we encourage users to install SAVANAH on their own system or to deploy it via docker (<a href="https://hub.docker.com/r/nanocan/savanah/">https://hub.docker.com/r/nanocan/savanah/</a>)</div>
+
 	<div class='inner'>
 		<div class='fheader'><g:message code="springSecurity.login.header"/></div>
 
 		<g:if test='${flash.message}'>
 			<div class='login_message'>${flash.message}</div>
 		</g:if>
+		<div class="message">User: 'admin', password: 'NanoCAN'</div>
 
 		<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
 			<p>

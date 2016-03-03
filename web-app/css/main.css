@@ -230,7 +230,7 @@ box-shadow: 0 0 5px 2px #aaaaaa;
     margin-right: 10px;
 }
 
-.nav a.home, .nav a.list, .nav a.create, .nav a.delete, .nav a.plate {
+.nav a.home, .nav a.list, .nav a.create, .nav a.delete, .nav a.plate, .nav a.heatmap, .nav a.plot, .nav a.zip{
 	background-position: 0.7em center;
 	background-repeat: no-repeat;
 	text-indent: 25px;
@@ -256,6 +256,17 @@ box-shadow: 0 0 5px 2px #aaaaaa;
     background-image: url(../images/skin/database_delete.png);
 }
 
+.nav a.heatmap {
+	background-image: url(../images/skin/heatmap.png);
+}
+
+.nav a.plot {
+	background-image: url(../images/skin/plot.png);
+}
+
+.nav a.zip {
+	background-image: url(../images/skin/zip.png);
+}
 /* CREATE/EDIT FORMS AND SHOW PAGES */
 
 fieldset,

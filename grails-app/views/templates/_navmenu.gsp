@@ -94,7 +94,7 @@
         </li>
         <li class="divider"></li>
         <li>
-            <g:link class="create" controller="Readout" action="createFromZipFile">Batch Import Of Readouts</g:link>
+            <g:link class="zip" controller="Readout" action="createFromZipFile">Batch Import Of Readouts</g:link>
         </li>
         <li class="divider"></li>
         <li>

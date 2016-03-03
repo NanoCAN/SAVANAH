@@ -41,7 +41,6 @@ class AnalysisController {
     def securityTokenService
 
     def start() {
-        println params
         def projects = Project.list()
 
         def experiments = params.project?Experiment.findAllByProject(Project.get(params.project)):Experiment.list()
