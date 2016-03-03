@@ -2,7 +2,6 @@ package org.nanocan.dart
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
-import org.nanocan.savanah.plates.Plate
 
 class RunController {
 
@@ -59,10 +58,6 @@ class RunController {
     }
 
     def index() {
-        redirect(action: "list", params: params)
-    }
-
-    def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         params.sort = params.sort?:"startTime"
         params.order = params.order?:"asc"
@@ -88,7 +83,7 @@ class RunController {
         def runInstance = Run.get(params.id)
         if (!runInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'run.label', default: 'Run'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
@@ -99,7 +94,7 @@ class RunController {
         def runInstance = Run.get(params.id)
         if (!runInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'run.label', default: 'Run'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
@@ -110,7 +105,7 @@ class RunController {
         def runInstance = Run.get(params.id)
         if (!runInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'run.label', default: 'Run'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
@@ -140,14 +135,14 @@ class RunController {
         def runInstance = Run.get(params.id)
         if (!runInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'run.label', default: 'Run'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
         try {
             runInstance.delete(flush: true)
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'run.label', default: 'Run'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
         }
         catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'run.label', default: 'Run'), params.id])

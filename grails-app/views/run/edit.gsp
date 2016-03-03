@@ -13,7 +13,7 @@
                 <div class="container">
                     <ul class="nav">
                         <g:render template="/templates/navmenu"></g:render>
-                        <li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+                        <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
                         <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
                     </ul>
                 </div>
@@ -31,7 +31,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form method="post" >
+			<g:form method="put" >
 				<g:hiddenField name="id" value="${runInstance?.id}" />
 				<g:hiddenField name="version" value="${runInstance?.version}" />
 				<fieldset class="form">

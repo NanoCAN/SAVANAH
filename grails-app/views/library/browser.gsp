@@ -14,54 +14,56 @@
             <ul class="nav">
                 <g:render template="/templates/navmenu"></g:render>
                 <li>
-                    <g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link>
+                    <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
                 </li>
             </ul>
         </div>
     </div>
 </div>
 
-<h1><g:message code="default.browse.label" args="[entityName]" /></h1>
-
+<h1 style="padding-left:20px;"><g:message code="default.browse.label" args="[entityName]" /> Plates</h1>
+<g:if test="${flash.message}">
+    <div class="message" role="status">${flash.message}</div>
+</g:if>
 <div style="min-height:700px;">
-<div id="plateTreeDiv" style="float: left; width:300px; height:700px; overflow:auto;"></div>
-<div id="plateDiv" style="float:right;width:500px;"></div>
+<div id="plateTreeDiv" style="padding-left:20px; float: left; width:300px; height:700px; overflow:auto;"></div>
+<div id="plateDiv" style="padding-right:20px; float:right;width:500px;"></div>
 </div>
 
 <r:script>
         var myTree = $("#plateTreeDiv").jstree({
-            "json_data": {
-                "ajax": {
+            "core": {
+                "data": {
                     "url":  "<g:createLink controller="library" action="librariesAsJSON"/>",
-                    "data" : function(n) { return { id: n.attr? n.attr("id") : 0, nodeType: n.attr? n.attr("nodeType") : "library" }; }
+                    "data" : function(node) { return { 'id': node.id? node.id : 0, "type": node.type ? node.type : "#" }; }
                 }
-            },
-            "themes" : {
-                "theme" : "default",
-                "icons" : true
             },
             "types" : {
-                "valid_children" : ["library"],
-                "types" : {
-                    "library" : {
-                        "hover_node": false,
-                        "valid_children": ["libPlates"]
-                    },
-                    "libPlates" : {
-                         "icon": {
-                             "image": "<g:resource dir="images" file="plate_nano.png"/>"
-                         }
-                    },
-                    "default": {
-                        "valid_children": ["default"]
-                    }
+                "#" : {
+                    "valid_children" : ["library"]
+                },
+                "library" : {
+                    "valid_children": ["libPlate"]
+                },
+                "libPlate" : {
+                     "valid_children": ["libWell"],
+                     "icon": "<g:resource dir="images" file="plate_small.png"/>"
+                },
+                "libWell" : {
+                     "icon": "<g:resource dir="images" file="well.png"/>"
                 }
             },
-            "plugins": ["themes", "ui", "json_data", "types"]
+            "plugins" : ["types"]
         });
 
         myTree.bind("select_node.jstree", function(event, data){
-            ${remoteFunction(action: 'getDataOrigins', controller: 'plate', update: 'plateDiv', params: '\'id=\'+data.rslt.obj.attr("id")')}
+            var node = data.instance.get_node(data.selected[0]);
+            if(node.type == "libWell"){
+                ${remoteFunction(action: 'show', controller: 'entry', update: 'plateDiv', params: '\'id=\'+node.id.substring(2)')}
+            }
+            else if(node.type == "library"){
+                ${remoteFunction(action: 'showInBrowser', controller: 'library', update: 'plateDiv', params: '\'id=\'+node.id')}
+            }
         });
 </r:script>
 

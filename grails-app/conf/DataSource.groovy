@@ -13,19 +13,23 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop"
+            dbCreate = "update"
             url = "jdbc:h2:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
 
         dataSource_DART {
-            dbCreate = "create-drop"
+            dbCreate = "update"
             url = "jdbc:h2:dartDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
     test {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            url = "jdbc:h2:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+        }
+        dataSource_DART {
+            dbCreate = "create-drop"
+            url = "jdbc:h2:dartDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }
     production {

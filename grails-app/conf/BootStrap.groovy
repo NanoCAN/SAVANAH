@@ -41,38 +41,17 @@ class BootStrap {
         def userRole = Role.findByAuthority("ROLE_USER")
         if(!userRole) userRole= new Role(authority: 'ROLE_USER').save(flush: true, failOnError: true)
 
-        if(!Person.findByUsername("user")){
-            def testUser = new Person(username: 'user', enabled: true, password: 'password')
+        if(!Person.findByUsername("demo")){
+            def testUser = new Person(username: 'demo', enabled: true, password: 'demo0815')
             testUser.save(flush: true, failOnError: true)
             PersonRole.create testUser, userRole, true
         }
 
-        if(!Person.findByUsername("mlist")){
-            def adminUser = new Person(username: 'mlist', enabled: true, password: 'password')
+        if(!Person.findByUsername("admin")){
+            def adminUser = new Person(username: 'admin', enabled: true, password: 'NanoCAN')
             adminUser.save(flush: true, failOnError: true)
             PersonRole.create adminUser, adminRole, true
             PersonRole.create adminUser, userRole, true
-        }
-
-        if(!Person.findByUsername("mdissing")){
-            def adminUser = new Person(username: 'mdissing', enabled: true, password: 'password')
-            adminUser.save(flush: true, failOnError: true)
-            PersonRole.create adminUser, adminRole, true
-            PersonRole.create adminUser, userRole, true
-        }
-
-        if(!CellLine.findByName("MCF7")){
-            def mcf7 = new CellLine()
-            mcf7.name = "MCF7"
-            mcf7.color = ColorService.randomColor()
-            mcf7.save(failOnError: true)
-        }
-
-        if(!CellLine.findByName("MCF12A")){
-            def mcf12a = new CellLine()
-            mcf12a.name = "MCF12A"
-            mcf12a.color = ColorService.randomColor()
-            mcf12a.save(failOnError: true)
         }
     }
 

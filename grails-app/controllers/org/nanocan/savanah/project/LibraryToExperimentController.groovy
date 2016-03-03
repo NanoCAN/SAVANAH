@@ -1,11 +1,16 @@
 package org.nanocan.savanah.project
 
 import grails.plugins.springsecurity.Secured
-import org.nanocan.errors.LibraryToExperimentException
+import org.nanocan.layout.NumberOfCellsSeeded
+import org.nanocan.plates.PlateType
 import org.nanocan.project.Experiment
 import org.nanocan.project.Project
-import org.nanocan.savanah.plates.PlateType
+import org.nanocan.savanah.library.DilutedLibrary
+import org.nanocan.savanah.library.DilutedLibraryPlate
+import org.nanocan.savanah.library.Entry
+import org.nanocan.savanah.library.Library
 import org.nanocan.security.Person
+import org.nanocan.layout.*
 
 @Secured(['ROLE_USER'])
 class LibraryToExperimentController {
@@ -15,99 +20,109 @@ class LibraryToExperimentController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
-
-        if(PlateType.findAll().size() == 0){
-            def newPlateType = new PlateType()
-            newPlateType.name = "testplatetype1"
-            newPlateType.ultraLowAdhesion = true
-            newPlateType.vendor = "Martin shop"
-            newPlateType.wellShape = "round-bottom"
-            newPlateType.save(failOnError: true)
-        }
-
-        if(Project.all.size() == 0){
-            def me = Person.findByUsername("mdissing")
-
-            Project p = new Project(
-                    projectTitle: "FirstTest",
-                    projectDescription: "Bla blah blah",
-                    createdBy: me,
-                    lastUpdatedBy: me,
-                    dateCreated: new Date(),
-                    lastUpdated: new Date()
-            )
-            p.save(failOnError: true)
-
-            Project p2 = new Project(
-                    projectTitle: "SecondTest",
-                    projectDescription: "Bla blah blah2",
-                    createdBy: me,
-                    lastUpdatedBy: me,
-                    dateCreated: new Date(),
-                    lastUpdated: new Date()
-            )
-            p2.save(failOnError: true)
-        }
+        redirect(action: "libraryToExperiment")
     }
 
-    def createExperiment(){
+    def libraryToExperimentFlow = {
 
-        def okayString = "<div class=\"message\" role=\"status\">%STR%</div>"
-        def errorString = "<div class=\"errors\" role=\"error\">%STR%</div>"
+        selectLibrary {
+            on("continue").to("buildExperiment")
+        }
 
-            // Preparing input for experiment creation service
-            def title = params.get('title') as String
-            def projectTitle = params.get('selectedProject')  as String
-            def libraryName = params.get('selectedLibrary')  as String
-            def nrReplicates = params.int('nrReplicates')
-            def lowReplicateNr = params.int('lowReplicateNr')
-            def defaultCellLine = params.get('defaultCellLine') as String
-            def barcodePattern = params.get('barcodePattern') as String
-            def startDateText = params.get('startDate') as String
-            def plateTypeName = params.get('plateType') as String
-            def plateLayoutName = params.get('plateLayoutName') as String
-            def throwErrorIfLayoutExists = (params.get('plateLayoutName') as String) != ''
+        buildExperiment{
+            action{
 
-            def plateType = PlateType.findByName(plateTypeName)
-            if(plateTypeName.isEmpty() || plateType == null){
-                render errorString.replace("%STR%", "A valid plate type must be chosen.")
-                return
-            }
+                def experimentInstance = new Experiment(params)
+                experimentInstance.createdBy = springSecurityService.currentUser
+                experimentInstance.lastUpdatedBy = springSecurityService.currentUser
 
-            if(startDateText == null || startDateText.isEmpty()){
-                render errorString.replace("%STR%", "Experiment start date must be chosen.")
-                return
-            }
+                flow.experimentInstance = experimentInstance
 
-            def startDate = new Date(startDateText)
-            // Try to create the experiment, if input is wrong, LibraryToExperimentException will be cast.
+                if(!experimentInstance.validate()) return error()
 
-            Experiment.withTransaction {   status  ->
-                try{
-                    libraryToExperimentService.create(
-                            title,
-                            projectTitle,
-                            libraryName,
-                            nrReplicates,
-                            lowReplicateNr,
-                            defaultCellLine,
-                            barcodePattern,
-                            (Person) springSecurityService.getCurrentUser(),
-                            startDate,
-                            plateType,
-                            plateLayoutName,
-                            throwErrorIfLayoutExists
-                    )
-                    render okayString.replace("%STR%", String.format("The experiment \"%s\" was created successfully.", title))
-                    return
-                }catch(Exception e){
-                    //If an error occurs, rollback all changes
-                    status.setRollbackOnly()
-                    render errorString.replace("%STR%", e.message)
-                    return
+                flow.library = Library.get(params["library.id"])
+
+                if(flow.library.plateFormat == "96-well"){
+                    flow.numOfCols = 12
+                    flow.numOfRows = 8
                 }
+                else if(flow.library.plateFormat == "384-well"){
+                    flow.numOfCols = 24
+                    flow.numOfRows = 16
+                }
+                else if(flow.library.plateFormat == "1536-well"){
+                    flow.numOfCols = 48
+                    flow.numOfRows = 32
+                }
+                else{
+                    throw new Exception("Plate format not supported")
+                }
+
+                flow.dilutedLibraries = DilutedLibrary.findAllByTypeAndLibrary("Daughter", flow.library)
             }
+            on("success").to "selectDaughterPlateSets"
+            on("error").to "selectLibrary"
+        }
 
+        selectDaughterPlateSets {
+            on("back").to("selectLibrary")
+            on("continue"){
+                flow.selectedDilutedLibraries = params.list("dilutedLibraries.id")?.collect{DilutedLibrary.get(it as Long)}
+            }.to("selectDefaults")
+        }
+
+        selectDefaults {
+            on("back").to("selectDaughterPlateSets")
+            on("continue"){
+                flow.cellLine = CellLine.get(params.int("cellLine.id"))
+                flow.inducer = Inducer.get(params.int("inducer.id"))
+                flow.treatment = Treatment.get(params.int("treatment.id"))
+                flow.numberOfCellsSeeded = NumberOfCellsSeeded.get(params.int("numberOfCellsSeeded.id"))
+                flow.plateType = PlateType.get(params.int("plateType.id"))
+
+            }.to("selectControls")
+        }
+
+        selectControls {
+            on("back").to("selectDefaults")
+            on("continue"){
+                int wellId = 1
+                def ctrlArray = []
+                for(row in 1..flow.numOfRows){
+                    for(col in 1..flow.numOfCols){
+                        if(params[wellId.toString()]) {
+                            ctrlArray << [row: row, col: col, sampleId: params[wellId.toString()]]
+                        }
+                        wellId++
+                    }
+                }
+                flow.controls = ctrlArray
+            }.to("createExperiment")
+        }
+
+        createExperiment{
+
+            action{
+                flow.experimentInstance = libraryToExperimentService.createExperiment(
+                    flow.experimentInstance,
+                    flow.library,
+                    flow.selectedDilutedLibraries,
+                    flow.plateType,
+                    flow.controls,
+                    flow.cellLine,
+                    flow.inducer,
+                    flow.numberOfCellsSeeded,
+                    flow.treatment,
+                    springSecurityService.currentUser
+                )
+            }
+            on("success") {
+            }.to("experimentCreated")
+
+        }
+
+        experimentCreated{
+
+        }
     }
-
 }

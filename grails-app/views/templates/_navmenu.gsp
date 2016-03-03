@@ -1,38 +1,4 @@
 <%@ page import="org.nanocan.project.Project; org.nanocan.project.Experiment" %>
-<li class="dropdown" id="main.menu">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#main.menu">
-        <g:message code="default.menu.label"/>
-        <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
-        <li>
-            <a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
-        </li>
-        <li>
-            <g:link class="create" controller="LibraryFileUpload">Upload new library</g:link>
-        </li>
-        <li>
-            <g:link class="create" controller="LibraryToExperiment">Create experiment from library</g:link>
-        </li>
-        <li>
-            <g:link class="create" controller="Readout" action="createFromZippedFile">WellReadouts from zipped file</g:link>
-        </li>
-    </ul>
-</li>
-<li class="dropdown" id="browse.menu">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#browse.menu">
-        <g:message code="default.browse.label" args="['...']"/>
-        <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
-        <li>
-            <g:link class="plate" controller="library" action="browser">Libraries</g:link>
-        </li>
-        <li>
-            <g:link class="plate" controller="run" action="browser">DART</g:link>
-        </li>
-    </ul>
-</li>
 <li class="dropdown" id="organize.menu">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#organize.menu">
         <g:message code="default.organize.label"/>
@@ -40,66 +6,108 @@
     </a>
     <ul class="dropdown-menu">
         <li>
-            <g:link class="list" controller="library" action="list">Libraries</g:link>
+            <g:link class="list" controller="project" action="index">List Projects</g:link>
         </li>
         <li>
-            <g:link class="list" controller="project" action="list">Projects</g:link>
+            <g:link class="create" controller="project" action="create">Create New Project</g:link>
         </li>
         <li>
-            <g:link class="list" controller="experiment" action="list">Experiments</g:link>
+            <g:link class="list" controller="experiment" action="index">List Experiments</g:link>
         </li>
+        <li>
+            <g:link class="create" controller="experiment" action="create">Create New Experiment</g:link>
+        </li>
+        <li>
+            <g:link class="create" controller="libraryToExperiment">Create Experiment from Library</g:link>
+        </li>
+
     </ul>
 </li>
-<li class="dropdown" id="plate.menu">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#plate.menu">
-        <g:message code="default.plate.label" args="['...']" default="Plate"/>
+<li class="dropdown" id="library.menu">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#library.menu">
+        <g:message code="default.library.label" args="['...']" default="Library"/>
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
         <li>
-            <g:link class="list" controller="plate" action="list">List Plates</g:link>
+            <g:link class="list" controller="library" action="index">List Libraries</g:link>
         </li>
         <li>
-            <g:link class="create" controller="plate" action="create">Create New Plate</g:link>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <g:link class="create" controller="plateType" action="list">Plate Types</g:link>
+            <g:link class="plate" controller="library" action="browser">Browse Library Plates</g:link>
         </li>
         <li>
-            <g:link class="create" controller="plate" action="import">Import Plate Data</g:link>
+            <g:link class="create" controller="LibraryFileUpload">Create New library</g:link>
+        </li>
+        <li>
+            <g:link class="plate" controller="dilutedLibrary" action="browser">Library Dilutions</g:link>
         </li>
     </ul>
 </li>
 <li class="dropdown" id="layout.menu">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#layout.menu">
-        <g:message code="default.layout.label" args="['...']" default="Layout"/>
+        <g:message code="default.layout.label" args="['...']" default="Plate Layout"/>
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
         <li>
-            <g:link class="list" controller="plateLayout" action="list">List PlateLayouts</g:link>
+            <g:link class="list" controller="plateLayout" action="index">List PlateLayouts</g:link>
         </li>
         <li>
             <g:link class="create" controller="plateLayout" action="create">Create New PlateLayout</g:link>
         </li>
         <li class="divider"></li>
         <li>
-            <g:link class="edit" controller="cellLine" action="list">CellLines</g:link>
+            <g:link class="edit" controller="cellLine" action="index">CellLines</g:link>
         </li>
         <li>
-            <g:link class="edit" controller="inducer" action="list">Inducers</g:link>
+            <g:link class="edit" controller="inducer" action="index">Inducers</g:link>
         </li>
         <li>
-            <g:link class="edit" controller="numberOfCellsSeeded" action="list">Numbers of Cells Seeded</g:link>
+            <g:link class="edit" controller="numberOfCellsSeeded" action="index">Numbers of Cells Seeded</g:link>
         </li>
         <li>
-            <g:link class="edit" controller="treatment" action="list">Treatments</g:link>
+            <g:link class="edit" controller="treatment" action="index">Treatments</g:link>
         </li>
         <li>
-            <g:link class="edit" controller="sample" action="list">Samples</g:link>
+            <g:link class="edit" controller="sample" action="index">Samples</g:link>
         </li>
     </ul>
+</li>
+
+<li class="dropdown" id="plate.menu">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#plate.menu">
+        <g:message code="default.plate.label" args="['...']" default="Assay Plates"/>
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <g:link class="list" controller="plate" action="index">List Plates</g:link>
+        </li>
+        <li>
+            <g:link class="create" controller="plate" action="create">Create New Plate</g:link>
+        </li>
+        <li>
+            <g:link class="create" controller="plate" action="import">Import Plate Data</g:link>
+        </li>
+        <li>
+            <g:link class="plate" controller="run" action="browser">Plates in DART</g:link>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <g:link class="create" controller="Readout" action="createFromZipFile">Batch Import Of Readouts</g:link>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <g:link class="create" controller="plateType" action="index">Plate Types</g:link>
+        </li>
+    </ul>
+</li>
+<li class="divider-vertical"></li>
+<li>
+    <g:form class="navbar-search" url='[controller: "searchable", action: "index"]' id="searchableForm" name="searchableForm" method="get">
+        <g:textField class="search-query" placeholder="Search" name="q" value="${params.q}"/>
+    </g:form>
+
 </li>
 <li class="divider-vertical"></li>
 <li class="dropdown" id="filter.menu">
@@ -119,4 +127,16 @@
     </ul>
 </li>
 <li class="divider-vertical"></li>
+<li>
+    <g:if test="${controllerName == 'experiment' && actionName == 'show'}">
+        <g:link class="plot" controller="analysis" action="start" params="${['experiment': experimentInstance.id]}">Data Analysis</g:link>
+    </g:if>
+
+    <g:else>
+        <g:link class="plot" controller="analysis" action="start">Data Analysis</g:link>
+    </g:else>
+
+</li>
+<li class="divider-vertical"></li>
+
 

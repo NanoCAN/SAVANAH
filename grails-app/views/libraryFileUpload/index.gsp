@@ -1,4 +1,4 @@
-<%@ page import="org.nanocan.savanah.library.Library" %>
+<%@ page import="org.nanocan.layout.Sample; org.nanocan.savanah.library.Library" %>
 <!doctype html>
 <html>
 <head>
@@ -14,7 +14,7 @@
             <ul class="nav">
                 <g:render template="/templates/navmenu"></g:render>
                 <li>
-                    <g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link>
+                    <g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link>
                 </li>
             </ul>
         </div>
@@ -24,32 +24,89 @@
 <div style="padding-left:10px;">
 <h3>Library File Upload</h3>
     <br/>
+    <div id="updateDiv" class="message">Provide a library file following the specifications of the manual.</div>
 
-
+    <g:hasErrors bean="${libraryInstance}">
+        <ul class="errors" role="alert">
+            <g:eachError bean="${libraryInstance}" var="error">
+                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
+                        error="${error}"/></li>
+            </g:eachError>
+        </ul>
+    </g:hasErrors>
     <g:if test="${flash.error}">
         <div class="errors" role="alert">&nbsp; - ${flash.error}</div>
     </g:if>
     <g:if test="${flash.okay}">
         <div class="message" role="status">${flash.okay}</div>
     </g:if>
-
-    <br/>
     <g:uploadForm action="upload">
+    <br/>
         <table>
             <tr>
-                <td>Title:</td>
-                <td><g:textField name="libraryName" value=""/></td>
+                <td>Name:</td>
+                <td><g:textField name="name" value="${libraryInstance?.name?:''}"/></td>
+            </tr>
+            <tr>
+                <td>Plate format:</td>
+                <td>
+                    <g:select from="${org.nanocan.savanah.library.LibraryPlate.constraints.format.inList}"
+                              value="${libraryInstance?.plateFormat}"
+                              name="plateFormat"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Library type:</td>
+                <td>
+                    <g:select from="${Library.constraints.type.inList}"
+                              value="${libraryInstance?.type}"
+                              name="type"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Library vendor:</td>
+                <td>
+                    <g:textField name="vendor" value="${libraryInstance?.vendor}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Library catalog number:</td>
+                <td>
+                    <g:textField name="catalogNr" value="${libraryInstance?.catalogNr}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Sample type:</td>
+                <td>
+                    <g:select from="${org.nanocan.layout.Sample.constraints.type.inList}"
+                              value="${libraryInstance?.sampleType}" name="sampleType"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Accession type:</td>
+                <td>
+                    <g:select from="${org.nanocan.layout.Identifier.constraints.type.inList}"
+                              value="${libraryInstance?.accessionType}"
+                              name="accessionType"/>
+                </td>
             </tr>
             <tr>
                 <td>Library file:</td>
                 <td><input type="file" name="dataFile" style="width:400px;" /> </td>
             </tr>
-            <tr>
-                <td colspan="2"><input type="submit" /></td>
-            </tr>
-
         </table>
+    <fieldset class="buttons">
+        <input id="uploadLibraryFile" type="submit" class="save" name="Upload" />
+    </fieldset>
     </g:uploadForm>
 </div>
+</div>
+
+<script type="text/javascript">jQuery(function(){
+    $("#uploadLibraryFile").click(function(){
+        $('#spinner').show();
+        })
+});
+</script>
 </body>
 </html>

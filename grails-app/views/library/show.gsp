@@ -14,8 +14,7 @@
                 <div class="container">
                     <ul class="nav">
                         <g:render template="/templates/navmenu"></g:render>
-                        <li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-                        <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+                        <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
                     </ul>
                 </div>
             </div>
@@ -85,7 +84,7 @@
 				<li class="fieldcontain">
 					<span id="plates-label" class="property-label"><g:message code="library.plates.label" default="Plates" /></span>
 					
-						<g:each in="${libraryInstance.plates}" var="p">
+						<g:each in="${libraryInstance.plates.sort{it.plateIndex}}" var="p">
 						<span class="property-value" aria-labelledby="plates-label"><g:link controller="libraryPlate" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
@@ -93,13 +92,7 @@
 				</g:if>
 			
 			</ol>
-			<g:form>
-				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${libraryInstance?.id}" />
-					<g:link class="edit" action="edit" id="${libraryInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
+
 		</div>
 	</body>
 </html>

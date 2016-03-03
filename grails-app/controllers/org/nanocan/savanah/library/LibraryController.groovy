@@ -15,42 +15,48 @@ class LibraryController {
         [libraryInstanceList: Library.list()]
     }
 
+    def showInBrowser(){
+        def libraryInstance = Library.get(params.id)
+        if (!libraryInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'library.label', default: 'Library'), params.id])
+            redirect(action: "index")
+            return
+        }
+
+        [libraryInstance: libraryInstance]
+    }
+
     def librariesAsJSON(){
         def libraries
 
-        def prefixLength = params.id.size()
-
-        if (params.int("id") == 0)
+        if (params.type == "#")
         {
             libraries = Library.list()
 
             def jsonLibraries = libraries.collect{
                 [
-                        "data" : it.name,
-                        "attr" : [ "id" : it.id , "nodeType" : "library"],
-                        "state" : "closed"
+                        "text"  : it.name,
+                        "id"    : "${it.id}",
+                        "type"     : "library",
+                        "children" : true
                 ]
             }
 
             render jsonLibraries as JSON
         }
 
-        else if (params.nodeType == "library")
+        else if (params.type == "library")
         {
-            redirect(controller: "plate", action: "platesAsJSON", id: 0, params: [library: params.id])
+            redirect(controller: "libraryPlate", action: "platesAsJSON", id: params.id)
         }
 
-        else
+        else if (params.type == "libPlate")
         {
-            redirect(controller: "plate", action: "platesAsJSON", id:  params.id)
+            redirect(controller: "entry", action: "entriesAsJSON", id:  params.id)
         }
     }
 
     def index() {
-        redirect(action: "list", params: params)
-    }
-
-    def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [libraryInstanceList: Library.list(params), libraryInstanceTotal: Library.count()]
     }
@@ -79,7 +85,7 @@ class LibraryController {
         def libraryInstance = Library.get(params.id)
         if (!libraryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'library.label', default: 'Library'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
@@ -91,7 +97,7 @@ class LibraryController {
         def libraryInstance = Library.get(params.id)
         if (!libraryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'library.label', default: 'Library'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
@@ -103,7 +109,7 @@ class LibraryController {
         def libraryInstance = Library.get(params.id)
         if (!libraryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'library.label', default: 'Library'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
@@ -135,14 +141,14 @@ class LibraryController {
         def libraryInstance = Library.get(params.id)
         if (!libraryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'library.label', default: 'Library'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
             return
         }
 
         try {
             libraryInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'library.label', default: 'Library'), params.id])
-            redirect(action: "list")
+            redirect(action: "index")
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'library.label', default: 'Library'), params.id])

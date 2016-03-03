@@ -103,7 +103,7 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Welcome to SAVANAH</h1>
-			<p>SAVANAH is an acronym for <b>S</b>tatistical <b>A</b>nd <b>V</b>isual <b>ANA</b>lysis of <b>H</b>ight-Troughput Screening Data. This tool
+			<p>SAVANAH is an acronym for <b>S</b>ample management <b>A</b>nd <b>V</b>isual <b>ANA</b>lysis of <b>H</b>ight-Troughput Screening Data. This tool
             allows you to manage individual plates (96 and 394 well format) and to organize them in projects, experiments,
             and libraries. Experimental data can be uploaded manually or extracted from DART. If experimental data is available, it can be normalized
             (using a variety of techniques) and visualized (e.g. via heatmaps).</p>

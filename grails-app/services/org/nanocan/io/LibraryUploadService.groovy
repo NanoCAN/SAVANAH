@@ -13,22 +13,21 @@ import static java.awt.Color.*
 class LibraryUploadService {
 
 
-    def uploadLibraryFile(def currentUser, String libraryName, String textFile, String libraryType, String plateFormat, String sampleType ) {
-        String text = textFile
-        // Initialize new library
-        Library lib = new Library()
+    def uploadLibraryFile(Library lib, def currentUser, String textFile) {
 
-        lib.name = libraryName
-        lib.type = libraryType
-        lib.plates = new HashSet<LibraryPlate>()
+        String libraryName = lib.name
+        String sampleType = lib.sampleType
+        String accessionType = lib.accessionType
+        String plateFormat = lib.plateFormat
+        String text = textFile
 
         // Index (in file) of db fields
         int plateIndex = -1;
         int wellPositionIndex = -1;
         int productIndex = -1;
         int probeIdIndex = -1;
-        int mirBaseIdIndex = -1;
-        int mirBassAccIndex = -1;
+        int sampleNameIdIndex = -1;
+        int accessionIndex = -1;
         int commentIndex = -1;
 
 
@@ -46,15 +45,15 @@ class LibraryUploadService {
                         plateIndex = indx
                     }else if(cH.equalsIgnoreCase("wellposition")){
                         wellPositionIndex = indx
-                    }else if(cH.equalsIgnoreCase("product")){
+                    }else if(cH.equalsIgnoreCase("catalognr")){
                         productIndex = indx
                     }else if(cH.equalsIgnoreCase("probeid")){
                         probeIdIndex = indx
-                    }else if(cH.equalsIgnoreCase("mirbaseidmirplusid")){
-                        mirBaseIdIndex = indx
-                    }else if(cH.equalsIgnoreCase("miRBaseaccession")){
-                        mirBassAccIndex = indx
-                    }else if(cH.equalsIgnoreCase("CommentinmiRBase")){
+                    }else if(cH.equalsIgnoreCase("samplename")){
+                        sampleNameIdIndex = indx
+                    }else if(cH.equalsIgnoreCase("accession")){
+                        accessionIndex = indx
+                    }else if(cH.equalsIgnoreCase("comment")){
                         commentIndex = indx
                     }
 
@@ -63,7 +62,7 @@ class LibraryUploadService {
 
                 first = false
             }else{
-                def indexList = [plateIndex, wellPositionIndex, productIndex, probeIdIndex, mirBaseIdIndex, mirBassAccIndex, commentIndex]
+                def indexList = [plateIndex, wellPositionIndex, productIndex, probeIdIndex, sampleNameIdIndex, accessionIndex, commentIndex]
                 // Ensure all indexes has been found, return error if not
                 if(indexList.any {indx -> indx == -1 }){
                     //flash.message = 'A field is missing.'
@@ -94,19 +93,15 @@ class LibraryUploadService {
                     libPlate = plates.find(){ p -> p.plateIndex == plateNr}
                 }
 
-
-                def mirBaseIds = splitLine[mirBaseIdIndex].split("/")
+                def sampleNameIds = splitLine[sampleNameIdIndex].split("/")
                 Sample sample = null
-                boolean multipleIds = splitLine[mirBaseIdIndex].contains("/")
-                String sampleName
-                if(!multipleIds){
-                    sampleName = splitLine[mirBaseIdIndex]
-                }else{
-                    sampleName = String.format("X-%s" , mirBaseIds[0].replace("hsa-mir-", ""))
-                }
+                boolean multipleIds = splitLine[sampleNameIdIndex].contains("/")
+                String sampleName = splitLine[sampleNameIdIndex]
+
                 if(!sampleName.equalsIgnoreCase("NA")){
 
                     sample = Sample.findByName(sampleName)
+
                     if(sample == null){
                         sample = new Sample()
                         sample.type = sampleType
@@ -117,30 +112,22 @@ class LibraryUploadService {
                         sample.save(failOnError: true)
                     }
 
-                    def mirBaseAccs = splitLine[mirBassAccIndex].split("/")
+                    def accessions = splitLine[accessionIndex].split("/")
 
-                    // Ensure they have the same size
-                    if(mirBaseIds.size() != mirBaseAccs.size()){
-                        //flash.message = 'mirBaseIds (' + splitLine[mirBaseIdIndex] + ') and mirBaseAccs (' + splitLine[mirBassAccIndex] + ') are unequal, one is missing information.'
-                        return
-                    }
-
-                    for(int i = 0; i < mirBaseIds.size(); i++){
-
-                        //TODO: Check if identifier exists in sample, otherwise add it
+                    for(int i = 0; i < accessions.size(); i++){
                         def identifiers = sample.getIdentifiers()
 
-                        if(!identifiers.any() { ident -> ident.name == mirBaseIds[i]}){
+                        if(!identifiers.any() { ident -> ident.name == sampleNameIds[i]}){
                             Identifier identifier = new Identifier()
-                            identifier.name = mirBaseIds[i].toString()
-                            identifier.type = "miRBase"
+                            identifier.name = sampleNameIds[i].toString()
+                            identifier.type = accessionType
                             identifier.sample = sample
 
                             // Only assign
-                            if(!mirBaseAccs[i].toLowerCase().contains("not in mirbase")){
-                                identifier.accessionNumber = mirBaseAccs[i]
+                            if(!accessions[i].toLowerCase().contains("NA")){
+                                identifier.accessionNumber = accessions[i]
                             }else{
-                                identifier.accessionNumber = ""
+                                return
                             }
 
                             identifier.save(failOnError: true)
@@ -152,24 +139,26 @@ class LibraryUploadService {
                 }
 
                 entry.wellPosition = splitLine[wellPositionIndex].trim()
+                entry.row = Character.getNumericValue(entry.wellPosition.charAt(0))-9
+                entry.col = entry.wellPosition.substring(1) as int
                 entry.productNumber = splitLine[productIndex].trim()
                 entry.probeId = splitLine[probeIdIndex].trim()
                 entry.comment = splitLine[commentIndex].trim()
                 entry.sample = sample
-                entry.controlWell = true
+                entry.controlWell = (sampleName.equals("") || sampleName.equalsIgnoreCase("NA"))
                 entry.save(failOnError: true)
                 libPlate.addToEntries(entry)
                 libPlate.save(failOnError: true)
             }
         }
 
-        println("Done with library creation.")
+        log.info("Library ${libraryName} created successfully.")
         lib.dateCreated = new Date()
         lib.lastUpdated = new Date()
 
         lib.createdBy = currentUser
         lib.lastUpdatedBy = currentUser
-        lib.save(failOnError: true)
+        return(lib)
     }
 
 

@@ -1,4 +1,4 @@
-<%@ page import="org.nanocan.savanah.plates.PlateType; org.nanocan.savanah.library.Library; org.nanocan.project.Project; org.nanocan.layout.CellLine; org.nanocan.project.Experiment" %>
+<%@ page import="org.nanocan.plates.PlateType; org.nanocan.savanah.library.Library; org.nanocan.project.Project; org.nanocan.layout.CellLine; org.nanocan.project.Experiment" %>
 <!doctype html>
 <html>
 <head>
