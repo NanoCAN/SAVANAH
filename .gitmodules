@@ -1,0 +1,3 @@
+[submodule "HtsBackend"]
+	path = HtsBackend
+	url = https://github.com/NanoCAN/HtsBackend.git
