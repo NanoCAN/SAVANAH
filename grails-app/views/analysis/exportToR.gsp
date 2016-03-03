@@ -26,7 +26,15 @@
     <div style="margin: 20px;">First of all you need to load the necessary code into R:</div>
 
     <pre class="brush: r">
-        source("import.R")
+        #Loads devtools package. Installs it if necessary
+        if(!require(devtools)){
+            install.packages("devtools")
+            library(devtools)
+        }
+        #Loads R code for importing data from SAVANAH
+        source_url("https://raw.githubusercontent.com/NanoCAN/SAVANAH/master/R/import.R")
+
+        #command for importing the selected plate data
         plate.data <- batch.import.readouts(plateSecurityTokens=
         ${plateSecurityTokens},
         baseUrl = "${baseUrl}")
