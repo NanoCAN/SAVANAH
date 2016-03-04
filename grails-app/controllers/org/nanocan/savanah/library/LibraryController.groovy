@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.Secured
 class LibraryController {
 
     def springSecurityService
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "POST"]
 
     def browser(){
         [libraryInstanceList: Library.list()]

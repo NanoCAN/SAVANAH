@@ -17,7 +17,7 @@ class LibraryToExperimentController {
     def springSecurityService
     def libraryToExperimentService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "POST"]
 
     def index() {
         redirect(action: "libraryToExperiment")

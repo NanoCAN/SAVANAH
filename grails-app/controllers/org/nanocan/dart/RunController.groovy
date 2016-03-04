@@ -5,7 +5,7 @@ import grails.converters.JSON
 
 class RunController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "POST"]
 
     def browser() {
         [runInstanceList: Run.list()]
