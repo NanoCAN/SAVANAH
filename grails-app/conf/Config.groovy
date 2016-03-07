@@ -140,3 +140,7 @@ grails.views.javascript.library="jquery"
 jdbc.batchSize = 150
 jdbc.groovySql = true
 upload.directory = "/upload/"
+
+
+grails.plugin.databasemigration.updateOnStart = true
+grails.plugin.databasemigration.updateOnStartFileNames = ["changelog.groovy"]

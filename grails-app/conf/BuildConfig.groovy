@@ -61,7 +61,7 @@ grails.project.dependency.resolution = {
         compile ":jquery:1.11.1"
         compile ":jquery-ui:1.10.4"
         runtime ":resources:1.2.14"
-        runtime ":database-migration:1.1"
+        runtime ":database-migration:1.4.1"
         runtime ":webxml:1.4.1"
 
         //security
@@ -69,9 +69,6 @@ grails.project.dependency.resolution = {
         compile ":spring-security-cas:1.0.5"
         //compile ":spring-security-eventlog:0.2"
 
-        test(":spock:0.7") {
-            exclude "spock-grails-support"
-        }
         compile ":searchable:0.6.9"
         compile ":webflow:2.1.0"
         compile ':joda-time:1.5'
