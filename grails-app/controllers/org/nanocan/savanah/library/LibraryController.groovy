@@ -63,22 +63,7 @@ class LibraryController {
 
     @Secured(['ROLE_ADMIN'])
     def create() {
-        [libraryInstance: new Library(params)]
-    }
-
-    @Secured(['ROLE_ADMIN'])
-    def save() {
-        params.createdBy = springSecurityService.currentUser
-        params.lastUpdatedBy = springSecurityService.currentUser
-
-        def libraryInstance = new Library(params)
-        if (!libraryInstance.save(flush: true)) {
-            render(view: "create", model: [libraryInstance: libraryInstance])
-            return
-        }
-
-        flash.message = message(code: 'default.created.message', args: [message(code: 'library.label', default: 'Library'), libraryInstance.id])
-        redirect(action: "show", id: libraryInstance.id)
+        redirect(controller: "libraryFileUpload", action: "index")
     }
 
     def show() {

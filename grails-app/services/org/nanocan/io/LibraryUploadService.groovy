@@ -6,15 +6,14 @@ import org.nanocan.savanah.library.Entry
 import org.nanocan.savanah.library.Library
 import org.nanocan.savanah.library.LibraryPlate
 
-import java.awt.Color
-
-import static java.awt.Color.*
-
 class LibraryUploadService {
 
+    def sessionFactory
+    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
 
     def uploadLibraryFile(Library lib, def currentUser, String textFile) {
 
+        log.debug "BEGIN importing library with name ${lib.name}"
         String libraryName = lib.name
         String sampleType = lib.sampleType
         String accessionType = lib.accessionType
@@ -32,6 +31,11 @@ class LibraryUploadService {
 
 
         Boolean first = true
+
+        //cache samples lazily
+        HashMap samples = [:]
+        Sample.list().each{samples.put(it.name, it)}
+
         text.eachLine { line ->
             def splitLine = line.split("\t")
             if(first){
@@ -84,6 +88,13 @@ class LibraryUploadService {
 
                 if(!plates.any(){ p -> p.plateIndex == plateNr})
                 {
+                    //cleaning up
+                    def session = sessionFactory.currentSession
+                    session.flush()
+                    session.clear()
+                    propertyInstanceMap.get().clear()
+
+                    //starting a new plate
                     libPlate = new LibraryPlate()
                     libPlate.plateIndex = plateNr
                     libPlate.format = plateFormat
@@ -100,7 +111,7 @@ class LibraryUploadService {
 
                 if(!sampleName.equalsIgnoreCase("NA")){
 
-                    sample = Sample.findByName(sampleName)
+                    sample = samples.get(sampleName)
 
                     if(sample == null){
                         sample = new Sample()
@@ -109,31 +120,27 @@ class LibraryUploadService {
                         sample.color = ColorService.randomColor()
                         sample.name = sampleName
                         sample.identifiers = new HashSet<Identifier>()
-                        sample.save(failOnError: true)
-                    }
 
-                    def accessions = splitLine[accessionIndex].split("/")
+                        def accessions = splitLine[accessionIndex].split("/")
 
-                    for(int i = 0; i < accessions.size(); i++){
-                        def identifiers = sample.getIdentifiers()
+                        for(int i = 0; i < accessions.size(); i++){
 
-                        if(!identifiers.any() { ident -> ident.name == sampleNameIds[i]}){
-                            Identifier identifier = new Identifier()
-                            identifier.name = sampleNameIds[i].toString()
-                            identifier.type = accessionType
-                            identifier.sample = sample
+                        Identifier identifier = new Identifier()
+                        identifier.name = sampleNameIds[i].toString()
+                        identifier.type = accessionType
+                        identifier.sample = sample
 
-                            // Only assign
-                            if(!accessions[i].toLowerCase().contains("NA")){
-                                identifier.accessionNumber = accessions[i]
-                            }else{
-                                return
-                            }
+                        // Only assign
+                        if(!accessions[i].toLowerCase().contains("NA")){
+                        identifier.accessionNumber = accessions[i]
+                        }else{
+                            return
+                        }
 
-                            identifier.save(failOnError: true)
-                            // only add if it doesn't exist
-                            sample.identifiers.add(identifier)
-                            sample.save(failOnError: true)
+                        identifier.save(failOnError: true, validate: false)
+                        // only add if it doesn't exist
+                        sample.identifiers.add(identifier)
+                        sample.save(failOnError: true, validate: false)
                         }
                     }
                 }
@@ -146,18 +153,19 @@ class LibraryUploadService {
                 entry.comment = splitLine[commentIndex].trim()
                 entry.sample = sample
                 entry.controlWell = (sampleName.equals("") || sampleName.equalsIgnoreCase("NA"))
-                entry.save(failOnError: true)
+                entry.save(failOnError: true, validate: false)
                 libPlate.addToEntries(entry)
-                libPlate.save(failOnError: true)
+                libPlate.save(failOnError: true, validate: false)
             }
         }
-
+        log.debug "END importing library with name ${libraryName}"
         log.info("Library ${libraryName} created successfully.")
         lib.dateCreated = new Date()
         lib.lastUpdated = new Date()
 
         lib.createdBy = currentUser
         lib.lastUpdatedBy = currentUser
+        lib.save(flush: true, validate: false)
         return(lib)
     }
 

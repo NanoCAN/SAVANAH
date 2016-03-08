@@ -1,6 +1,5 @@
 package org.nanocan.savanah.library
 
-import org.nanocan.layout.Identifier
 import org.nanocan.layout.Sample
 
 class Entry implements Serializable, Comparable {
@@ -20,6 +19,7 @@ class Entry implements Serializable, Comparable {
     boolean deprecated
 
     static mapping = {
+        comment type: "text"
     }
 
     static constraints = {

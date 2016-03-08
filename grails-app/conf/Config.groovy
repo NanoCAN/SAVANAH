@@ -1,3 +1,7 @@
+import org.apache.log4j.ConsoleAppender
+import org.apache.log4j.DailyRollingFileAppender
+import org.apache.log4j.Priority
+
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
@@ -92,16 +96,36 @@ environments {
 }
 
 // log4j configuration
+
+def savanahLogLevel = "DEBUG"
+def savanahLogPattern = "%d{yyyy-MM-dd/HH:mm:ss.SSS} [%t] %x %-5p %c{2} - %m%n"
+def log4jFileName = System.properties.getProperty('catalina.base', '.') + "/logs/savanah.log"
+
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:
     //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
-    //debug  'org.hibernate.SQL'
-    /*'org.hibernate.transaction',
-   'org.hibernate.jdbc' */
+    appenders {
+        //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+        //}
+        //debug  'org.hibernate.SQL'
+        /*'org.hibernate.transaction',
+        'org.hibernate.jdbc' */
+
+        appender new DailyRollingFileAppender(name: "savanahLog",
+                threshold: Priority.toPriority(savanahLogLevel),
+                file: log4jFileName,
+                datePattern: "'.'yyyy-MM-dd",   //Rollover at midnight each day.
+                layout: pattern(conversionPattern: savanahLogPattern)
+        )
+        if (grails.util.Environment.current == grails.util.Environment.DEVELOPMENT || grails.util.Environment.current == grails.util.Environment.TEST) {
+            appender new ConsoleAppender(name: "console",
+                    threshold: Priority.toPriority(savanahLogLevel),
+                    layout: pattern(conversionPattern: savanahLogPattern)
+            )
+        }
+    }
+
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
             'org.codehaus.groovy.grails.web.pages', //  GSP
             'org.codehaus.groovy.grails.web.sitemesh', //  layouts
@@ -120,14 +144,26 @@ log4j = {
     debug   'org.codehaus.groovy.grails.plugins.springsecurity'
     debug   'org.springframework.security'
     debug   'org.jasig.cas.client'*/
-    debug   'org.nanocan'
+    debug   'org.nanocan',
+            'grails.plugins.springsecurity',
+            'grails.plugin.springcache',
+            'org.codehaus.groovy.grails.plugins.springsecurity',
+            'org.apache.http.headers',
+            'grails.app.services',
+            'grails.app.domain',
+            'grails.app.controllers',
+            'grails.plugin.databasemigration',
+            'liquibase'
 
-    appenders {
-        rollingFile  name:'infoLog', file: 'log/info.log', threshold: org.apache.log4j.Level.INFO, maxFileSize:1024
-        rollingFile  name:'warnLog', file:'log/warn.log', threshold: org.apache.log4j.Level.WARN, maxFileSize:1024
-        rollingFile  name:'errorLog', file:'log/error.log', threshold: org.apache.log4j.Level.ERROR, maxFileSize:1024
-        rollingFile  name:'debugLog', file:'log/debug.log', threshold: org.apache.log4j.Level.DEBUG, maxFileSize:1024
-        console      name:'stdout', threshold: org.apache.log4j.Level.DEBUG
+    List<String> loggers = []
+    loggers.add('savanahLog')
+    if (grails.util.Environment.current.name == "development" ||
+            grails.util.Environment.current.name == "test") {
+        loggers.add('console')
+    }
+    root {
+        error loggers as String[]
+        additivity = true
     }
 }
 // Added by the Spring Security Core plugin:

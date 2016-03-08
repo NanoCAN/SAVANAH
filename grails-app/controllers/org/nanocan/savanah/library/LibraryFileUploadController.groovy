@@ -54,7 +54,7 @@ class LibraryFileUploadController {
 
         def libraryInstance = libraryUploadService.uploadLibraryFile(lib, springSecurityService.currentUser, text)
 
-        if (!libraryInstance.save(flush: true)) {
+        if (libraryInstance.hasErrors()) {
             render(view: "index", model: [libraryInstance: libraryInstance])
             return
         }
