@@ -9,7 +9,12 @@ import org.nanocan.savanah.library.LibraryPlate
 class LibraryUploadService {
 
     def sessionFactory
-    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
+
+    def cleanUpGorm() {
+        def session = sessionFactory.currentSession
+        session.flush()
+        session.clear()
+    }
 
     def uploadLibraryFile(Library lib, def currentUser, String textFile) {
 
@@ -32,11 +37,8 @@ class LibraryUploadService {
 
         Boolean first = true
 
-        //cache samples lazily
-        HashMap samples = [:]
-        Sample.list().each{samples.put(it.name, it)}
-
         text.eachLine { line ->
+            log.debug "Library import - Processing line: ${line}"
             def splitLine = line.split("\t")
             if(first){
                 // Column headers, assign indexes
@@ -88,13 +90,7 @@ class LibraryUploadService {
 
                 if(!plates.any(){ p -> p.plateIndex == plateNr})
                 {
-                    //cleaning up
-                    def session = sessionFactory.currentSession
-                    session.flush()
-                    session.clear()
-                    propertyInstanceMap.get().clear()
-
-                    //starting a new plate
+                    cleanUpGorm()
                     libPlate = new LibraryPlate()
                     libPlate.plateIndex = plateNr
                     libPlate.format = plateFormat
@@ -111,7 +107,7 @@ class LibraryUploadService {
 
                 if(!sampleName.equalsIgnoreCase("NA")){
 
-                    sample = samples.get(sampleName)
+                    sample = Sample.findByName(sampleName)
 
                     if(sample == null){
                         sample = new Sample()
@@ -120,6 +116,8 @@ class LibraryUploadService {
                         sample.color = ColorService.randomColor()
                         sample.name = sampleName
                         sample.identifiers = new HashSet<Identifier>()
+                        log.debug "Library import - Saving sample ${sample.properties}"
+                        sample.save(failOnError: true)
 
                         def accessions = splitLine[accessionIndex].split("/")
 
@@ -131,17 +129,18 @@ class LibraryUploadService {
                         identifier.sample = sample
 
                         // Only assign
-                        if(!accessions[i].toLowerCase().contains("NA")){
-                        identifier.accessionNumber = accessions[i]
-                        }else{
-                            return
+                            if(!accessions[i].toLowerCase().contains("NA")){
+                                identifier.accessionNumber = accessions[i]
+                                }else{
+                                    return
+                                }
+                                log.debug "Library import - Saving identifier ${identifier.properties}"
+                                identifier.save(failOnError: true)
+                                sample.identifiers.add(identifier)
+                                // only add if it doesn't exist
                         }
 
-                        identifier.save(failOnError: true, validate: false)
-                        // only add if it doesn't exist
-                        sample.identifiers.add(identifier)
-                        sample.save(failOnError: true, validate: false)
-                        }
+                        sample.save(failOnError: true)
                     }
                 }
 
@@ -153,19 +152,19 @@ class LibraryUploadService {
                 entry.comment = splitLine[commentIndex].trim()
                 entry.sample = sample
                 entry.controlWell = (sampleName.equals("") || sampleName.equalsIgnoreCase("NA"))
-                entry.save(failOnError: true, validate: false)
+                entry.save(failOnError: true)
                 libPlate.addToEntries(entry)
-                libPlate.save(failOnError: true, validate: false)
+                libPlate.save(failOnError: true)
             }
         }
         log.debug "END importing library with name ${libraryName}"
-        log.info("Library ${libraryName} created successfully.")
         lib.dateCreated = new Date()
         lib.lastUpdated = new Date()
 
         lib.createdBy = currentUser
         lib.lastUpdatedBy = currentUser
-        lib.save(flush: true, validate: false)
+        lib.save(flush: true)
+        log.info("Library ${libraryName} created successfully.")
         return(lib)
     }
 

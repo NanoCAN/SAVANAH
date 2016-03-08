@@ -392,7 +392,7 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 5	A7	NA	45414	hsa-mir-769-3p	MIMAT0003887	NA
 5	A8	410435-00	NA	hsa-mir-769-5p	MIMAT0003886	NA
 5	A9	410436-00	NA	hsa-mir-770-5p	MIMAT0003948	NA
-5	A10	NA	45417	hsa-mir-801	NA	"hsa-miR-801 appears to be a fragment of U11 spliceosomal RNA (miRBase)"
+5	A10	NA	45417	hsa-mir-801	NA	hsa-miR-801 appears to be a fragment of U11 spliceosomal RNA (miRBase)
 5	A11	410440-00	NA	hsa-mir-875-3p	MIMAT0004923	NA
 5	A12	NA	NA		NA	NA
 5	B1	NA	45425	hsa-mir-876-3p	MIMAT0004925	NA
@@ -415,7 +415,7 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 5	C6	NA	45444	hsa-mir-920	MIMAT0004970	NA
 5	C7	NA	45445	hsa-mir-921	MIMAT0004971	NA
 5	C8	NA	45446	hsa-mir-922	MIMAT0004972	NA
-5	C9	NA	45447	hsa-mir-923	NA	"Human mir-923 appears to be a fragment of the 28S rRNA, so is removed from the database "
+5	C9	NA	45447	hsa-mir-923	NA	Human mir-923 appears to be a fragment of the 28S rRNA/so is removed from the database 
 5	C10	410454-00	NA	hsa-mir-924	MIMAT0004974	NA
 5	C11	410456-00	NA	hsa-mir-92a-1*	MIMAT0004507	NA
 5	C12	NA	NA		NA	NA
@@ -443,7 +443,7 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 5	E10	410476-00	NA	hsa-miRPlus-A1027	NA	NA
 5	E11	410477-00	NA	hsa-miRPlus-A1031	NA	NA
 5	E12	NA	NA		NA	NA
-5	F1	NA	45482	hsa-mir-2110	MIMAT0010133	NA
+5	F1	NA	45482	hsa-miR-2110	MIMAT0010133	NA
 5	F2	410478-00	NA	hsa-mir-675*/hsa-miRPlus-A1043	MIMAT0006790	NA
 5	F3	NA	45484	hsa-miRPlus-A1046	NA	NA
 5	F4	NA	45485	hsa-miRPlus-A1098	NA	NA
@@ -480,7 +480,7 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 5	H11	NA	NA		NA	NA
 5	H12	NA	NA		NA	NA
 6	A1	410017-00	NA	hsa-let-7a	MIMAT0000062	NA
-6	A2	NA	44778	hsa-let-7a*	MIMAT0004481	"let-7a* cloned in [6] has a 1 nt 3' extension (U), which is incompatible with the genome sequence. "
+6	A2	NA	44778	hsa-let-7a*	MIMAT0004481	let-7a* cloned in [6] has a 1 nt 3' extension (U)/which is incompatible with the genome sequence. 
 6	A3	410018-00	NA	hsa-let-7b	MIMAT0000063	NA
 6	A4	410019-00	NA	hsa-let-7b*	MIMAT0004482	NA
 6	A5	NA	44781	hsa-let-7c	MIMAT0000064	NA
@@ -785,8 +785,8 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 9	B4	NA	45393	hsa-mir-668	MIMAT0003881	NA
 9	B5	410425-00	NA	hsa-mir-671-3p	MIMAT0004819	NA
 9	B6	NA	45395	hsa-mir-671-5p	MIMAT0003880	NA
-9	B7	NA	45396	hsa-mir-672	NA	"hsa-mir-672 was cloned from human, but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence."
-9	B8	NA	45397	hsa-mir-674/hsa-miRPlus-D1100	NA	"hsa-mir-674 was cloned from human, but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence. "
+9	B7	NA	45396	hsa-mir-672	NA	hsa-mir-672 was cloned from human/but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence.
+9	B8	NA	45397	hsa-mir-674/hsa-miRPlus-D1100	NA	hsa-mir-674 was cloned from human/but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence. 
 9	B9	NA	45402	hsa-mir-708	MIMAT0004926	NA
 9	B10	410430-00	NA	hsa-mir-708*	MIMAT0004927	NA
 9	B11	NA	45404	hsa-mir-744	MIMAT0004945	NA
@@ -796,8 +796,8 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 9	C3	NA	45399	hsa-mir-7	MIMAT0000252	NA
 9	C4	410428-00	NA	hsa-mir-7-1*	MIMAT0004553	NA
 9	C5	NA	45418	hsa-mir-802	MIMAT0004185	NA
-9	C6	NA	45419	hsa-mir-871	NA	"hsa-mir-871 was cloned from human, but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence. "
-9	C7	410438-00	NA	hsa-mir-872/hsa-miRPlus-D1090	NA	"hsa-mir-872 was cloned from human, but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence. "
+9	C6	NA	45419	hsa-mir-871	NA	hsa-mir-871 was cloned from human/but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence. 
+9	C7	410438-00	NA	hsa-mir-872/hsa-miRPlus-D1090	NA	hsa-mir-872 was cloned from human/but is absent in the NCBI36 genome assembly. The previously displayed human hairpin was the mouse sequence. 
 9	C8	NA	45421	hsa-mir-873	MIMAT0004953	NA
 9	C9	410439-00	NA	hsa-mir-874	MIMAT0004911	NA
 9	C10	410441-00	NA	hsa-mir-875-5p	MIMAT0004922	NA
@@ -1025,7 +1025,7 @@ Plate	Well.position	Catalog.Nr	Probe.ID	Sample.Name	Accession	Comment
 12	B4	NA	NA	hsa-miR-548t	MIMAT0015009	NA
 12	B5	NA	NA	hsa-miR-3144-3p	MIMAT0015015	NA
 12	B6	NA	NA	hsa-miR-3186-3p	MIMAT0015068	NA
-12	B7	NA	NA	"hsa-miR-518a-5p,hsa-miR-527"	"MIMAT0005457, MIMAT0002862"	NA
+12	B7	NA	NA	hsa-miR-518a-5p/hsa-miR-527	MIMAT0005457/MIMAT0002862	NA
 12	B8	NA	NA	hsa-miR-224*	MIMAT0009198	NA
 12	B9	NA	NA	hsa-miR-3116	MIMAT0014978	NA
 12	B10	NA	NA	hsa-miR-548u	MIMAT0015013	NA
