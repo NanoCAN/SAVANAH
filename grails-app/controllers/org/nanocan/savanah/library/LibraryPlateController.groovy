@@ -6,7 +6,7 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_USER'])
 class LibraryPlateController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def scaffold = LibraryPlate
 

@@ -21,7 +21,7 @@ class DilutedLibrary implements Serializable{
         index column: "dilutionLibraryIndex"
     }
 
-    static belongsTo = [Library, DilutedLibrary]
+    static belongsTo = [Library] // orphaned DilutedLibraries are deleted in DilutedLibraryService
     static hasMany = [dilutedPlates : DilutedLibraryPlate]
 
     String toString(){

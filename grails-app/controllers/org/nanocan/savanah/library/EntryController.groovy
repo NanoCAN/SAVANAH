@@ -6,7 +6,7 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_ADMIN'])
 class EntryController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static layout = "body"
 
     def scaffold = true

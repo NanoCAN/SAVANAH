@@ -3,6 +3,15 @@ modules = {
         resource url:'js/application.js'
     }
 
+    overrides {
+        'jquery-theme' {
+            resource id:'theme',
+                    url:[dir: 'css',
+                         file:'jquery-ui-1.10.4.custom.min.css'],
+                    attrs:[media:'screen, projection']
+        }
+    }
+
     jstree {
         dependsOn 'jquery'
         resource url: 'js/jstree/jstree.min.js'

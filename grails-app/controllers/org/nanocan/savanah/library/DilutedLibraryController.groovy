@@ -7,6 +7,15 @@ import org.springframework.security.access.annotation.Secured
 @Secured(['ROLE_ADMIN'])
 class DilutedLibraryController {
 
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    def scaffold = true
+    def dilutedLibraryService
+
+    def index(){
+        redirect action: "browser"
+    }
+
     def addMaster(){
         def libraryInstance = Library.get(params.id)
         render view: "addPlateSets", model: [dilutedLibraryInstance: libraryInstance,
@@ -50,8 +59,9 @@ class DilutedLibraryController {
         [dilutedLibraryInstance: dilutedLibraryInstance]
     }
 
-    def deleteDilutedLibrary(){
+    def delete(){
         def dilutedLibraryInstance = DilutedLibrary.get(params.id as long)
+
         if (!dilutedLibraryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'dilutedLibrary.label', default: 'DilutedLibrary'), params.id])
             redirect(action: "browser")
@@ -59,7 +69,7 @@ class DilutedLibraryController {
         }
 
         try {
-            dilutedLibraryInstance.delete(flush: true)
+            dilutedLibraryService.deleteOrphanedDilutedLibraries(dilutedLibraryInstance)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'dilutedLibrary.label', default: 'DilutedLibrary'), params.id])
             redirect(action: "browser")
         }

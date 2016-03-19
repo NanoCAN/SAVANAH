@@ -86,12 +86,9 @@
         <li>
             <g:link class="create" controller="plate" action="create">Create New Plate</g:link>
         </li>
-        <li>
-            <g:link class="create" controller="plate" action="import">Import Plate Data</g:link>
-        </li>
-        <li>
+        <!--<li>
             <g:link class="plate" controller="run" action="browser">Plates in DART</g:link>
-        </li>
+        </li>-->
         <li class="divider"></li>
         <li>
             <g:link class="zip" controller="Readout" action="createFromZipFile">Batch Import Of Readouts</g:link>

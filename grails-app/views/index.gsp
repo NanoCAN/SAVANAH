@@ -113,7 +113,7 @@
 		<div id="page-body" role="main">
 			<h1>Welcome to SAVANAH</h1>
 			<blockquote>
-			<p>SAVANAH is an acronym for <b>S</b>ample management <b>A</b>nd <b>V</b>isual <b>ANA</b>lysis of <b>H</b>ight-Troughput Screening Data. This tool
+			<p>SAVANAH is an acronym for <b>S</b>ample management <b>A</b>nd <b>V</b>isual <b>ANA</b>lysis of <b>H</b>igh-Troughput Screening Data. This tool
             allows you to manage individual plates (96, 384, and 1536 well format) and to organize them in projects, experiments,
             and libraries.</p></br><br>
 

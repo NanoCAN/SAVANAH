@@ -53,9 +53,9 @@ class LibraryToExperimentService {
                 newPlate.plateType = plateType
                 newPlate.controlPlate = false
                 newPlate.format = newPlateLayout.format
-                newPlate.name = plateLayoutTitle + " Replicate " + replicate
+                newPlate.name = plateLayoutTitle + " Replicate " + (replicate = 1)
                 newPlate.barcode = dilutedLibraryPlate.barcode
-                newPlate.replicate = replicate
+                newPlate.replicate = replicate + 1
                 newPlate.experiment = experiment
                 newPlateLayout.addToPlates(newPlate)
 
