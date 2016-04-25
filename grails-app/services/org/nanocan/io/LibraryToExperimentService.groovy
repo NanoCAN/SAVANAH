@@ -28,7 +28,7 @@ class LibraryToExperimentService {
         experiment.createdBy = currentUser
         experiment.lastUpdatedBy = currentUser
 
-        experiment.save(flush: true, failOnError:true)
+        experiment.save()
 
         /* Create one new plate layout for each library and one plate for
          each of the diluted library plates (daughter = assay plates) */
@@ -42,25 +42,30 @@ class LibraryToExperimentService {
             def newPlateLayout = new PlateLayout(name: plateLayoutTitle, format: libraryPlate.format)
             newPlateLayout.createdBy = currentUser
             newPlateLayout.lastUpdatedBy = currentUser
-            newPlateLayout.save(flush: true, failOnError:true)
-            experiment.addToPlateLayouts(newPlateLayout).save(flush: true, failOnError:true)
+            newPlateLayout.save()
+            experiment.addToPlateLayouts(newPlateLayout).save()
 
             /* next we add a replicate plate for each daughter plate */
             selectedDilutedLibraries.eachWithIndex{ dilutedLibrary, replicate ->
 
                 def dilutedLibraryPlate = DilutedLibraryPlate.findByDilutedLibraryAndLibraryPlate(dilutedLibrary, libraryPlate)
+                if(Plate.findByBarcode(dilutedLibraryPlate.barcode)){
+                    throw new Exception("An assay plate with barcode ${dilutedLibraryPlate.barcode} already exists. " +
+                            "Delete assay plates with barcodes used in this experiment before you try again or choose" +
+                            "different barcodes for the diluted library.")
+                }
                 def newPlate = new Plate()
                 newPlate.plateType = plateType
                 newPlate.controlPlate = false
                 newPlate.format = newPlateLayout.format
-                newPlate.name = plateLayoutTitle + " Replicate " + (replicate = 1)
+                newPlate.name = plateLayoutTitle + " Replicate " + (replicate + 1)
                 newPlate.barcode = dilutedLibraryPlate.barcode
                 newPlate.replicate = replicate + 1
                 newPlate.experiment = experiment
                 newPlateLayout.addToPlates(newPlate)
 
                 dilutedLibraryPlate.assayPlate = newPlate
-                dilutedLibraryPlate.save(flush: true, failOnError:true)
+                dilutedLibraryPlate.save()
             }
 
             /* add wells based on library entities to plate layout
@@ -85,13 +90,13 @@ class LibraryToExperimentService {
                 )
                 newPlateLayout.addToWells(newWell)
             }
-            newPlateLayout.save(flush: true, failOnError:true)
+            newPlateLayout.save()
         }
 
         /* mark diluted library sets as used */
         selectedDilutedLibraries.each { dilutedLibrary ->
             dilutedLibrary.usedAsAssayPlate = true
-            dilutedLibrary.save(flush: true, failOnError:true)
+            dilutedLibrary.save()
         }
         return(experiment)
     }

@@ -113,11 +113,15 @@ class LibraryToExperimentController {
                     flow.inducer,
                     flow.numberOfCellsSeeded,
                     flow.treatment,
-                    springSecurityService.currentUser
-                )
+                    springSecurityService.currentUser)
             }
+            on(Exception).to("showError")
             on("success") {
             }.to("experimentCreated")
+
+        }
+
+        showError{
 
         }
 
