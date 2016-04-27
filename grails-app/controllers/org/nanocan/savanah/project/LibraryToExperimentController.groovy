@@ -102,23 +102,31 @@ class LibraryToExperimentController {
 
         createExperiment{
 
-            action{
-                flow.experimentInstance = libraryToExperimentService.createExperiment(
-                    flow.experimentInstance,
-                    flow.library,
-                    flow.selectedDilutedLibraries,
-                    flow.plateType,
-                    flow.controls,
-                    flow.cellLine,
-                    flow.inducer,
-                    flow.numberOfCellsSeeded,
-                    flow.treatment,
-                    springSecurityService.currentUser)
+            action {
+                Library.withTransaction {status ->
+                    try {
+                        flow.experimentInstance = libraryToExperimentService.createExperiment(
+                                flow.experimentInstance,
+                                flow.library,
+                                flow.selectedDilutedLibraries,
+                                flow.plateType,
+                                flow.controls,
+                                flow.cellLine,
+                                flow.inducer,
+                                flow.numberOfCellsSeeded,
+                                flow.treatment,
+                                springSecurityService.currentUser
+                        )
+                    } catch (Exception e) {
+                        flow.error = e.message
+                    }
+                }
+                if (flow.error) {
+                    throw new Exception(flow.error)
+                }
             }
             on(Exception).to("showError")
-            on("success") {
-            }.to("experimentCreated")
-
+            on("success").to("experimentCreated")
         }
 
         showError{

@@ -9,6 +9,10 @@ class Labware {
     String barcode
     String labwareType
 
+    static searchable = {
+        root false
+    }
+
     static mapping = {
         datasource 'DART'
         table 'Labware_Details'

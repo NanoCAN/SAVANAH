@@ -9,7 +9,9 @@ class DilutedLibrary implements Serializable{
     int index
     String barcodePattern
 
-    static searchable = true
+    static searchable = {
+        except = ["dilutedLibrary", "library", "dilutedPlates"]
+    }
 
     static constraints = {
         type inList: ["Master", "Mother", "Daughter"]

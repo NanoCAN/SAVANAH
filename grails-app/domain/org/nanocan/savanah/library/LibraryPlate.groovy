@@ -7,7 +7,9 @@ class LibraryPlate implements Serializable{
     int plateIndex
     String format
 
-    static searchable = true
+    static searchable = {
+        except = "entries"
+    }
 
     static constraints = {
         format inList: ["96-well", "384-well", "1536-well"], blank: false, editable: false

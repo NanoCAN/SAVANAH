@@ -10,6 +10,10 @@ class DilutedLibraryPlate {
     Plate assayPlate
     String type
 
+    static searchable = {
+        root false
+    }
+
     static belongsTo = [DilutedLibrary, LibraryPlate]
 
     static constraints = {

@@ -12,6 +12,8 @@ class Run {
     String application
     String project
 
+    static searchable = true
+
     static mapping = {
         datasource 'DART'
         table 'Run_Details'

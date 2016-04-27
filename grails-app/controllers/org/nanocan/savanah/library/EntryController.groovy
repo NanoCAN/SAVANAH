@@ -11,6 +11,12 @@ class EntryController {
 
     def scaffold = true
 
+    def showInBrowser(){
+        def entryInstance = Entry.get(params.id)
+
+        render view: "show", model: [entryInstance: entryInstance]
+    }
+
     def entriesAsJSON(){
 
         def libraryPlate = LibraryPlate.get(params["id"].toString().substring(2) as long).entries.sort{it}

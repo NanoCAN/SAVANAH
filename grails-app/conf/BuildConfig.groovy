@@ -69,7 +69,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-cas:1.0.5"
         //compile ":spring-security-eventlog:0.2"
 
-        compile ":searchable:0.6.9"
+        runtime ':elasticsearch:0.1.0'
         compile ":webflow:2.1.0"
         compile ':joda-time:1.5'
         compile ':excel-import:1.1.0.BUILD-SNAPSHOT'

@@ -151,9 +151,7 @@ log4j = {
             'org.apache.http.headers',
             'grails.app.services',
             'grails.app.domain',
-            'grails.app.controllers',
-            'grails.plugin.databasemigration',
-            'liquibase'
+            'grails.app.controllers'
 
     List<String> loggers = []
     loggers.add('savanahLog')
@@ -177,6 +175,13 @@ jdbc.batchSize = 150
 jdbc.groovySql = true
 upload.directory = "/upload/"
 
-
 grails.plugin.databasemigration.updateOnStart = true
 grails.plugin.databasemigration.updateOnStartFileNames = ["changelog.groovy"]
+
+//elasticsearch
+elasticSearch.client.mode = 'local'
+elasticSearch.datastoreImpl = 'hibernateDatastore'
+elasticSearch.maxBulkRequest = 50
+elasticSearch.index.store.type = 'niofs'
+elasticSearch.migration.strategy = 'delete'
+elasticSearch.unmarshallComponents = true

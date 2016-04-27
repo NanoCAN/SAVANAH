@@ -27,6 +27,7 @@ class LibraryToExperimentService {
         /* Save experiment */
         experiment.createdBy = currentUser
         experiment.lastUpdatedBy = currentUser
+        if(experiment.hasErrors()) throw new Exception(experiment.errors.toString())
 
         experiment.save()
 
@@ -43,6 +44,7 @@ class LibraryToExperimentService {
             newPlateLayout.createdBy = currentUser
             newPlateLayout.lastUpdatedBy = currentUser
             newPlateLayout.save()
+            if(newPlateLayout.hasErrors()) throw new Exception(newPlateLayout.errors.toString())
             experiment.addToPlateLayouts(newPlateLayout).save()
 
             /* next we add a replicate plate for each daughter plate */
@@ -65,6 +67,8 @@ class LibraryToExperimentService {
                 newPlateLayout.addToPlates(newPlate)
 
                 dilutedLibraryPlate.assayPlate = newPlate
+                if(dilutedLibraryPlate.hasErrors()) throw new Exception(dilutedLibraryPlate.errors.toString())
+
                 dilutedLibraryPlate.save()
             }
 
@@ -90,6 +94,7 @@ class LibraryToExperimentService {
                 )
                 newPlateLayout.addToWells(newWell)
             }
+            if(newPlateLayout.hasErrors()) throw new Exception(newPlateLayout.errors.toString())
             newPlateLayout.save()
         }
 

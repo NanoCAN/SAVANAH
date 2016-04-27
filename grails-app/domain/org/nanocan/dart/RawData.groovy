@@ -11,6 +11,10 @@ class RawData {
     Integer wellNum
     Integer labwareId
 
+    static searchable = {
+        root false
+    }
+
     static mapping = {
         datasource 'DART'
         table 'RawDataSet1'

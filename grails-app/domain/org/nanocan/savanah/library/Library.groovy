@@ -12,7 +12,9 @@ class Library implements Serializable{
     String accessionType
     String plateFormat
 
-    static searchable = true
+    static searchable = {
+        except = ["plates", "dilutedLibraries"]
+    }
 
     Date dateCreated
     Date lastUpdated

@@ -3,11 +3,27 @@
 <!doctype html>
 <html>
 	<head>
+	<g:if test="${actionName == 'show'}">
+		<meta name="layout" content="main">
+	</g:if>
+	<g:else>
 		<meta name="layout" content="body">
+	</g:else>
 		<g:set var="entityName" value="${message(code: 'entry.label', default: 'Entry')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
+	<g:if test="${actionName == 'show'}">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container">
+				<ul class="nav">
+					<g:render template="/templates/navmenu"></g:render>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</g:if>
 		<div id="show-entry" class="content scaffold-show" role="main">
 			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">

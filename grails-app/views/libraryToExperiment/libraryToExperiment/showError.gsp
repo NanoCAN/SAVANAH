@@ -21,7 +21,7 @@
 <div id="create-experiment" class="content scaffold-create" role="main">
     <h1>Experiment</h1>
 
-    <div class="message" role="status">Experiment creation failed. An assay barcode id is already in use.</div>
+    <div class="errors">Experiment creation failed due to the following reason:</br>${error}</div>
 
 </div>
 </body>

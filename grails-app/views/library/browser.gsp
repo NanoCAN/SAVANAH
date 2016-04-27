@@ -59,7 +59,7 @@
         myTree.bind("select_node.jstree", function(event, data){
             var node = data.instance.get_node(data.selected[0]);
             if(node.type == "libWell"){
-                ${remoteFunction(action: 'show', controller: 'entry', update: 'plateDiv', params: '\'id=\'+node.id.substring(2)')}
+                ${remoteFunction(action: 'showInBrowser', controller: 'entry', update: 'plateDiv', params: '\'id=\'+node.id.substring(2)')}
             }
             else if(node.type == "library"){
                 ${remoteFunction(action: 'showInBrowser', controller: 'library', update: 'plateDiv', params: '\'id=\'+node.id')}

@@ -11,7 +11,9 @@ class Entry implements Serializable, Comparable {
     String productNumber
     String probeId
 
-    static searchable = true
+    static searchable = {
+        sample component: true
+    }
 
     Sample sample
     String comment
@@ -27,7 +29,9 @@ class Entry implements Serializable, Comparable {
     }
 
     String toString(){
-        sample?sample.toString():("empty well")
+        if(sample != null)
+            sample
+        else "empty well"
     }
 
     @Override
