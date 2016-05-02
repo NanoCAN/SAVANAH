@@ -4,7 +4,7 @@ import org.nanocan.layout.Sample
 
 class Entry implements Serializable, Comparable {
 
-    static belongsTo = LibraryPlate
+    static belongsTo = [libraryPlate: LibraryPlate]
     String wellPosition //e.g. A01, H12
     int col
     int row
@@ -25,7 +25,8 @@ class Entry implements Serializable, Comparable {
     }
 
     static constraints = {
-
+        row unique: ['col', 'libraryPlate']
+        sample nullable: true
     }
 
     String toString(){

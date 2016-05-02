@@ -1,6 +1,7 @@
 package org.nanocan.savanah.library
 
 import grails.plugins.springsecurity.Secured
+import org.nanocan.errors.LibraryUploadException
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
 @Secured(['ROLE_ADMIN'])
@@ -52,7 +53,15 @@ class LibraryFileUploadController {
         InputStream stream = dataFile.getInputStream()
         String text = stream.getText()
 
-        def libraryInstance = libraryUploadService.uploadLibraryFile(lib, springSecurityService.currentUser, text)
+        def libraryInstance
+
+        try{
+            libraryInstance = libraryUploadService.uploadLibraryFile(lib, springSecurityService.currentUser, text)
+        }catch(LibraryUploadException e){
+            flash.error = e.message.toString()
+            render(view: "index", model: [libraryInstance: lib, invalidLibPlate: e.invalidLibPlate])
+            return
+        }
 
         if (libraryInstance.hasErrors()) {
             render(view: "index", model: [libraryInstance: libraryInstance])

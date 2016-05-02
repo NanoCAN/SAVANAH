@@ -58,7 +58,8 @@ class LibraryToExperimentController {
                     throw new Exception("Plate format not supported")
                 }
 
-                flow.dilutedLibraries = DilutedLibrary.findAllByTypeAndLibrary("Daughter", flow.library)
+                def dilutedLibraries = DilutedLibrary.findAllByTypeAndLibrary("Daughter", flow.library)
+                flow.dilutedLibraries = dilutedLibraries.findAll{!it.usedAsAssayPlate}
             }
             on("success").to "selectDaughterPlateSets"
             on("error").to "selectLibrary"
@@ -66,9 +67,22 @@ class LibraryToExperimentController {
 
         selectDaughterPlateSets {
             on("back").to("selectLibrary")
-            on("continue"){
-                flow.selectedDilutedLibraries = params.list("dilutedLibraries.id")?.collect{DilutedLibrary.get(it as Long)}
-            }.to("selectDefaults")
+            on("continue").to("fetchDilutedLibraries")
+        }
+
+        fetchDilutedLibraries{
+            action{
+                def selectedDilutedLibraries = params.list("dilutedLibraries.id")?.collect{DilutedLibrary.get(it as Long)}
+
+                if(selectedDilutedLibraries.any{ it.usedAsAssayPlate }){
+                    def error = "Selected daughter plates were already used as assay plates."
+                    flash.error = error
+                    throw new Exception(error)
+                }
+                flow.selectedDilutedLibraries = selectedDilutedLibraries
+            }
+            on("success").to("selectDefaults")
+            on(Exception).to("showError")
         }
 
         selectDefaults {

@@ -23,8 +23,8 @@
 
     <div class="message" role="status">Experiment created successfully</div>
     <fieldset class="buttons">
-        <g:submitButton name="showExperiment" class="show" controller="experiment" action="show" id="experimentInstance.id">Show experiment</g:submitButton>
-        <g:submitButton name="createFromZip" class="save" controller="readout" action="createFromZippedFile">Bulk upload of readout data</g:submitButton>
+        <g:link name="showExperiment" class="button show" controller="experiment" action="show" id="${experimentInstance.id}">Show experiment</g:link>
+        <g:link name="createFromZip" class="button save" controller="readout" action="createFromZipFile">Bulk upload of readout data</g:link>
     </fieldset>
 </div>
 </body>

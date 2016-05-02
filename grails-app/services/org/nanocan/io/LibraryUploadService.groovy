@@ -1,11 +1,14 @@
 package org.nanocan.io
 
+import grails.transaction.Transactional
+import org.nanocan.errors.LibraryUploadException
 import org.nanocan.layout.Identifier
 import org.nanocan.layout.Sample
 import org.nanocan.savanah.library.Entry
 import org.nanocan.savanah.library.Library
 import org.nanocan.savanah.library.LibraryPlate
 
+@Transactional(rollbackFor = Throwable)
 class LibraryUploadService {
 
     def sessionFactory
@@ -16,7 +19,7 @@ class LibraryUploadService {
         session.clear()
     }
 
-    def uploadLibraryFile(Library lib, def currentUser, String textFile) {
+    def uploadLibraryFile(Library lib, def currentUser, String textFile) throws LibraryUploadException {
 
         log.debug "BEGIN importing library with name ${lib.name}"
         String libraryName = lib.name
@@ -47,6 +50,7 @@ class LibraryUploadService {
 
                     // Remove dots, only text
                     String cH = columnHeader.replace(".","").toLowerCase().trim()
+                    cH = cH.replace(" ","")
                     if(cH.equalsIgnoreCase("plate")){
                         plateIndex = indx
                     }else if(cH.equalsIgnoreCase("wellposition")){
@@ -71,19 +75,22 @@ class LibraryUploadService {
                 def indexList = [plateIndex, wellPositionIndex, productIndex, probeIdIndex, sampleNameIdIndex, accessionIndex, commentIndex]
                 // Ensure all indexes has been found, return error if not
                 if(indexList.any {indx -> indx == -1 }){
-                    //flash.message = 'A field is missing.'
-                    return
+                    throw new LibraryUploadException('Field is missing in the library file. Make sure that the header of ' +
+                            'the file contains the fields plate, well.position, catalog.nr, probe.id, sample.name, ' +
+                            'accession, and comment. The order is arbitrary. Dots and whitespaces are optional. Smaller and lower case ' +
+                            'are ignored. Also check that the columns in the file are tab separated.')
                 }
 
                 // Ensure that plate index is a number
                 if(!splitLine[plateIndex].isInteger()){
-                    //flash.message = 'PlateIndex ' + splitLine[plateIndex] + ' is not valid. [' + plateIndex+ "]"
+                    throw new LibraryUploadException('Plate index ' + splitLine[plateIndex] + ' is not an integer. [' + plateIndex+ ']')
                     return
                 }
 
                 Entry entry = new Entry()
 
                 // Check that it actually is a new plateIndex, and not one from a former plate
+                // this way the order of the entries is arbitrary and it will still work.
                 int plateNr = splitLine[plateIndex].toInteger()
                 def plates = lib.getPlates()
                 LibraryPlate libPlate
@@ -102,10 +109,10 @@ class LibraryUploadService {
 
                 def sampleNameIds = splitLine[sampleNameIdIndex].split("/")
                 Sample sample = null
-                boolean multipleIds = splitLine[sampleNameIdIndex].contains("/")
                 String sampleName = splitLine[sampleNameIdIndex]
 
-                if(!sampleName.equalsIgnoreCase("NA")){
+                if(!sampleName.equalsIgnoreCase("NA") &&
+                    !sampleName.empty){
 
                     sample = Sample.findByName(sampleName)
 
@@ -144,20 +151,59 @@ class LibraryUploadService {
                     }
                 }
 
-                entry.wellPosition = splitLine[wellPositionIndex].trim()
-                entry.row = Character.getNumericValue(entry.wellPosition.charAt(0))-9
-                entry.col = entry.wellPosition.substring(1) as int
+                String wellPosition = splitLine[wellPositionIndex].trim()
+                if(!(wellPosition ==~ /[A-Z][0-9]+/)){
+                    throw new LibraryUploadException("${wellPosition} is not a well index of form A1, B2, etc.")
+                }
+                entry.wellPosition = wellPosition
+
+                int currentRow
+                int currentCol
+                int maxRow
+                int maxCol
+
+                try {
+                    int numOfWells = Integer.valueOf(libPlate.format.replace("-well", ""))
+
+                    maxRow = Math.sqrt(numOfWells / 1.5)
+                    maxCol = maxRow * 1.5
+
+                    currentRow = Character.getNumericValue(entry.wellPosition.charAt(0)) - 9
+                    currentCol = entry.wellPosition.substring(1) as int
+                }catch(Exception e){
+                    throw LibraryUploadException("Could not extract row and column from ${wellPosition}. Make sure to use well indices of format A1, B1, ...")
+                }
+                if(currentRow < 0 || currentRow > maxRow ) throw new LibraryUploadException("Invalid row index: ${wellPosition}")
+                if(currentCol < 0 || currentCol > maxCol ) throw new LibraryUploadException("Invalid column index: ${wellPosition}")
+
+                entry.row = currentRow
+                entry.col = currentCol
                 entry.productNumber = splitLine[productIndex].trim()
                 entry.probeId = splitLine[probeIdIndex].trim()
                 entry.comment = splitLine[commentIndex].trim()
                 entry.sample = sample
                 entry.controlWell = (sampleName.equals("") || sampleName.equalsIgnoreCase("NA"))
-                entry.save(failOnError: true)
+                entry.libraryPlate = libPlate
                 libPlate.addToEntries(entry)
+
+                if(!libPlate.validate()){
+                    throw new LibraryUploadException("Validation of library plate ${libPlate.plateIndex} failed", libPlate.errors)
+                }
                 libPlate.save(failOnError: true)
             }
         }
         log.debug "END importing library with name ${libraryName}"
+
+        log.debug "Checking if all plates are complete"
+        for(LibraryPlate plate in lib.getPlates()){
+            int expectedNumOfWells = Integer.valueOf(plate.format.replace("-well", ""))
+            if(plate.entries.size() != expectedNumOfWells)
+            {
+                throw new LibraryUploadException("Plate ${plate.plateIndex} has only ${plate.entries.size()} wells. " +
+                        "According to the format of the plate it should be ${expectedNumOfWells}.")
+            }
+        }
+
         lib.dateCreated = new Date()
         lib.lastUpdated = new Date()
 

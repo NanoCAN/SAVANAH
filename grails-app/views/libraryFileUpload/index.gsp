@@ -5,6 +5,7 @@
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'library.label', default: 'Library')}" />
     <title>Library File Upload</title>
+
 </head>
 <body>
 
@@ -28,15 +29,20 @@
 
     <g:hasErrors bean="${libraryInstance}">
         <ul class="errors" role="alert">
-            <g:eachError bean="${libraryInstance}" var="error">
-                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
-                        error="${error}"/></li>
-            </g:eachError>
+            <div class ="errors" role="alert">
+                <g:renderErrors bean="${libraryInstance}" as="list" />
+            </div>
         </ul>
     </g:hasErrors>
     <g:if test="${flash.error}">
-        <div class="errors" role="alert">&nbsp; - ${flash.error}</div>
+        <div class="errors" role="alert">&nbsp;${flash.error}</div>
     </g:if>
+    <g:if test="${invalidLibPlate}">
+        <div class ="errors" role="alert">
+            <g:renderErrors bean="${invalidLibPlate}" as="list" />
+        </div>
+    </g:if>
+
     <g:if test="${flash.okay}">
         <div class="message" role="status">${flash.okay}</div>
     </g:if>
@@ -93,6 +99,7 @@
             <tr>
                 <td>Library file:</td>
                 <td><input type="file" name="dataFile" style="width:400px;" /> </td>
+
             </tr>
         </table>
     <fieldset class="buttons">

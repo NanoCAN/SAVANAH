@@ -64,11 +64,15 @@
         </table>
     </div>
     <fieldset class="buttons">
-    <g:submitButton name="continue" class="save" value="Create Experiment" onclick="return confirm('All steps are completed and the experiment will now be created. Are you sure you want to continue?');"/>
+    <g:submitButton name="continue" class="save" value="Create Experiment" onclick="if(
+    confirm('All steps are completed and the experiment will now be created. Are you sure you want to continue?')
+    ){
+        jQuery('#spinner').show();
+        return true;
+    }else return false;"/>
     </fieldset>
 
 </g:form>
-
 
 <r:script>
 

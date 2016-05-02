@@ -2,6 +2,7 @@ package org.nanocan.io
 
 import org.nanocan.layout.PlateLayout
 import org.nanocan.layout.Sample
+import org.nanocan.layout.SpotType
 import org.nanocan.layout.WellLayout
 import org.nanocan.plates.Plate
 import org.nanocan.project.Experiment
@@ -90,7 +91,6 @@ class LibraryToExperimentService {
                           inducer: inducer,
                           treatment: treatment,
                           sample: sample,
-
                 )
                 newPlateLayout.addToWells(newWell)
             }

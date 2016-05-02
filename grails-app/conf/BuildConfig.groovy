@@ -74,5 +74,6 @@ grails.project.dependency.resolution = {
         compile ':joda-time:1.5'
         compile ':excel-import:1.1.0.BUILD-SNAPSHOT'
         compile "org.grails.plugins:scaffolding:2.1.2"
+
     }
 }
