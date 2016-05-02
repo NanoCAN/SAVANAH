@@ -19,14 +19,14 @@ import.readout <- function(connection=NULL, securityToken=NA, readoutIndex=NA, b
     if(!is.na(securityToken)) readoutUrl <- paste(readoutUrl, "?securityToken=", securityToken, sep="")
     
     wells <- getURL(readoutUrl, curl=connection)
-    wells <- ldply(fromJSON(wells, simplify = T, nullValue = NA))
+    wells <- ldply(RJSONIO::fromJSON(wells, simplify = T, nullValue = NA))
     cat(paste(dim(wells)[1], "well readouts downloaded. Formatting...\n"))
     
     metaUrl <- paste(baseUrl, "exportMetaDataAsJSON/", readoutIndex, sep = "")
     if(!is.na(securityToken)) metaUrl <- paste(metaUrl, "?securityToken=", securityToken, sep="")
     
     meta <- getURL(metaUrl, curl=connection)
-    meta <- fromJSON(meta, simplify=T)
+    meta <- RJSONIO::fromJSON(meta, simplify=T)
     colnames(wells) <- meta
     wells <- reformatPlateColTypes(wells)
     
@@ -48,14 +48,14 @@ import.layout <- function(connection=NULL, securityToken=NA, plateLayoutIndex=NA
     if(!is.na(securityToken)) plateLayoutUrl <- paste(plateLayoutUrl, "?securityToken=", securityToken, sep="")
     
     wells <- getURL(plateLayoutUrl, curl=connection)
-    wells <- ldply(fromJSON(wells, simplify = T, nullValue = NA))
+    wells <- ldply(RJSONIO::fromJSON(wells, simplify = T, nullValue = NA))
     cat(paste(dim(wells)[1], "well layouts downloaded. Formatting...\n"))
     
     metaUrl <- paste(baseUrl, "exportPlateLayoutMetaDataAsJSON/", plateLayoutIndex, sep = "")
     if(!is.na(securityToken)) metaUrl <- paste(metaUrl, "?securityToken=", securityToken, sep="")
     
     meta <- getURL(metaUrl, curl=connection)
-    meta <- fromJSON(meta, simplify=T)
+    meta <- RJSONIO::fromJSON(meta, simplify=T)
     colnames(wells) <- meta
     wells <- reformatPlateColTypes(wells, layout=TRUE)
     
@@ -87,7 +87,7 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
         
         readoutSecurityTokens <- foreach(token=plateSecurityTokens, .combine=cbind) %do% {
             plateTokens <- getURL(paste(baseUrl, "getReadoutSecurityTokensFromPlateSecurityToken/", token, sep = ""), curl=connection)
-            plateTokens <- fromJSON(plateTokens, simplify = T, nullValue = NA)
+            plateTokens <- RJSONIO::fromJSON(plateTokens, simplify = T, nullValue = NA)
             if(length(plateTokens) > 1) stop("We currently support only one readout per plate in the analysis")
             else if(is.na(plateTokens)) warning(paste("No readout data was found for plate", token))
             else return(plateTokens)
@@ -95,7 +95,7 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
         
         plateLayoutSecurityTokens <- foreach(token=plateSecurityTokens, .combine=cbind) %do% {
             plateTokens <- getURL(paste(baseUrl, "getPlateLayoutSecurityTokenFromPlateSecurityToken/", token, sep = ""), curl=connection)
-            plateTokens <- fromJSON(plateTokens, simplify = T, nullValue = NA)
+            plateTokens <- RJSONIO::fromJSON(plateTokens, simplify = T, nullValue = NA)
             if(length(plateTokens) > 1) stop("An error occured. It should not be possible to have several plate layouts linked to a single plate.")
             else if(is.na(plateTokens)) warning(paste("No plate layout data was found for plate", token))
             else return(plateTokens)
