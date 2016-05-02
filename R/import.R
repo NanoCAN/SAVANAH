@@ -89,7 +89,7 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
             plateTokens <- getURL(paste(baseUrl, "getReadoutSecurityTokensFromPlateSecurityToken/", token, sep = ""), curl=connection)
             plateTokens <- RJSONIO::fromJSON(plateTokens, simplify = T, nullValue = NA)
             if(length(plateTokens) > 1) stop("We currently support only one readout per plate in the analysis")
-            else if(is.na(plateTokens)) warning(paste("No readout data was found for plate", token))
+            else if(length(plateTokens) == 0) warning(paste("No readout data was found for plate", token))
             else return(plateTokens)
         }
         
@@ -97,7 +97,7 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
             plateTokens <- getURL(paste(baseUrl, "getPlateLayoutSecurityTokenFromPlateSecurityToken/", token, sep = ""), curl=connection)
             plateTokens <- RJSONIO::fromJSON(plateTokens, simplify = T, nullValue = NA)
             if(length(plateTokens) > 1) stop("An error occured. It should not be possible to have several plate layouts linked to a single plate.")
-            else if(is.na(plateTokens)) warning(paste("No plate layout data was found for plate", token))
+            else if(length(plateTokens) == 0) warning(paste("No plate layout data was found for plate", token))
             else return(plateTokens)
         }
     }
