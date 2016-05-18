@@ -40,6 +40,8 @@ import org.springframework.dao.DataIntegrityViolationException
 @Secured(['ROLE_USER'])
 class PlateController {
 
+    def scaffold = true
+
     def delete() {
         def plateInstance = Plate.get(params.id)
         if (!plateInstance) {

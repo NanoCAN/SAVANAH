@@ -91,11 +91,29 @@
         </li>-->
         <li class="divider"></li>
         <li>
+            <g:link class="list" controller="plateType" action="index">Plate Types</g:link>
+        </li>
+    </ul>
+</li>
+<li class="dropdown" id="readout.menu">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#readout.menu">
+        <g:message code="default.readout.label" args="['...']" default="Readout"/>
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <g:link class="list" controller="readout" action="index">List Readouts</g:link>
+        </li>
+        <li>
+            <g:link class="create" controller="readout" action="create">Create New Readout</g:link>
+        </li>
+        <li class="divider"></li>
+        <li>
             <g:link class="zip" controller="Readout" action="createFromZipFile">Batch Import Of Readouts</g:link>
         </li>
         <li class="divider"></li>
         <li>
-            <g:link class="create" controller="plateType" action="index">Plate Types</g:link>
+            <g:link class="list" controller="assayType" action="index">Assay Types</g:link>
         </li>
     </ul>
 </li>
@@ -126,11 +144,11 @@
 <li class="divider-vertical"></li>
 <li>
     <g:if test="${controllerName == 'experiment' && actionName == 'show'}">
-        <g:link class="plot" controller="analysis" action="start" params="${['experiment': experimentInstance.id]}">Data Analysis</g:link>
+        <g:link class="plot" controller="analysis" action="start" params="${['experiment': experimentInstance.id]}">Analysis</g:link>
     </g:if>
 
     <g:else>
-        <g:link class="plot" controller="analysis" action="start">Data Analysis</g:link>
+        <g:link class="plot" controller="analysis" action="start">Analysis</g:link>
     </g:else>
 
 </li>

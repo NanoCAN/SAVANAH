@@ -12,6 +12,18 @@ databaseChangeLog = {
     changeSet(id: "modifyAccessionTypeColumnInIdentifier", author: "mlist"){
         modifyDataType(tableName: "Identifier", columnName: "type", newDataType: "varchar(20)")
     }
+/*    changeSet(id: "addDefaultAssayType", author: "mlist"){
+        insert(tableName: "AssayType"){
+            column(name: "name", value: "Cell Titer Blue")
+            column(name: "type", value: "Fluorescence")
+        }
+    }*/
+    changeSet(id: "dropColumnAssayType", author: "mlist"){
+        dropColumn tableName: "Readout", columnName: "assay_type"
+    }
+    changeSet(id: "dropColumnWavelength", author: "mlist"){
+        dropColumn tableName: "Readout", columnName: "wavelength"
+    }
 }
 
 

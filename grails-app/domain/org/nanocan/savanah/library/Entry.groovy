@@ -27,6 +27,7 @@ class Entry implements Serializable, Comparable {
     static constraints = {
         row unique: ['col', 'libraryPlate']
         sample nullable: true
+        libraryPlate nullable: true
     }
 
     String toString(){
