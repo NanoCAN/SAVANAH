@@ -21,6 +21,9 @@ databaseChangeLog = {
     changeSet(id: "dropColumnAssayType", author: "mlist"){
         dropColumn tableName: "Readout", columnName: "assay_type"
     }
+    changeSet(id: "dropColumnTypeOfReadout", author: "mlist"){
+        dropColumn tableName: "Readout", columnName: "type_of_readout"
+    }
     changeSet(id: "dropColumnWavelength", author: "mlist"){
         dropColumn tableName: "Readout", columnName: "wavelength"
     }
