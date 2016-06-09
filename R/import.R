@@ -30,10 +30,6 @@ import.readout <- function(connection=NULL, securityToken=NA, readoutIndex=NA, b
     colnames(wells) <- meta
     wells <- reformatPlateColTypes(wells)
 
-    assayUrl <- paste(baseUrl, "getAssayType/", readoutIndex, sep = "")
-    if(!is.na(securityToken)) assayUrl <- paste(assayUrl, "?securityToken=", securityToken, sep="")
-    wells$AssayType <- paste(scan(text=getURL(assayUrl, curl=connection), what = "character"), collapse="")
-
     return(wells)
 }
 
@@ -73,6 +69,7 @@ reformatPlateColTypes <- function(plate, layout=FALSE)
         plate$Plate <- as.integer(plate$Plate)
         plate$PlateReadout <- as.numeric(plate$PlateReadout)
         plate$Replicate <- as.integer(plate$Replicate)
+        plate$DateOfReadout <- as.Date(as.POSIXct(as.numeric(substring(plate$DateOfReadout, 1, 10)), origin="1970-01-01"))
     }
 
     return(plate)
@@ -86,11 +83,10 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
         connection <- check.connection(connection, plateSecurityTokens[1], baseUrl)
 
         readoutSecurityTokens <- foreach(token=plateSecurityTokens, .combine=cbind) %do% {
-            plateTokens <- getURL(paste(baseUrl, "getReadoutSecurityTokensFromPlateSecurityToken/", token, sep = ""), curl=connection)
-            plateTokens <- RJSONIO::fromJSON(plateTokens, simplify = T, nullValue = NA)
-            if(length(plateTokens) > 1) stop("We currently support only one readout per plate in the analysis")
-            else if(length(plateTokens) == 0) warning(paste("No readout data was found for plate", token))
-            else return(plateTokens)
+            readoutTokens <- getURL(paste(baseUrl, "getReadoutSecurityTokensFromPlateSecurityToken/", token, sep = ""), curl=connection)
+            readoutTokens <- RJSONIO::fromJSON(readoutTokens, simplify = T, nullValue = NA)
+            if(length(readoutTokens) == 0) warning(paste("No readout data was found for plate", token))
+            else return(readoutTokens)
         }
         readoutSecurityTokens <- unique(as.character(readoutSecurityTokens))
 
