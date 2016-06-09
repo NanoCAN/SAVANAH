@@ -60,8 +60,6 @@ import.layout <- function(connection=NULL, securityToken=NA, plateLayoutIndex=NA
 
 reformatPlateColTypes <- function(plate, layout=FALSE)
 {
-    browser()
-
     plate$id <- as.integer(plate$id)
     plate$PlateRow <- as.integer(plate$PlateRow)
     plate$PlateCol <- as.integer(plate$PlateCol)
@@ -74,7 +72,7 @@ reformatPlateColTypes <- function(plate, layout=FALSE)
         plate$DateOfReadout <- as.Date(as.POSIXct(as.numeric(substring(plate$DateOfReadout, 1, 10)), origin="1970-01-01"))
     }
     if(layout){
-        plate %>% dplyr::group_by_(setdiff(colnames(plate), "Accession")) %>%
+        plate <- plate %>% dplyr::group_by_(.dots = setdiff(colnames(plate), "Accession")) %>%
             dplyr::summarize(Accession = list(Accession))
     }
 
