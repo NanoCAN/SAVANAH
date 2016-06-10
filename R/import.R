@@ -9,7 +9,6 @@ library(foreach)
 
 #import single readout
 import.readout <- function(connection=NULL, securityToken=NA, readoutIndex=NA, baseUrl = "http://localhost:8080/SAVANAH/readoutExport/"){
-
     connection <- check.connection(connection, securityToken, baseUrl)
     if(!is.na(securityToken) && is.na(readoutIndex)) readoutIndex <- scan(text=getURL(paste(baseUrl, "getReadoutIdFromSecurityToken/", securityToken, sep = ""), curl=connection), what="integer")
 
@@ -81,7 +80,7 @@ reformatPlateColTypes <- function(plate, layout=FALSE)
 
 batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, plateSecurityTokens=NULL, readoutIndices=NULL, baseUrl = "http://localhost:8080/SAVANAH/readoutExport/"){
     if(is.null(readoutSecurityTokens) &&is.null(plateSecurityTokens) && is.null(readoutIndices)) stop("you have to provide securityTokens or indices together with a connection object.")
-
+    
     if(is.null(readoutSecurityTokens) && !is.null(plateSecurityTokens))
     {
         connection <- check.connection(connection, plateSecurityTokens[1], baseUrl)
@@ -123,7 +122,7 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
         result <- foreach(index=readoutIndices, .combine=rbind) %do% import.readout(connection, readoutIndex=index, baseUrl=baseUrl)
     }
 
-    result <- dplyr::left_join(layout.data, readout.data, by=c("PlateLayout", "PlateRow", "PlateCol"))
+    result <- dplyr::left_join(readout.data, layout.data, by=c("PlateLayout", "PlateRow", "PlateCol"))
     return(result)
 }
 
