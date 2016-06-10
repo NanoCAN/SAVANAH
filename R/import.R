@@ -73,7 +73,7 @@ reformatPlateColTypes <- function(plate, layout=FALSE)
     }
     if(layout){
         plate <- plate %>% dplyr::group_by_(.dots = setdiff(colnames(plate), "Accession")) %>%
-            dplyr::summarize(Accession = paste(Accession, sep="/"))
+            dplyr::summarize(Accession = Accession[[1]])
     }
 
     return(plate)
