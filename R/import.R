@@ -89,7 +89,10 @@ batch.import.readouts <- function(connection=NULL, readoutSecurityTokens=NULL, p
         readoutSecurityTokens <- foreach(token=plateSecurityTokens, .combine=cbind) %do% {
             readoutTokens <- getURL(paste(baseUrl, "getReadoutSecurityTokensFromPlateSecurityToken/", token, sep = ""), curl=connection)
             readoutTokens <- RJSONIO::fromJSON(readoutTokens, simplify = T, nullValue = NA)
-            if(length(readoutTokens) == 0) warning(paste("No readout data was found for plate", token))
+            if(length(readoutTokens) == 0){
+              warning(paste("No readout data was found for plate", token))
+              return(NULL)
+            }
             else return(readoutTokens)
         }
         readoutSecurityTokens <- unique(as.character(readoutSecurityTokens))
