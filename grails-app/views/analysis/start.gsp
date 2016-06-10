@@ -31,7 +31,7 @@
     </div>
 
     <div style="padding: 30px;">
-        <g:form name="selectedSlidesAndPlates">
+        <g:form name="selectedSlidesAndPlates" target="_blank">
 
         <g:each in="${plates}" var="plate">
             <g:hiddenField name="allPlates" value="${plate.id}"/>
@@ -44,8 +44,21 @@
         <g:select name="selectedPlates" style="width:100%; height:500px;" optionKey="id" multiple="true" from="${plates}"/>
 
          <br/><br/>
+
+        <h3>Screen Type (for HiTSeekR)</h3>
+            <div class="message">Note: In order to use HiTSeekR, SAVANAH needs to be reachable. If you use a local instance of SAVANAH you also need to set up a local instance of HiTSeekR and configure SAVANAH to use it.</div>
+        <g:select name="screenType" optionKey="key" optionValue="value"
+                  from="${['siRNA':'Gene silencing', 'miRNA':'miRNA inhibitor/mimics',
+                           'compound':'small compounds']}"/>
+
+        <br/><br/>
         <fieldset class="buttons">
-        <g:actionSubmit action="exportToR" value="Export selected plate information and associated readout data to R"/>
+            <g:actionSubmitImage action="hitseekrAnalysis" value="Analyze with HiTSeekR"
+                                 src="${resource(dir: 'images', file: 'HiTSeekR.png')}"/>
+            <g:actionSubmitImage action="exportToR" value="Export selected plate information and associated readout data to R"
+                                 src="${resource(dir: 'images', file: 'Rlogo.png')}"/>
+            <!--<g:actionSubmitImage action="download" value="Download"
+                                 src="${resource(dir: 'images', file: 'download.png')}"/>-->
         </fieldset>
         </g:form>
     </div>

@@ -31,6 +31,7 @@ package org.nanocan.analysis
 
 import org.nanocan.layout.PlateLayout
 import org.nanocan.plates.Plate
+import org.nanocan.plates.Readout
 import org.nanocan.project.Experiment
 import org.nanocan.project.Project
 import org.springframework.security.access.annotation.Secured
@@ -114,9 +115,28 @@ class AnalysisController {
         def dataExportLink = java.net.URLEncoder.encode(baseUrl, "UTF-8")
 
         def plates = getPlates(params)
-        def plateSecurityTokens = plates.collect{securityTokenService.getSecurityToken(it)}.join("|")
 
-        def analysisUrl = hitseekrUrl + "?baseUrl=" + dataExportLink + "&plateSecurityTokens=" + plateSecurityTokens
+        def plateSecurityTokens = plates.collect{securityTokenService.getSecurityToken(it)}.join("|")
+        if(plateSecurityTokens == ""){
+            render "No plates have been selected."
+            return
+        }
+
+        boolean readoutFound
+
+        plates.each{
+            Readout readout = Readout.findByPlate(it)
+            if(readout) readoutFound = true
+        }
+        if(!readoutFound){
+            render "The selected plates have no readouts associated with them."
+            return
+        }
+
+        def analysisUrl = hitseekrUrl + "?baseUrl=" +
+                dataExportLink +
+                "&screenType=" + params.screenType.toString() +
+                "&plateSecurityTokens=" + plateSecurityTokens
         redirect(url: analysisUrl)
     }
 }
