@@ -185,4 +185,4 @@ elasticSearch.maxBulkRequest = 50
 elasticSearch.index.store.type = 'niofs'
 elasticSearch.migration.strategy = 'alias'
 elasticSearch.unmarshallComponents = true
-elasticSearch.bulkIndexOnStartup = false
+elasticSearch.bulkIndexOnStartup = 'delete'
