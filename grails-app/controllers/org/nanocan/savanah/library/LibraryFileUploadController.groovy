@@ -13,8 +13,7 @@ class LibraryFileUploadController {
         [libraryInstance: new Library()]
     }
 
-    def upload()
-    {
+    def create() {
         // Initialize new library
         Library lib = new Library()
 
@@ -26,6 +25,8 @@ class LibraryFileUploadController {
         lib.accessionType = params.accessionType
         lib.plateFormat = params.plateFormat
         lib.plates = new HashSet<LibraryPlate>()
+        lib.createdBy = springSecurityService.currentUser
+        lib.lastUpdatedBy = springSecurityService.currentUser
 
         // Responses for UI
         flash.error = ''
@@ -43,9 +44,21 @@ class LibraryFileUploadController {
         }
 
         String libraryName = params.get('name') as String
-        if(libraryName == null || libraryName.isEmpty()){
+        if (libraryName == null || libraryName.isEmpty()) {
             flash.error = 'Title cannot be empty.'
             render(view: 'index', model: [libraryInstance: lib])
+            return
+        }
+
+        if(Library.findByName(libraryName)){
+            flash.error = 'Title already in use. Choose another one.'
+            render(view: 'index', model: [libraryInstance: lib])
+            return
+        }
+
+        if(!lib.validate()){
+            flash.error = "Malformed library file entry with missing values in at least one row."
+            render(view: "index", model: [libraryInstance: lib])
             return
         }
 
@@ -53,13 +66,32 @@ class LibraryFileUploadController {
         InputStream stream = dataFile.getInputStream()
         String text = stream.getText()
 
-        def libraryInstance
+        // Save info for later processing
+        oneTimeData(libraryName){
+            libraryInstance = lib
+            libraryContent = text
+        }
+        [libraryInstance: lib]
+    }
+
+    def upload(){
+        def libraryOneTimeData = getOneTimeData(params.name)
+        def libraryInstance = libraryOneTimeData.libraryInstance
+        String text = libraryOneTimeData.libraryContent
+
+        // Responses for UI
+        flash.error = ''
+        flash.okay = ''
 
         try{
-            libraryInstance = libraryUploadService.uploadLibraryFile(lib, springSecurityService.currentUser, text)
+            libraryInstance = libraryUploadService.uploadLibraryFile(libraryInstance, springSecurityService.currentUser, text)
         }catch(LibraryUploadException e){
             flash.error = e.message.toString()
-            render(view: "index", model: [libraryInstance: lib, invalidLibPlate: e.invalidLibPlate])
+            render(view: "index", model: [libraryInstance: libraryInstance, invalidLibPlate: e.invalidLibPlate])
+            return
+        }catch(ArrayIndexOutOfBoundsException aiobe){
+            flash.error = "Malformed library file entry with missing values in at least one row."
+            render(view: "index", model: [libraryInstance: libraryInstance])
             return
         }
 
@@ -68,8 +100,9 @@ class LibraryFileUploadController {
             return
         }
 
-        flash.message = 'Library was saved successfully.'
+        //flash.message = 'Library was saved successfully.'
+        render "Library ${libraryInstance.name} created successfully"
 
-        redirect(controller: "library", action: "browser" )
+        //redirect(controller: "library", action: "browser" )
     }
 }

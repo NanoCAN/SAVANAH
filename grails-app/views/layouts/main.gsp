@@ -15,7 +15,6 @@
         <r:require module="rainbowVis"/>
         <r:require module="bootstrap"/>
         <r:require module="jquery-ui"/>
-
 		<g:layoutHead/>
         <r:layoutResources />
 

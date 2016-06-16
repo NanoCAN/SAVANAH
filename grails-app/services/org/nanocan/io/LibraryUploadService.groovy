@@ -12,15 +12,18 @@ import org.nanocan.savanah.library.LibraryPlate
 class LibraryUploadService {
 
     def sessionFactory
+    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
+    def progressService
+    def elasticSearchAdminService
 
     def cleanUpGorm() {
         def session = sessionFactory.currentSession
         session.flush()
         session.clear()
+        propertyInstanceMap.get().clear()
     }
 
-    def uploadLibraryFile(Library lib, def currentUser, String textFile) throws LibraryUploadException {
-
+    def uploadLibraryFile(Library lib, def currentUser, String textFile) throws LibraryUploadException,ArrayIndexOutOfBoundsException {
         log.debug "BEGIN importing library with name ${lib.name}"
         String libraryName = lib.name
         String sampleType = lib.sampleType
@@ -38,12 +41,18 @@ class LibraryUploadService {
         int commentIndex = -1;
 
 
-        Boolean first = true
+        String[] lines = text.split("\r\n|\r|\n");
+        int numOfLines = lines.length;
+        int numOfLinesOnePercent = Math.floor(numOfLines / 100)
+        int percentCount = 0
 
-        text.eachLine { line ->
-            log.debug "Library import - Processing line: ${line}"
+        text.eachLine { line, count ->
+            //log.debug "Library import - Processing line: ${line}"
             def splitLine = line.split("\t")
-            if(first){
+            if(count % numOfLinesOnePercent == 0)
+                progressService.setProgressBarValue(lib.name, ++percentCount)
+
+            if(count == 0){
                 // Column headers, assign indexes
                 int indx = 0;
                 splitLine.each {columnHeader ->
@@ -70,7 +79,6 @@ class LibraryUploadService {
                     indx = indx + 1
                 }
 
-                first = false
             }else{
                 def indexList = [plateIndex, wellPositionIndex, productIndex, probeIdIndex, sampleNameIdIndex, accessionIndex, commentIndex]
                 // Ensure all indexes has been found, return error if not
@@ -97,17 +105,19 @@ class LibraryUploadService {
 
                 if(!plates.any(){ p -> p.plateIndex == plateNr})
                 {
+                    log.debug "Library import - Cleaning up session"
                     cleanUpGorm()
+                    log.debug "Library import - Processing plate: ${plateNr}"
                     libPlate = new LibraryPlate()
                     libPlate.plateIndex = plateNr
                     libPlate.format = plateFormat
-                    libPlate.save(failOnError: true)
+                    libPlate.save(validate: false)
                     lib.plates.add(libPlate)
                 }else{
                     libPlate = plates.find(){ p -> p.plateIndex == plateNr}
                 }
 
-                def sampleNameIds = splitLine[sampleNameIdIndex].split("/")
+                def sampleNameIds = splitLine[sampleNameIdIndex].split("/|\\s")
                 Sample sample = null
                 String sampleName = splitLine[sampleNameIdIndex]
 
@@ -123,15 +133,24 @@ class LibraryUploadService {
                         sample.color = ColorService.randomColor()
                         sample.name = sampleName
                         sample.identifiers = new HashSet<Identifier>()
-                        log.debug "Library import - Saving sample ${sample.properties}"
-                        sample.save(failOnError: true)
+                        //log.debug "Library import - Saving sample ${sample.properties}"
+                        sample.save(validate: false)
 
-                        def accessions = splitLine[accessionIndex].split("/")
+                        def accessions = splitLine[accessionIndex].split("/|\\s")
 
                         for(int i = 0; i < accessions.size(); i++){
 
+                        def accessionName
+
+                        if (sampleNameIds.size() == accessions.size()) {
+                             accessionName = sampleNameIds[i].toString()
+                        }
+                        else{
+                            accessionName = sampleName
+                        }
+
                         Identifier identifier = new Identifier()
-                        identifier.name = sampleNameIds[i].toString()
+                        identifier.name = accessionName
                         identifier.type = accessionType
                         identifier.sample = sample
 
@@ -141,13 +160,13 @@ class LibraryUploadService {
                                 }else{
                                     return
                                 }
-                                log.debug "Library import - Saving identifier ${identifier.properties}"
-                                identifier.save(failOnError: true)
+                                //log.debug "Library import - Saving identifier ${identifier.properties}"
+                                identifier.save(validate: false)
                                 sample.identifiers.add(identifier)
                                 // only add if it doesn't exist
                         }
 
-                        sample.save(failOnError: true)
+                        sample.save(validate: false)
                     }
                 }
 
@@ -189,7 +208,7 @@ class LibraryUploadService {
                 if(!libPlate.validate()){
                     throw new LibraryUploadException("Validation of library plate ${libPlate.plateIndex} failed", libPlate.errors)
                 }
-                libPlate.save(failOnError: true)
+                libPlate.save(validate: false)
             }
         }
         log.debug "END importing library with name ${libraryName}"
@@ -209,7 +228,7 @@ class LibraryUploadService {
 
         lib.createdBy = currentUser
         lib.lastUpdatedBy = currentUser
-        lib.save(flush: true)
+        lib.save(flush: true, validate: false)
         log.info("Library ${libraryName} created successfully.")
         return(lib)
     }

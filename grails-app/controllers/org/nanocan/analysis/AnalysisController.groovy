@@ -55,6 +55,10 @@ class AnalysisController {
             Project.get(params.project).experiments.each{ plateLayouts.addAll(it.plateLayouts) }
         }
 
+        else if(params.plateLayout){
+            plateLayouts =[PlateLayout.get(params.long("plateLayout"))]
+        }
+
         else plateLayouts = PlateLayout.list()
 
         def plates = []

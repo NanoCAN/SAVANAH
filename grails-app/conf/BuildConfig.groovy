@@ -75,6 +75,8 @@ grails.project.dependency.resolution = {
         compile ':excel-import:1.1.0.BUILD-SNAPSHOT'
         compile "org.grails.plugins:scaffolding:2.1.2"
 
+        //alternative to the flash scope, which is unreliable
+        compile "org.grails.plugins:one-time-data:1.0"
     }
 
 }

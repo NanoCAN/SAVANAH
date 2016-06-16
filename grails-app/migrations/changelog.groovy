@@ -27,6 +27,7 @@ databaseChangeLog = {
     changeSet(id: "dropColumnWavelength", author: "mlist"){
         dropColumn tableName: "Readout", columnName: "wavelength"
     }
+
 }
 
 

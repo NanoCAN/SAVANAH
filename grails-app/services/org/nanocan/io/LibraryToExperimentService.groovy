@@ -95,7 +95,7 @@ class LibraryToExperimentService {
                 newPlateLayout.addToWells(newWell)
             }
             if(newPlateLayout.hasErrors()) throw new Exception(newPlateLayout.errors.toString())
-            newPlateLayout.save()
+            newPlateLayout.save(validate: false)
         }
 
         /* mark diluted library sets as used */

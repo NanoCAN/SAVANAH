@@ -46,7 +46,7 @@
     <g:if test="${flash.okay}">
         <div class="message" role="status">${flash.okay}</div>
     </g:if>
-    <g:uploadForm action="upload">
+    <g:uploadForm action="create">
     <br/>
         <table>
             <tr>

@@ -35,7 +35,7 @@ else{
     println "No config file found. Using defaults config."
 }
 
-
+grails.gorm.failOnError=true
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -82,7 +82,7 @@ grails.web.disable.multipart=false
 grails.exceptionresolver.params.exclude = ['password']
 
 // enable query caching by default
-grails.hibernate.cache.queries = true
+grails.hibernate.cache.queries = false
 
 // set per-environment serverURL stem for creating absolute links
 environments {
@@ -183,5 +183,6 @@ elasticSearch.client.mode = 'local'
 elasticSearch.datastoreImpl = 'hibernateDatastore'
 elasticSearch.maxBulkRequest = 50
 elasticSearch.index.store.type = 'niofs'
-elasticSearch.migration.strategy = 'delete'
+elasticSearch.migration.strategy = 'alias'
 elasticSearch.unmarshallComponents = true
+elasticSearch.bulkIndexOnStartup = false
