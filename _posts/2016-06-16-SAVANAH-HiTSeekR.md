@@ -15,3 +15,5 @@ small compound screens. To use HiTSeekR using SAVANAH as starting point follow t
 - Click on the HiTSeekR logo
 
 Alternatively, data can still be analyzed directly in R by clicking on the R logo in the last step.
+Along with the implementation of this feature, we fixed several bugs and improved the performance
+of data import operations, leading to the release of SAVANAH 1.0.
