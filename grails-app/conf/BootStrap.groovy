@@ -29,6 +29,10 @@ class BootStrap {
             case "standalone":
                 initUserbase()
                 break
+
+            case "production":
+                initUserbase()
+                break
         }
     }
     def destroy = {
@@ -40,12 +44,6 @@ class BootStrap {
         if(!adminRole)  adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true, failOnError: true)
         def userRole = Role.findByAuthority("ROLE_USER")
         if(!userRole) userRole= new Role(authority: 'ROLE_USER').save(flush: true, failOnError: true)
-
-        if(!Person.findByUsername("demo")){
-            def testUser = new Person(username: 'demo', enabled: true, password: 'demo0815')
-            testUser.save(flush: true, failOnError: true)
-            PersonRole.create testUser, userRole, true
-        }
 
         if(!Person.findByUsername("admin")){
             def adminUser = new Person(username: 'admin', enabled: true, password: 'NanoCAN')
