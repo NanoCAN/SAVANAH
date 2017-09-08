@@ -133,7 +133,9 @@
 			<p>
 			SAVANAH is freely available under the GNU public license (v3) at <u><a href="https://github.com/NanoCAN/SAVANAH/issues" target="_blank">github</a></u>. If you find SAVANAH useful please consider citing us:</br></br>
 
-			<b>List et al., Efficient management of high-throughput screening libraries with SAVANAH</br> (manuscript in preparation)</b>
+			<b>List, M., Petersen Elnegaard, M., Schmidt, S., Christiansen, H., Tan, Q., Mollenhauer, J., Baumbach, J.(2016).</br>
+			Efficient Management of High-Throughput Screening Libraries with SAVANAH.</br>
+			SLAS Discovery, doi: 10.1177/1087057116673607</b>
 			</p>
 
 			<br/><br/>

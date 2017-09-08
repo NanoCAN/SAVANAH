@@ -51,6 +51,13 @@ class BootStrap {
             PersonRole.create adminUser, adminRole, true
             PersonRole.create adminUser, userRole, true
         }
+        else{
+            def adminUser = Person.findByUsername("admin")
+            if(!PersonRole.findByPersonAndRole(adminUser, adminRole))
+                PersonRole.create adminUser, adminRole, true
+            if(!PersonRole.findByPersonAndRole(adminUser, userRole))
+                PersonRole.create adminUser, userRole, true
+        }
     }
 
     private void initSampleData(){
